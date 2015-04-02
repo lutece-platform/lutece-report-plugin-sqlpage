@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.sqlpage.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -76,16 +76,24 @@ public interface ISQLPageDAO
     SQLPage load( int nKey, Plugin plugin );
 
     /**
-     * Load the data of all the sQLPage objects and returns them as a collection
+     * Load the data of all the sQLPage objects and returns them as a List
      * @param plugin the Plugin
-     * @return The collection which contains the data of all the sQLPage objects
+     * @return The List which contains the data of all the sQLPage objects
      */
-    Collection<SQLPage> selectSQLPagesList( Plugin plugin );
+    List<SQLPage> selectSQLPagesList( Plugin plugin );
 
     /**
-     * Load the id of all the sQLPage objects and returns them as a collection
+     * Load the id of all the sQLPage objects and returns them as a List
      * @param plugin the Plugin
-     * @return The collection which contains the id of all the sQLPage objects
+     * @return The List which contains the id of all the sQLPage objects
      */
-    Collection<Integer> selectIdSQLPagesList( Plugin plugin );
+    List<Integer> selectIdSQLPagesList( Plugin plugin );
+
+    /**
+     * Find a page by its name
+     * @param strName The page name
+     * @param plugin The plugin 
+     * @return The page ID
+     */
+    int selectByName(String strName, Plugin plugin);
 }

@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
+import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
@@ -154,11 +155,11 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     public String getCreateSQLFragment( HttpServletRequest request )
     {
         _sqlfragment = ( _sqlfragment != null ) ? _sqlfragment : new SQLFragment(  );
-
+        String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
         
         Map<String, Object> model = getModel(  );
         model.put( MARK_SQLFRAGMENT, _sqlfragment );
-
+        model.put( MARK_ID_PAGE, strIdPage );
         addCommons( model );
 
         return getPage( PROPERTY_PAGE_TITLE_CREATE_SQLFRAGMENT, TEMPLATE_CREATE_SQLFRAGMENT, model );
@@ -173,18 +174,22 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @Action( ACTION_CREATE_SQLFRAGMENT )
     public String doCreateSQLFragment( HttpServletRequest request )
     {
+        _sqlfragment = ( _sqlfragment != null ) ? _sqlfragment : new SQLFragment(  );
         populate( _sqlfragment, request );
 
+        String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
+        Map<String, String> mapParameters = new HashMap<String, String>();
+        mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
+        
         // Check constraints
         if ( !validateBean( _sqlfragment, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
-            return redirectView( request, VIEW_CREATE_SQLFRAGMENT );
+            return redirect(request,  VIEW_CREATE_SQLFRAGMENT , mapParameters  );
         }
 
         SQLFragmentHome.create( _sqlfragment );
         addInfo( INFO_SQLFRAGMENT_CREATED, getLocale(  ) );
-
-        return redirectView( request, VIEW_MANAGE_SQLFRAGMENTS );
+        return redirect(request, VIEW_MANAGE_SQLFRAGMENTS , mapParameters );
     }
 
     /**
@@ -233,6 +238,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     public String getModifySQLFragment( HttpServletRequest request )
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
+        String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
 
         if ( ( _sqlfragment == null ) || ( _sqlfragment.getId(  ) != nId ) )
         {
@@ -241,6 +247,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
 
         Map<String, Object> model = getModel(  );
         model.put( MARK_SQLFRAGMENT, _sqlfragment );
+        model.put( MARK_ID_PAGE, strIdPage );
+        addCommons( model );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_SQLFRAGMENT, TEMPLATE_MODIFY_SQLFRAGMENT, model );
     }
@@ -256,6 +264,10 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     {
         populate( _sqlfragment, request );
 
+        String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
+        Map<String, String> mapParameters = new HashMap<String, String>();
+        mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
+
         // Check constraints
         if ( !validateBean( _sqlfragment, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
@@ -265,7 +277,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         SQLFragmentHome.update( _sqlfragment );
         addInfo( INFO_SQLFRAGMENT_UPDATED, getLocale(  ) );
 
-        return redirectView( request, VIEW_MANAGE_SQLFRAGMENTS );
+        return redirect(request, VIEW_MANAGE_SQLFRAGMENTS , mapParameters );
     }
 
     private void addCommons(Map<String, Object> model)

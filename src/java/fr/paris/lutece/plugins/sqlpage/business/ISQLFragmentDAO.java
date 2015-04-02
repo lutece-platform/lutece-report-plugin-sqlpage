@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.sqlpage.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -76,10 +76,10 @@ public interface ISQLFragmentDAO
     SQLFragment load( int nKey, Plugin plugin );
 
     /**
-     * Load the data of all the sQLFragment objects and returns them as a collection
+     * Load the data of all the sQLFragment objects and returns them as a List
      * param nIdPage The Page ID
      * @param plugin the Plugin
-     * @return The collection which contains the data of all the sQLFragment objects
+     * @return The List which contains the data of all the sQLFragment objects
      */
-    Collection<SQLFragment> selectSQLFragmentsList( int nIdPage, Plugin plugin );
+    List<SQLFragment> selectSQLFragmentsList( int nIdPage, Plugin plugin );
 }

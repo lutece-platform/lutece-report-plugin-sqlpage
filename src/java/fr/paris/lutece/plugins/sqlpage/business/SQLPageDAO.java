@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -53,6 +53,7 @@ public final class SQLPageDAO implements ISQLPageDAO
     private static final String SQL_QUERY_UPDATE = "UPDATE sqlpage_page SET id_sqlpage = ?, title = ?, description = ?, workgroup = ?, param_name = ? WHERE id_sqlpage = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_sqlpage, title, description, workgroup, param_name FROM sqlpage_page";
     private static final String SQL_QUERY_SELECTALL_ID = "SELECT id_sqlpage FROM sqlpage_page";
+    private static final String SQL_QUERY_SELECT_BY_NAME = "SELECT id_sqlpage FROM sqlpage_page WHERE param_name = ?";
 
     /**
      * Generates a new primary key
@@ -158,9 +159,9 @@ public final class SQLPageDAO implements ISQLPageDAO
      * {@inheritDoc }
      */
     @Override
-    public Collection<SQLPage> selectSQLPagesList( Plugin plugin )
+    public List<SQLPage> selectSQLPagesList( Plugin plugin )
     {
-        Collection<SQLPage> sQLPageList = new ArrayList<SQLPage>(  );
+        List<SQLPage> sQLPageList = new ArrayList<SQLPage>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.executeQuery(  );
 
@@ -186,9 +187,9 @@ public final class SQLPageDAO implements ISQLPageDAO
      * {@inheritDoc }
      */
     @Override
-    public Collection<Integer> selectIdSQLPagesList( Plugin plugin )
+    public List<Integer> selectIdSQLPagesList( Plugin plugin )
     {
-        Collection<Integer> sQLPageList = new ArrayList<Integer>(  );
+        List<Integer> sQLPageList = new ArrayList<Integer>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
         daoUtil.executeQuery(  );
 
@@ -201,4 +202,27 @@ public final class SQLPageDAO implements ISQLPageDAO
 
         return sQLPageList;
     }
+    
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int selectByName(String strName, Plugin plugin)
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_NAME, plugin );
+        daoUtil.setString( 1, strName );
+        daoUtil.executeQuery(  );
+
+        int nKey = -1;
+        if( daoUtil.next(  ) )
+        {
+            nKey = daoUtil.getInt( 1 );
+        }
+        daoUtil.free(  );
+
+        return nKey;    
+    }
+
+ 
 }

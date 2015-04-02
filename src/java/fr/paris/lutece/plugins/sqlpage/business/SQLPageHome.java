@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -103,19 +103,29 @@ public final class SQLPageHome
     }
 
     /**
-     * Load the data of all the sQLPage objects and returns them in form of a collection
-     * @return the collection which contains the data of all the sQLPage objects
+     * Find a page by its name
+     * @param strName The page name
+     * @return The page ID
      */
-    public static Collection<SQLPage> getSQLPagesList(  )
+    public static int findByName(String strName)
+    {
+        return _dao.selectByName( strName, _plugin );
+    }
+
+    /**
+     * Load the data of all the sQLPage objects and returns them in form of a List
+     * @return the List which contains the data of all the sQLPage objects
+     */
+    public static List<SQLPage> getSQLPagesList(  )
     {
         return _dao.selectSQLPagesList( _plugin );
     }
 
     /**
-     * Load the id of all the sQLPage objects and returns them in form of a collection
-     * @return the collection which contains the id of all the sQLPage objects
+     * Load the id of all the sQLPage objects and returns them in form of a List
+     * @return the List which contains the id of all the sQLPage objects
      */
-    public static Collection<Integer> getIdSQLPagesList(  )
+    public static List<Integer> getIdSQLPagesList(  )
     {
         return _dao.selectIdSQLPagesList( _plugin );
     }

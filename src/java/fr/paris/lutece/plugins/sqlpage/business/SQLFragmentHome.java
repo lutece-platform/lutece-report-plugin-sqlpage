@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -103,11 +103,11 @@ public final class SQLFragmentHome
     }
 
     /**
-     * Load the data of all the sQLFragment objects and returns them in form of a collection
+     * Load the data of all the sQLFragment objects and returns them in form of a List
      * @param nIdPage The Page ID
-     * @return the collection which contains the data of all the sQLFragment objects
+     * @return the List which contains the data of all the sQLFragment objects
      */
-    public static Collection<SQLFragment> getSQLFragmentsList( int nIdPage )
+    public static List<SQLFragment> getSQLFragmentsList( int nIdPage )
     {
         return _dao.selectSQLFragmentsList( nIdPage, _plugin );
     }

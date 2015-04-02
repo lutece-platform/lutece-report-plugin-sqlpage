@@ -31,64 +31,40 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.sqlpage.web;
+package fr.paris.lutece.plugins.sqlpage.service;
 
+import fr.paris.lutece.plugins.sqlpage.business.SQLFragment;
+import fr.paris.lutece.plugins.sqlpage.business.SQLFragmentHome;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
-import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
-import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
-import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class provides a simple implementation of an XPage
+ * SQLPage Service
  */
-@Controller( xpageName = "sqlpage", pageTitleI18nKey = "sqlpage.xpage.sqlpage.pageTitle", pagePathI18nKey = "sqlpage.xpage.sqlpage.pagePathLabel" )
-public class SQLPageApp extends MVCApplication
+public class SQLPageService
 {
-    private static final String TEMPLATE_XPAGE = "/skin/plugins/sqlpage/sqlpage.html";
-    
-    private static final String PARAMETER_SQLPAGE = "sqlpage";
-    
-    private static final String MARK_PAGES_LIST = "pages_list";
-    
-    private static final String VIEW_HOME = "home";
-
-    /**
-     * Returns the content of the page sqlpage.
-     * @param request The HTTP request
-     * @return The view
-     */
-    @View( value = VIEW_HOME, defaultView = true )
-    public XPage viewHome( HttpServletRequest request )
+    public static XPage getSQLPage( String strName , HttpServletRequest request )
     {
-        XPage xpage;
-        String strName = request.getParameter( PARAMETER_SQLPAGE );
-        if( strName == null )
+        XPage xpage = new XPage(); 
+        int nPageId = SQLPageHome.findByName( strName );
+        SQLPage page = SQLPageHome.findByPrimaryKey(nPageId);
+        List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList(nPageId);
+        for( SQLFragment fragment : listFragments )
         {
-            xpage = getSQLPagesList( request ); 
+            Map<String, Object> model = new HashMap<String, Object>();
+            SQLService.getModel( fragment.getSqlQuery() , model );
+            String strTemplate = fragment.getTemplate();
+            String strHtml = TemplateService.instance().process( "" + fragment.getId() , strTemplate, request.getLocale(), model );
+            xpage.setContent(strHtml);
         }
-        else
-        {
-            xpage = SQLPageService.getSQLPage(strName, request);
-         }
+        xpage.setPathLabel( page.getTitle() );
+        xpage.setTitle( page.getTitle() );
         return xpage;
     }
-
-    private XPage getSQLPagesList(HttpServletRequest request)
-    {
-        List<SQLPage> listPages = SQLPageHome.getSQLPagesList();
-        
-        Map model = getModel();
-        model.put( MARK_PAGES_LIST , listPages );
-        return getXPage( TEMPLATE_XPAGE, request.getLocale(  ) , model );
-    }
-
-   
+    
 }

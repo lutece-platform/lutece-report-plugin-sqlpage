@@ -25,7 +25,12 @@
             <#list sqlpage_list as sqlpage >
         <tr>
             <input type="hidden" id="id" name="id"/>
-            <td>${sqlpage.title}</td>
+            <td>
+                
+                <a href="jsp/site/Portal.jsp?page=sqlpage&sqlpage=${sqlpage.paramName}" target="sqlpageview" ><i class="fa  fa-external-link"></i></a>
+                &nbsp; 
+                ${sqlpage.title}
+            </td>
             <td>${sqlpage.paramName}</td>
             <td>${sqlpage.description}</td>
             <td>${sqlpage.workgroup}</td>

@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -166,9 +166,9 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
      * {@inheritDoc }
      */
     @Override
-    public Collection<SQLFragment> selectSQLFragmentsList( int nIdPage, Plugin plugin )
+    public List<SQLFragment> selectSQLFragmentsList( int nIdPage, Plugin plugin )
     {
-        Collection<SQLFragment> sQLFragmentList = new ArrayList<SQLFragment>(  );
+        List<SQLFragment> sQLFragmentList = new ArrayList<SQLFragment>(  );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.setInt( 1, nIdPage );
         daoUtil.executeQuery(  );
