@@ -1,0 +1,53 @@
+<@rowBox>
+    <@boxHeader i18nTitleKey="sqlpage.manage_sqlpages.pageTitle">
+        <@messages infos=infos />
+        <@headerButtons>
+            <form class="form-horizontal" method="post" name="manage_sqlpages" action="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp">
+                <!-- Add pull-right to class1 -->
+                <@actionButtons button1Name="view_createSQLPage" icon1="icon-plus icon-white" i18nValue1Key="sqlpage.manage_sqlpages.buttonAdd" />
+            </form>
+        </@headerButtons>
+    </@boxHeader>
+    <@boxBody>
+    <h4>#i18n{sqlpage.manage_sqlpages.tableLabel}</h4>
+    <@paginationAdmin paginator=paginator combo=1 />
+    
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{sqlpage.manage_sqlpages.columnTitle}</th>
+            <th>#i18n{sqlpage.manage_sqlpages.columnParamName}</th>
+            <th>#i18n{sqlpage.manage_sqlpages.columnDescription}</th>
+            <th>#i18n{sqlpage.manage_sqlpages.columnWorkgroup}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list sqlpage_list as sqlpage >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>${sqlpage.title}</td>
+            <td>${sqlpage.paramName}</td>
+            <td>${sqlpage.description}</td>
+            <td>${sqlpage.workgroup}</td>
+        <td>
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=modifySQLPage&id=${sqlpage.id}"
+               class="btn btn-primary btn-small" title="#i18n{portal.util.labelModify}">
+                <i class="fa fa-pencil"></i>
+            </a>
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?id_page=${sqlpage.id}"
+               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonFragments}">
+                <i class="fa fa-table"></i>
+            </a>
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?action=confirmRemoveSQLPage&id=${sqlpage.id}"
+               class="btn btn-danger btn-small" title="#i18n{portal.util.labelDelete}" >
+                <i class="fa fa-trash"></i>
+            </a>
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@rowBox>

@@ -1,0 +1,67 @@
+<@rowBox>
+    <@boxHeader i18nTitleKey="calendar.manage_calendars.tableLabel">
+        <@messages infos=infos />
+        <@headerButtons>
+        <form class="form-horizontal" method="post" name="manage_sqlfragments" action="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp">
+            <!-- Add pull-right to class1 -->
+            <@actionButtons button1Name="view_createSQLFragment" icon1="icon-plus icon-white" i18nValue1Key="sqlpage.manage_sqlfragments.buttonAdd" />
+        </form>
+        </@headerButtons>
+        
+    <h4>#i18n{sqlpage.manage_sqlfragments.tableLabel} ${page.paramName} - ${page.title}</h4>    
+    </@boxHeader>
+    <@boxBody>
+    <@paginationAdmin paginator=paginator combo=1 />
+    
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{sqlpage.manage_sqlfragments.columnTitle}</th>
+            <th>#i18n{sqlpage.manage_sqlfragments.columnSqlQuery}</th>
+            <th>#i18n{sqlpage.manage_sqlfragments.columnPool}</th>
+            <th>#i18n{sqlpage.manage_sqlfragments.columnRole}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list sqlfragment_list as sqlfragment >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${sqlfragment.title}
+            </td>
+            <td>
+                ${sqlfragment.sqlQuery}
+            </td>
+            <td>
+                ${sqlfragment.pool}
+            </td>
+            <td>
+                ${sqlfragment.role}
+            </td>
+        <td>
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?view=modifySQLFragment&id=${sqlfragment.id}"
+               class="btn btn-primary btn-small" title="#i18n{portal.util.labelModify}">
+                <i class="fa fa-pencil"></i>
+            </a>
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?action=up&id=${sqlfragment.id}"
+               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlfragments.buttonUp}">
+                <i class="fa-chevron-circle-up"></i>
+            </a>
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?action=down&id=${sqlfragment.id}"
+               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlfragments.buttonDown}">
+                <i class="fa-chevron-circle-down"></i>
+            </a>
+
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?action=confirmRemoveSQLFragment&id=${sqlfragment.id}"
+               class="btn btn-danger btn-small" title="#i18n{portal.util.labelDelete}" >
+                <i class="fa fa-trash"></i>
+            </a>
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+    </@boxBody>
+</@rowBox>

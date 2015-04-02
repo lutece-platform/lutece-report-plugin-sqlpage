@@ -1,0 +1,13 @@
+<@rowBoxHeader i18nTitleKey="sqlpage.create_sqlpage.pageTitle" >
+    <form class="form-horizontal" method="post" name="create_sqlpage" action="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp">
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id"/>
+        
+        <@fieldInputText i18nLabelKey="sqlpage.create_sqlpage.labelParamName" inputName="param_name" mandatory=true value="${sqlpage.paramName!''}" i18nHelpBlockKey="sqlpage.create_sqlpage.labelParamName.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.create_sqlpage.labelTitle" inputName="title" mandatory=true value="${sqlpage.title!''}" i18nHelpBlockKey="sqlpage.create_sqlpage.labelTitle.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.create_sqlpage.labelDescription" inputName="description" mandatory=true value="${sqlpage.description!''}" i18nHelpBlockKey="sqlpage.create_sqlpage.labelDescription.help" />
+        <@fieldInputCombo i18nLabelKey="sqlpage.create_sqlpage.labelWorkgroup" inputName="workgroup" value="${sqlpage.workgroup!''}" items=workgroup_list i18nHelpBlockKey="sqlpage.create_sqlpage.labelWorkgroup.help"/>
+        <@actionButtons button1Name="action_createSQLPage" button2Name="view_manageSQLPages"/>
+    </form>
+</@rowBoxHeader>
+

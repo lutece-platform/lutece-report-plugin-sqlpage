@@ -1,0 +1,16 @@
+<@rowBoxHeader i18nTitleKey="sqlpage.modify_sqlfragment.pageTitle" >
+    <form class="form-horizontal" method="post" name="modify_sqlfragment" action="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp">
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id" value="${sqlfragment.id}"/>
+        
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlfragment.labelIdPage" inputName="id_page" mandatory=true value="${sqlfragment.idPage}" i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelIdPage.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlfragment.labelTemplate" inputName="template" mandatory=true value="${sqlfragment.template}" i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelTemplate.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlfragment.labelSqlQuery" inputName="sql_query" mandatory=true value="${sqlfragment.sqlQuery}" i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelSqlQuery.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlfragment.labelPool" inputName="pool" mandatory=true value="${sqlfragment.pool}" i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelPool.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlfragment.labelTitle" inputName="title" mandatory=true value="${sqlfragment.title}" i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelTitle.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlfragment.labelIdOrder" inputName="id_order" mandatory=true value="${sqlfragment.idOrder}" i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelIdOrder.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlfragment.labelRole" inputName="role" mandatory=true value="${sqlfragment.role}" i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelRole.help" />
+        <@actionButtons button1Name="action_modifySQLFragment" button2Name="view_manageSQLFragments"/>
+    </form>
+</@rowBoxHeader>
+

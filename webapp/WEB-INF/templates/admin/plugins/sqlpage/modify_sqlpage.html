@@ -1,0 +1,12 @@
+<@rowBoxHeader i18nTitleKey="sqlpage.modify_sqlpage.pageTitle" >
+    <form class="form-horizontal" method="post" name="modify_sqlpage" action="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp">
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id" value="${sqlpage.id}"/>
+        
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlpage.labelTitle" inputName="title" mandatory=true value="${sqlpage.title}" i18nHelpBlockKey="sqlpage.modify_sqlpage.labelTitle.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlpage.labelDescription" inputName="description" mandatory=true value="${sqlpage.description}" i18nHelpBlockKey="sqlpage.modify_sqlpage.labelDescription.help" />
+        <@fieldInputText i18nLabelKey="sqlpage.modify_sqlpage.labelWorkgroup" inputName="workgroup" mandatory=true value="${sqlpage.workgroup}" i18nHelpBlockKey="sqlpage.modify_sqlpage.labelWorkgroup.help" />
+        <@actionButtons button1Name="action_modifySQLPage" button2Name="view_manageSQLPages"/>
+    </form>
+</@rowBoxHeader>
+
