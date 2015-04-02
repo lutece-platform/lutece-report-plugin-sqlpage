@@ -35,8 +35,10 @@ package fr.paris.lutece.plugins.sqlpage.service;
 
 import fr.paris.lutece.plugins.sqlpage.business.query.QueryDAO;
 import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
+import fr.paris.lutece.portal.service.database.AppConnectionService;
+import fr.paris.lutece.portal.service.database.PluginConnectionService;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,12 +49,55 @@ public class SQLService
 {
     private static final String MARK_ROWS = "rows";
     private static QueryDAO _dao = new QueryDAO();
-    private static Plugin _plugin = PluginService.getPlugin( "sqlpage" );
+    private static Map _mapConnectionServices = new HashMap(  );
 
-    public static void getModel(String sqlQuery , Map<String,Object> model )
+    public static void getModel(String strSqlQuery , String strPool, Map<String,Object> model )
     {
-        List<ResultSetRow> list = _dao.getQueryResults( sqlQuery,_plugin);
-        model.put( MARK_ROWS, list );
+        try
+        {
+            List<ResultSetRow> list = _dao.getQueryResults( strSqlQuery, getConnectionService( strPool ));
+            model.put( MARK_ROWS, list );
+        }
+        catch (SQLQueryException ex)
+        {
+            // Error already logged.
+        }
+    }
+
+    public static void validateSQL(String strSqlQuery, String strPool) throws SQLQueryException
+    {
+        _dao.getQueryResults( strSqlQuery, getConnectionService( strPool ));
+    }
+    
+        /**
+     * Get a connection service corresponding to the given poolname. If the pool
+     * name is empty, the default connection service of the current plugin is returned
+     *
+     * @return A Connection Service
+     * @param strPoolName The Poolname
+     */
+    public static PluginConnectionService getConnectionService( String strPoolName )
+    {
+        PluginConnectionService connectionService;
+
+        if ( ( strPoolName != null ) && !strPoolName.equals( "" ) )
+        {
+            if ( _mapConnectionServices.containsKey( strPoolName ) )
+            {
+                connectionService = (PluginConnectionService) _mapConnectionServices.get( strPoolName );
+            }
+            else
+            {
+                connectionService = new PluginConnectionService( strPoolName );
+                _mapConnectionServices.put( strPoolName, connectionService );
+            }
+        }
+        else
+        {
+            connectionService = AppConnectionService.getDefaultConnectionService(  );
+        }
+
+        return connectionService;
     }
     
 }

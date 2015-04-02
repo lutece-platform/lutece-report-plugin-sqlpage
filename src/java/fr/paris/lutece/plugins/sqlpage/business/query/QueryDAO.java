@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business.query;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import java.sql.Connection;
@@ -49,7 +49,7 @@ import java.util.List;
  */
 public class QueryDAO
 {
-    public List<ResultSetRow> getQueryResults( String strSQL , Plugin plugin )
+    public List<ResultSetRow> getQueryResults( String strSQL , PluginConnectionService connectionService ) throws SQLQueryException
     {
         Connection connection = null;
         Statement statement = null;
@@ -57,7 +57,7 @@ public class QueryDAO
         List<ResultSetRow> listRow = new ArrayList<ResultSetRow>(  );
         try
         {
-            connection = plugin.getConnectionService().getConnection();
+            connection = connectionService.getConnection();
             statement = connection.createStatement( ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY );
 
             ResultSet resultSet = statement.executeQuery( strSQL );
@@ -92,6 +92,7 @@ public class QueryDAO
         catch (SQLException ex)
         {
             AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage() , ex );
+            throw new SQLQueryException( ex.getMessage(), ex );
         }        
         finally
         {
@@ -107,7 +108,7 @@ public class QueryDAO
                 throw new AppException( "SQL Error executing command : " + e.toString(  ) );
             }
 
-            plugin.getConnectionService().freeConnection( connection );
+            connectionService.freeConnection( connection );
         }
         return listRow;
     }

@@ -57,7 +57,7 @@ public class SQLPageService
         for( SQLFragment fragment : listFragments )
         {
             Map<String, Object> model = new HashMap<String, Object>();
-            SQLService.getModel( fragment.getSqlQuery() , model );
+            SQLService.getModel( fragment.getSqlQuery(), fragment.getPool() , model );
             String strTemplate = fragment.getTemplate();
             String strHtml = TemplateService.instance().process( "" + fragment.getId() , strTemplate, request.getLocale(), model );
             xpage.setContent(strHtml);
