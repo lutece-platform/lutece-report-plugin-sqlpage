@@ -36,34 +36,38 @@ package fr.paris.lutece.plugins.sqlpage.business.query;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Query DAO
  */
 public class QueryDAO
 {
-    public List<ResultSetRow> getQueryResults( String strSQL , PluginConnectionService connectionService ) throws SQLQueryException
+    public List<ResultSetRow> getQueryResults( String strSQL, PluginConnectionService connectionService )
+        throws SQLQueryException
     {
         Connection connection = null;
         Statement statement = null;
 
         List<ResultSetRow> listRow = new ArrayList<ResultSetRow>(  );
+
         try
         {
-            connection = connectionService.getConnection();
+            connection = connectionService.getConnection(  );
             statement = connection.createStatement( ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY );
 
             ResultSet resultSet = statement.executeQuery( strSQL );
             ResultSetMetaData rsmd = resultSet.getMetaData(  );
 
-    
             while ( resultSet.next(  ) )
             {
                 String strValue;
@@ -89,11 +93,11 @@ public class QueryDAO
             statement.close(  );
             statement = null;
         }
-        catch (SQLException ex)
+        catch ( SQLException ex )
         {
-            AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage() , ex );
-            throw new SQLQueryException( ex.getMessage(), ex );
-        }        
+            AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage(  ), ex );
+            throw new SQLQueryException( ex.getMessage(  ), ex );
+        }
         finally
         {
             try
@@ -110,7 +114,7 @@ public class QueryDAO
 
             connectionService.freeConnection( connection );
         }
+
         return listRow;
     }
-    
 }

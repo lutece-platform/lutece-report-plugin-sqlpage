@@ -92,8 +92,8 @@ public interface ISQLPageDAO
     /**
      * Find a page by its name
      * @param strName The page name
-     * @param plugin The plugin 
+     * @param plugin The plugin
      * @return The page ID
      */
-    int selectByName(String strName, Plugin plugin);
+    int selectByName( String strName, Plugin plugin );
 }

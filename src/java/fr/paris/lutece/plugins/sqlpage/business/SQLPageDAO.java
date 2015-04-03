@@ -202,27 +202,26 @@ public final class SQLPageDAO implements ISQLPageDAO
 
         return sQLPageList;
     }
-    
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public int selectByName(String strName, Plugin plugin)
+    public int selectByName( String strName, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_NAME, plugin );
         daoUtil.setString( 1, strName );
         daoUtil.executeQuery(  );
 
         int nKey = -1;
-        if( daoUtil.next(  ) )
+
+        if ( daoUtil.next(  ) )
         {
             nKey = daoUtil.getInt( 1 );
         }
+
         daoUtil.free(  );
 
-        return nKey;    
+        return nKey;
     }
-
- 
 }

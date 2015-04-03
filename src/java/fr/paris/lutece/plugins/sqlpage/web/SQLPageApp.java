@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
+
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +54,8 @@ import javax.servlet.http.HttpServletRequest;
 public class SQLPageApp extends MVCApplication
 {
     private static final String TEMPLATE_XPAGE = "/skin/plugins/sqlpage/sqlpage.html";
-    
     private static final String PARAMETER_SQLPAGE = "sqlpage";
-    
     private static final String MARK_PAGES_LIST = "pages_list";
-    
     private static final String VIEW_HOME = "home";
 
     /**
@@ -70,30 +68,31 @@ public class SQLPageApp extends MVCApplication
     {
         XPage xpage;
         String strName = request.getParameter( PARAMETER_SQLPAGE );
-        if( strName == null )
+
+        if ( strName == null )
         {
-            xpage = getSQLPagesList( request ); 
+            xpage = getSQLPagesList( request );
         }
         else
         {
-            xpage = SQLPageService.getSQLPage(strName, request);
-         }
+            xpage = SQLPageService.getSQLPage( strName, request );
+        }
+
         return xpage;
     }
-    
+
     /**
      * Returns the XPage that displays all SQLPages
      * @param request The HTTP request
      * @return The XPage
      */
-    private XPage getSQLPagesList(HttpServletRequest request)
+    private XPage getSQLPagesList( HttpServletRequest request )
     {
-        List<SQLPage> listPages = SQLPageHome.getSQLPagesList();
-        
-        Map model = getModel();
-        model.put( MARK_PAGES_LIST , listPages );
-        return getXPage( TEMPLATE_XPAGE, request.getLocale(  ) , model );
-    }
+        List<SQLPage> listPages = SQLPageHome.getSQLPagesList(  );
 
-   
+        Map model = getModel(  );
+        model.put( MARK_PAGES_LIST, listPages );
+
+        return getXPage( TEMPLATE_XPAGE, request.getLocale(  ), model );
+    }
 }

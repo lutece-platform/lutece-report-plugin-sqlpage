@@ -40,14 +40,20 @@ import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
 import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.xpages.XPage;
+
 import freemarker.core.ParseException;
+
 import freemarker.template.TemplateException;
+
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * SQLPage Service
@@ -63,49 +69,59 @@ public class SQLPageService
      * @param request The HTTP request
      * @return The XPAGE
      */
-    public static XPage getSQLPage( String strName , HttpServletRequest request ) 
+    public static XPage getSQLPage( String strName, HttpServletRequest request )
     {
-        XPage xpage = new XPage(); 
+        XPage xpage = new XPage(  );
         int nPageId = SQLPageHome.findByName( strName );
-        SQLPage page = SQLPageHome.findByPrimaryKey(nPageId);
-        List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList(nPageId);
+        SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
+        List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
         String strHtml = "";
-        for( SQLFragment fragment : listFragments )
+
+        for ( SQLFragment fragment : listFragments )
         {
             try
             {
-                Map<String, Object> model = new HashMap<String, Object>();
-                List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(), fragment.getPool() , request.getParameterMap() );
-                model.put( MARK_ROWS , listResults );
-                String strTemplate = fragment.getTemplate();
-                strHtml += TemplateService.instance().process( "" + fragment.getId() , strTemplate, request.getLocale(), model );
+                Map<String, Object> model = new HashMap<String, Object>(  );
+                List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
+                        fragment.getPool(  ), request.getParameterMap(  ) );
+                model.put( MARK_ROWS, listResults );
+
+                String strTemplate = fragment.getTemplate(  );
+                strHtml += TemplateService.instance(  )
+                                          .process( "" + fragment.getId(  ), strTemplate, request.getLocale(  ), model );
             }
-            catch (TemplateException | IOException ex)
+            catch ( TemplateException ex )
             {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(), ex );
+                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
+            }
+            catch ( IOException ex )
+            {
+                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
             }
         }
-        xpage.setContent(strHtml);
-        xpage.setPathLabel( page.getTitle() );
-        xpage.setTitle( page.getTitle() );
+
+        xpage.setContent( strHtml );
+        xpage.setPathLabel( page.getTitle(  ) );
+        xpage.setTitle( page.getTitle(  ) );
+
         return xpage;
     }
 
     /**
      * Validate a template content
-     * 
+     *
      * @param strTemplate The template content
      * @param locale The Locale
-     * @throws TemplateException if the template is not valid 
-     * @throws java.io.IOException if the template is not valid 
-     * @throws freemarker.core.ParseException if the template is not valid 
+     * @throws TemplateException if the template is not valid
+     * @throws java.io.IOException if the template is not valid
+     * @throws freemarker.core.ParseException if the template is not valid
      */
-    public static void validateTemplate(String strTemplate, Locale locale) throws TemplateException, IOException, ParseException
+    public static void validateTemplate( String strTemplate, Locale locale )
+        throws TemplateException, IOException, ParseException
     {
-        Map<String,Object> model = new HashMap<String,Object>();
-        List<ResultSetRow> listResults = SQLService.getMokeResults();
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        List<ResultSetRow> listResults = SQLService.getMokeResults(  );
         model.put( MARK_ROWS, listResults );
-        TemplateService.instance().process( MOKE_TEMPLATE_NAME , strTemplate, locale , model );
+        TemplateService.instance(  ).process( MOKE_TEMPLATE_NAME, strTemplate, locale, model );
     }
-    
 }

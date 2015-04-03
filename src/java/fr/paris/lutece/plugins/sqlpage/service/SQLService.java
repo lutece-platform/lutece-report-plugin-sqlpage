@@ -38,10 +38,12 @@ import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
 import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * SQL Service
@@ -49,29 +51,30 @@ import java.util.Map;
 public class SQLService
 {
     private static final String PARAMETER_PREFIX = "param";
-    
-    private static QueryDAO _dao = new QueryDAO();
+    private static QueryDAO _dao = new QueryDAO(  );
     private static Map _mapConnectionServices = new HashMap(  );
 
     /**
-     * Build the model that contains data results 
+     * Build the model that contains data results
      * @param strSQL The query
      * @param strPool The connection pool
      * @param mapParameters Parameters of the request that can be variables of the query
-     * @return The results 
+     * @return The results
      */
-    public static List<ResultSetRow> getQueryResults(String strSQL , String strPool, Map<String, String[]> mapParameters )
+    public static List<ResultSetRow> getQueryResults( String strSQL, String strPool, Map<String, String[]> mapParameters )
     {
         List<ResultSetRow> listResults = null;
+
         try
         {
-            String strQuery = buildQuery( strSQL , mapParameters );
-            listResults = _dao.getQueryResults( strQuery, getConnectionService( strPool ));
+            String strQuery = buildQuery( strSQL, mapParameters );
+            listResults = _dao.getQueryResults( strQuery, getConnectionService( strPool ) );
         }
-        catch (SQLQueryException ex)
+        catch ( SQLQueryException ex )
         {
             // Error already logged.
         }
+
         return listResults;
     }
 
@@ -81,33 +84,37 @@ public class SQLService
      * @param strPool The connection pool
      * @throws SQLQueryException if the query is not valid
      */
-    public static void validateSQL(String strSQL, String strPool) throws SQLQueryException
+    public static void validateSQL( String strSQL, String strPool )
+        throws SQLQueryException
     {
         String strQuery = buildQueryToCheck( strSQL );
-        _dao.getQueryResults( strQuery, getConnectionService( strPool ));
+        _dao.getQueryResults( strQuery, getConnectionService( strPool ) );
     }
-    
+
     /**
      * Returns moke results
-     * 
+     *
      * @return results
      */
-    public static List<ResultSetRow> getMokeResults()
+    public static List<ResultSetRow> getMokeResults(  )
     {
-        List<ResultSetRow> listRows = new ArrayList<ResultSetRow>();
-        for( int i = 0 ; i < 20 ; i++ )
+        List<ResultSetRow> listRows = new ArrayList<ResultSetRow>(  );
+
+        for ( int i = 0; i < 20; i++ )
         {
-            ResultSetRow row = new ResultSetRow();
-            for( int j = 0 ; j < 20 ; j++ )
+            ResultSetRow row = new ResultSetRow(  );
+
+            for ( int j = 0; j < 20; j++ )
             {
                 row.addCol( "" + j );
             }
+
             listRows.add( row );
         }
-        
+
         return listRows;
     }
-    
+
     /**
      * Get a connection service corresponding to the given poolname. If the pool
      * name is empty, the default connection service of the current plugin is returned
@@ -145,18 +152,20 @@ public class SQLService
      * @param mapParameters The parameters
      * @return The final query
      */
-    private static String buildQuery(String strSQL, Map<String, String[]> mapParameters)
+    private static String buildQuery( String strSQL, Map<String, String[]> mapParameters )
     {
         String strQuery = strSQL;
-        
+
         int nIndex = 1;
-         
-        String strParameterName = PARAMETER_PREFIX + nIndex; 
-        if( mapParameters.containsKey( strParameterName ))
+
+        String strParameterName = PARAMETER_PREFIX + nIndex;
+
+        if ( mapParameters.containsKey( strParameterName ) )
         {
             String strBookmark = buildBookmark( nIndex );
-            strQuery = strQuery.replaceAll( strBookmark , mapParameters.get(strParameterName)[0]);
+            strQuery = strQuery.replaceAll( strBookmark, mapParameters.get( strParameterName )[0] );
         }
+
         return strQuery;
     }
 
@@ -165,10 +174,10 @@ public class SQLService
      * @param strSQL The SQL query
      * @return The query
      */
-    private static String buildQueryToCheck(String strSQL)
+    private static String buildQueryToCheck( String strSQL )
     {
         // remove bookmarks from the SQL request
-        return strSQL.replaceAll( buildBookmark("(.*)"), "1" );
+        return strSQL.replaceAll( buildBookmark( "(.*)" ), "1" );
     }
 
     /**
@@ -176,21 +185,21 @@ public class SQLService
      * @param nIndex The Index
      * @return The bookmark
      */
-    private static String buildBookmark(int nIndex)
+    private static String buildBookmark( int nIndex )
     {
         return buildBookmark( "" + nIndex );
     }
-    
-   
+
     /**
      * Build a parameter bookmark
      * @param strIndex The Index
      * @return The bookmark
      */
-    private static String buildBookmark(String strIndex)
+    private static String buildBookmark( String strIndex )
     {
-        StringBuilder sbBookmark = new StringBuilder();
-        sbBookmark.append("@").append(PARAMETER_PREFIX).append(strIndex).append("@");
-        return sbBookmark.toString();
+        StringBuilder sbBookmark = new StringBuilder(  );
+        sbBookmark.append( "@" ).append( PARAMETER_PREFIX ).append( strIndex ).append( "@" );
+
+        return sbBookmark.toString(  );
     }
 }

@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business.query;
 
+
 /**
  * SQLQueryException
  */
 public class SQLQueryException extends Exception
 {
-    public SQLQueryException( String strMessage , Throwable cause )
+    public SQLQueryException( String strMessage, Throwable cause )
     {
         super( strMessage, cause );
     }

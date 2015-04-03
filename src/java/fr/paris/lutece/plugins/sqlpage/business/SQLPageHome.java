@@ -107,7 +107,7 @@ public final class SQLPageHome
      * @param strName The page name
      * @return The page ID
      */
-    public static int findByName(String strName)
+    public static int findByName( String strName )
     {
         return _dao.selectByName( strName, _plugin );
     }
