@@ -20,9 +20,12 @@
                 </p>
                     <div class="code">
 <pre>
-                jsp/site/Portal.jsp?page=sqlpage&amp;sqlpage=mypage[&amp;param1=myparam1 ... &amp;paramN=myparamN]
+jsp/site/Portal.jsp?page=sqlpage&amp;sqlpage=mypage[&amp;param1=myparam1 ... &amp;paramN=myparamN]
 </pre>
                     </div>
+                    <p>
+                        Optional parameters can be passed to be used by SQL queries.
+                    </p>
             </subsection>
             <subsection name="Create SQLPage in the Back Office">
                 <p>
@@ -39,23 +42,23 @@
                 </p>
                     <div class="code">
 <pre>
-    &lt;table&gt;
-        &lt;thead&gt;
-        &lt;tr&gt;
-            &lt;th&gt;Firstname&lt;/th&gt;
-            &lt;th&gt;Lastname&lt;/th&gt;
-        &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            &lt;#list rows as row&gt;
-                &lt;tr&gt;
-                &lt;#list row.cols as col&gt;
-                     &lt;td&gt;${col}&lt;/td&gt;
-                &lt;/#list&gt;
-                &lt;/tr&gt;
+&lt;table&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Firstname&lt;/th&gt;
+        &lt;th&gt;Lastname&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;#list rows as row&gt;
+            &lt;tr&gt;
+            &lt;#list row.cols as col&gt;
+                 &lt;td&gt;${col}&lt;/td&gt;
             &lt;/#list&gt;
-        &lt;/tbody&gt;
-    &lt;/table&gt;
+            &lt;/tr&gt;
+        &lt;/#list&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
 </pre>
                     </div>                
                 <p>

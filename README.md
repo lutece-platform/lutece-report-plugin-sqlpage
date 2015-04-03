@@ -11,9 +11,11 @@ Call an SQLPage is very simple :
 
 ```
 
-                jsp/site/Portal.jsp?page=sqlpage&sqlpage=mypage[&param1=myparam1 ... &paramN=myparamN]
+jsp/site/Portal.jsp?page=sqlpage&sqlpage=mypage[&param1=myparam1 ... &paramN=myparamN]
 
 ```
+
+Optional parameters can be passed to be used by SQL queries.
 
 ##Create SQLPage in the Back Office
 
@@ -27,23 +29,23 @@ The template :
 
 ```
 
-    <table>
-        <thead>
-        <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-        </tr>
-        </thead>
-        <tbody>
-            <#list rows as row>
-                <tr>
-                <#list row.cols as col>
-                     <td>${col}</td>
-                </#list>
-                </tr>
+<table>
+    <thead>
+    <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+    </tr>
+    </thead>
+    <tbody>
+        <#list rows as row>
+            <tr>
+            <#list row.cols as col>
+                 <td>${col}</td>
             </#list>
-        </tbody>
-    </table>
+            </tr>
+        </#list>
+    </tbody>
+</table>
 
 ```
 
