@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
 import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,6 @@ import java.util.Map;
  */
 public class SQLService
 {
-    private static final String MARK_ROWS = "rows";
     private static final String PARAMETER_PREFIX = "param";
     
     private static QueryDAO _dao = new QueryDAO();
@@ -58,22 +58,21 @@ public class SQLService
      * @param strSQL The query
      * @param strPool The connection pool
      * @param mapParameters Parameters of the request that can be variables of the query
-     * @return The model
+     * @return The results 
      */
-    public static Map<String,Object> getModel(String strSQL , String strPool, Map<String, String[]> mapParameters )
+    public static List<ResultSetRow> getQueryResults(String strSQL , String strPool, Map<String, String[]> mapParameters )
     {
-        Map<String,Object> model = new HashMap<String,Object>();
+        List<ResultSetRow> listResults = null;
         try
         {
             String strQuery = buildQuery( strSQL , mapParameters );
-            List<ResultSetRow> list = _dao.getQueryResults( strQuery, getConnectionService( strPool ));
-            model.put( MARK_ROWS, list );
+            listResults = _dao.getQueryResults( strQuery, getConnectionService( strPool ));
         }
         catch (SQLQueryException ex)
         {
             // Error already logged.
         }
-        return model;
+        return listResults;
     }
 
     /**
@@ -86,6 +85,27 @@ public class SQLService
     {
         String strQuery = buildQueryToCheck( strSQL );
         _dao.getQueryResults( strQuery, getConnectionService( strPool ));
+    }
+    
+    /**
+     * Returns moke results
+     * 
+     * @return results
+     */
+    public static List<ResultSetRow> getMokeResults()
+    {
+        List<ResultSetRow> listRows = new ArrayList<ResultSetRow>();
+        for( int i = 0 ; i < 20 ; i++ )
+        {
+            ResultSetRow row = new ResultSetRow();
+            for( int j = 0 ; j < 20 ; j++ )
+            {
+                row.addCol( "" + j );
+            }
+            listRows.add( row );
+        }
+        
+        return listRows;
     }
     
     /**

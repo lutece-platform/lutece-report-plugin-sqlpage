@@ -5,7 +5,6 @@
  */
 package fr.paris.lutece.plugins.sqlpage.service;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -18,15 +17,18 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- *
- * @author levy
+ * Template Service
  */
 public class TemplateService
 {
     private static TemplateService _singleton;
     private static Configuration _cfg;
     
-    
+
+    /**
+     * Returns the unique instance
+     * @return the unique instance
+     */
     public static TemplateService instance()
     {
         if( _singleton == null )
@@ -38,22 +40,22 @@ public class TemplateService
         return _singleton;
     }
     
-    public String process( String strTemplateName, String strTemplateValue , Locale locale ,  Map model )
+    /**
+     * Process a template
+     * @param strTemplateName The template name
+     * @param strTemplateValue The template content
+     * @param locale The locale
+     * @param model The model
+     * @return The processed template
+     * @throws TemplateException If an error occurs
+     * @throws java.io.IOException If an error occurs
+     */
+    public String process( String strTemplateName, String strTemplateValue , Locale locale ,  Map model ) throws TemplateException, IOException
     {
-        String strOutput = "";
-        try
-        {
-            Template t = new Template( strTemplateName, new StringReader( strTemplateValue ), _cfg);
-            Writer out = new StringWriter();
-            t.process(model, out);
+        Template t = new Template( strTemplateName, new StringReader( strTemplateValue ), _cfg);
+        Writer out = new StringWriter();
+        t.process(model, out);
 
-            strOutput = out.toString();
-        }
-        catch (IOException | TemplateException ex)
-        {
-            AppLogService.error( "SQLPage TemplateService Error : " + ex.getMessage() , ex );
-        }
-        return strOutput;
-        
+        return out.toString();
     }
 }

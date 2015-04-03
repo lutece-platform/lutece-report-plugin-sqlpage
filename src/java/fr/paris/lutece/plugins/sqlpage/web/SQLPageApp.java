@@ -80,7 +80,12 @@ public class SQLPageApp extends MVCApplication
          }
         return xpage;
     }
-
+    
+    /**
+     * Returns the XPage that displays all SQLPages
+     * @param request The HTTP request
+     * @return The XPage
+     */
     private XPage getSQLPagesList(HttpServletRequest request)
     {
         List<SQLPage> listPages = SQLPageHome.getSQLPagesList();

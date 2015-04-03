@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.sqlpage.business.SQLFragmentHome;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
 import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
+import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
 import fr.paris.lutece.plugins.sqlpage.service.SQLService;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -52,6 +53,8 @@ import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
+import freemarker.template.TemplateException;
+import java.io.IOException;
 import java.util.HashMap;
 
 import java.util.List;
@@ -97,6 +100,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     private static final String MESSAGE_CONFIRM_REMOVE_SQLFRAGMENT = "sqlpage.message.confirmRemoveSQLFragment";
     private static final String MESSAGE_KEY_SQL_ERROR = "sqlpage.message.validation.sqlError";
     private static final String MESSAGE_KEY_INVALID_SQL_COMMANDS = "sqlpage.message.validation.sqlInvalidCommand";
+    private static final String MESSAGE_KEY_TEMPLATE_ERROR = "sqlpage.message.validation.templateError";
     
     private static final String PROPERTY_DEFAULT_LIST_SQLFRAGMENT_PER_PAGE = "sqlpage.listSQLFragments.itemsPerPage";
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "sqlpage.model.entity.sqlfragment.attribute.";
@@ -200,6 +204,11 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
             return redirect(request,  VIEW_CREATE_SQLFRAGMENT , mapParameters  );
         }
         
+        if( !validateTemplate( _fragment.getTemplate(), getLocale() ))
+        {
+            return redirect(request,  VIEW_CREATE_SQLFRAGMENT , mapParameters  );
+        }
+        
         SQLFragmentHome.create( _fragment );
         addInfo( INFO_SQLFRAGMENT_CREATED, getLocale(  ) );
         return redirect(request, VIEW_MANAGE_SQLFRAGMENTS , mapParameters );
@@ -293,12 +302,21 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
             return redirect( request, VIEW_MODIFY_SQLFRAGMENT, mapParameters );
         }
 
+        if( !validateTemplate( _fragment.getTemplate(), getLocale() ))
+        {
+            return redirect( request,  VIEW_MODIFY_SQLFRAGMENT , mapParameters  );
+        }
+        
         SQLFragmentHome.update( _fragment );
         addInfo( INFO_SQLFRAGMENT_UPDATED, getLocale(  ) );
 
         return redirect(request, VIEW_MANAGE_SQLFRAGMENTS , mapParameters );
     }
 
+    /**
+     * Add commons objects to the model
+     * @param model The model
+     */
     private void addCommons(Map<String, Object> model)
     {
         // Add pools list
@@ -311,6 +329,13 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         model.put( MARK_ROLES_LIST, roleList );
      }
 
+    /**
+     * Validate The SQL query
+     * @param strSqlQuery The query
+     * @param strPool The connection pool
+     * @param locale The locale
+     * @return true if valid else false
+     */
     private boolean validateSQL(String strSqlQuery , String strPool, Locale locale ) 
     {
         String strCheckedQuery = strSqlQuery.toLowerCase();
@@ -337,4 +362,26 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         
         return true;
     }
+
+    /**
+     * Validate a template
+     * @param strTemplate The template
+     * @param locale The locale
+     * @return true if valid otherwise false
+     */
+    private boolean validateTemplate( String strTemplate , Locale locale ) 
+    {
+        try
+        {
+            SQLPageService.validateTemplate( strTemplate, locale );
+        }
+        catch (TemplateException | IOException ex)
+        {
+            String strMessage = I18nService.getLocalizedString( MESSAGE_KEY_TEMPLATE_ERROR , locale );
+            addError( strMessage + ex.getMessage()) ;
+            return false;
+        }
+        return true;
+    }
+
 }
