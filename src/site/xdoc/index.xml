@@ -14,7 +14,17 @@
                 <p>This plugin lets create pages with SQL statements and Freemarker HTML templates.
                 Each page may contain one or more SQL fragments. Each fragment has its own HTML template. </p>
             </subsection>
-            <subsection name="Usage">
+            <subsection name="Call an SQLPage in the Front Office">
+                <p>
+                    Call an SQLPage is very  simple :
+                </p>
+                    <div class="code">
+<pre>
+                jsp/site/Portal.jsp?page=sqlpage&amp;sqlpage=mypage[&amp;param1=myparam1 ... &amp;paramN=myparamN]
+</pre>
+                    </div>
+            </subsection>
+            <subsection name="Create SQLPage in the Back Office">
                 <p>
                     Templates are using <a href="http://freemarker.org" target="_blank" >Freemarker Template Engine</a> syntax. 
                 </p>
@@ -53,6 +63,9 @@
                 </p>
                 <p>
                     The query : <code>SELECT first_name, last_name FROM core_admin_user WHERE id_user = @param1@</code>
+                </p>
+                <p>
+                    This query shows how parameter given in the HTTP request can be used in the query.
                 </p>
                 <p>
                     The template :
