@@ -48,28 +48,47 @@ import java.util.Map;
 public class SQLService
 {
     private static final String MARK_ROWS = "rows";
+    private static final String PARAMETER_PREFIX = "param";
+    
     private static QueryDAO _dao = new QueryDAO();
     private static Map _mapConnectionServices = new HashMap(  );
 
-    public static void getModel(String strSqlQuery , String strPool, Map<String,Object> model )
+    /**
+     * Build the model that contains data results 
+     * @param strSQL The query
+     * @param strPool The connection pool
+     * @param mapParameters Parameters of the request that can be variables of the query
+     * @return The model
+     */
+    public static Map<String,Object> getModel(String strSQL , String strPool, Map<String, String[]> mapParameters )
     {
+        Map<String,Object> model = new HashMap<String,Object>();
         try
         {
-            List<ResultSetRow> list = _dao.getQueryResults( strSqlQuery, getConnectionService( strPool ));
+            String strQuery = buildQuery( strSQL , mapParameters );
+            List<ResultSetRow> list = _dao.getQueryResults( strQuery, getConnectionService( strPool ));
             model.put( MARK_ROWS, list );
         }
         catch (SQLQueryException ex)
         {
             // Error already logged.
         }
+        return model;
     }
 
-    public static void validateSQL(String strSqlQuery, String strPool) throws SQLQueryException
+    /**
+     * Checks if the SQL query is valid
+     * @param strSQL The SQL query
+     * @param strPool The connection pool
+     * @throws SQLQueryException if the query is not valid
+     */
+    public static void validateSQL(String strSQL, String strPool) throws SQLQueryException
     {
-        _dao.getQueryResults( strSqlQuery, getConnectionService( strPool ));
+        String strQuery = buildQueryToCheck( strSQL );
+        _dao.getQueryResults( strQuery, getConnectionService( strPool ));
     }
     
-        /**
+    /**
      * Get a connection service corresponding to the given poolname. If the pool
      * name is empty, the default connection service of the current plugin is returned
      *
@@ -99,5 +118,59 @@ public class SQLService
 
         return connectionService;
     }
+
+    /**
+     * Build the final query with the parameters
+     * @param strSQL The SQL query
+     * @param mapParameters The parameters
+     * @return The final query
+     */
+    private static String buildQuery(String strSQL, Map<String, String[]> mapParameters)
+    {
+        String strQuery = strSQL;
+        
+        int nIndex = 1;
+         
+        String strParameterName = PARAMETER_PREFIX + nIndex; 
+        if( mapParameters.containsKey( strParameterName ))
+        {
+            String strBookmark = buildBookmark( nIndex );
+            strQuery = strQuery.replaceAll( strBookmark , mapParameters.get(strParameterName)[0]);
+        }
+        return strQuery;
+    }
+
+    /**
+     * Build a query with fake parameters values
+     * @param strSQL The SQL query
+     * @return The query
+     */
+    private static String buildQueryToCheck(String strSQL)
+    {
+        // remove bookmarks from the SQL request
+        return strSQL.replaceAll( buildBookmark("(.*)"), "1" );
+    }
+
+    /**
+     * Build a parameter bookmark
+     * @param nIndex The Index
+     * @return The bookmark
+     */
+    private static String buildBookmark(int nIndex)
+    {
+        return buildBookmark( "" + nIndex );
+    }
     
+   
+    /**
+     * Build a parameter bookmark
+     * @param strIndex The Index
+     * @return The bookmark
+     */
+    private static String buildBookmark(String strIndex)
+    {
+        StringBuilder sbBookmark = new StringBuilder();
+        sbBookmark.append("@").append(PARAMETER_PREFIX).append(strIndex).append("@");
+        return sbBookmark.toString();
+    }
 }

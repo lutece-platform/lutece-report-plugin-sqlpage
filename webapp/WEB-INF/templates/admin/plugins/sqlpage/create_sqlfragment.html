@@ -3,7 +3,11 @@
         <@messages errors=errors />
         <input type="hidden" name="id_page" value="${id_page}"/>
         <@fieldInputText i18nLabelKey="sqlpage.create_sqlfragment.labelTitle" inputName="title" mandatory=true value="${sqlfragment.title!''}" i18nHelpBlockKey="sqlpage.create_sqlfragment.labelTitle.help" />
-        <@fieldTextArea i18nLabelKey="sqlpage.create_sqlfragment.labelTemplate" inputName="template" mandatory=true value="${sqlfragment.template?html!''}" i18nHelpBlockKey="sqlpage.create_sqlfragment.labelTemplate.help" />
+        <#assign template_value = "" />
+        <#if sqlfragment.template??>
+            <#assign template_value = "${sqlfragment.template?html}" />
+        </#if>
+        <@fieldTextArea i18nLabelKey="sqlpage.create_sqlfragment.labelTemplate" inputName="template" mandatory=true value="${template_value}" i18nHelpBlockKey="sqlpage.create_sqlfragment.labelTemplate.help" />
         <@fieldTextArea i18nLabelKey="sqlpage.create_sqlfragment.labelSqlQuery" inputName="sql_query" mandatory=true value="${sqlfragment.sqlQuery!''}" i18nHelpBlockKey="sqlpage.create_sqlfragment.labelSqlQuery.help" />
         <@fieldInputCombo i18nLabelKey="sqlpage.create_sqlfragment.labelPool" inputName="pool" value="" items=pools_list i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelPool.help"/>
         <@fieldInputCombo i18nLabelKey="sqlpage.create_sqlfragment.labelRole" inputName="role" value="" items=roles_list i18nHelpBlockKey="sqlpage.modify_sqlfragment.labelRole.help"/>

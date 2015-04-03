@@ -96,7 +96,7 @@ public class SQLFragmentBusinessTest extends LuteceTestCase
         assertEquals( sQLFragmentStored.getRole(  ), sQLFragment.getRole(  ) );
 
         // List test
-        SQLFragmentHome.getSQLFragmentsList(  );
+        SQLFragmentHome.getSQLFragmentsList( 1 );
 
         // Delete test
         SQLFragmentHome.remove( sQLFragment.getId(  ) );

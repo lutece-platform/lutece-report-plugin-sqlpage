@@ -11,13 +11,68 @@
             </p>
             -->
             <subsection name="Introduction">
-                <p></p>
-            </subsection>
-            <subsection name="Configuration">
-                <p></p>
+                <p>This plugin lets create pages with SQL statements and Freemarker HTML templates.
+                Each page may contain one or more SQL fragments. Each fragment has its own HTML template. </p>
             </subsection>
             <subsection name="Usage">
-                <p></p>
+                <p>
+                    Templates are using <a href="http://freemarker.org" target="_blank" >Freemarker Template Engine</a> syntax. 
+                </p>
+                <p>
+                    <strong>Table sample</strong>
+                </p>
+                <p>
+                    The query : <code>SELECT first_name, last_name FROM core_admin_user</code>
+                </p>
+                <p>
+                    The template :
+                </p>
+                    <div class="code">
+<pre>
+    &lt;table&gt;
+        &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Firstname&lt;/th&gt;
+            &lt;th&gt;Lastname&lt;/th&gt;
+        &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;#list rows as row&gt;
+                &lt;tr&gt;
+                &lt;#list row.cols as col&gt;
+                     &lt;td&gt;${col}&lt;/td&gt;
+                &lt;/#list&gt;
+                &lt;/tr&gt;
+            &lt;/#list&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+</pre>
+                    </div>                
+                <p>
+                    <strong>Form sample</strong>
+                </p>
+                <p>
+                    The query : <code>SELECT first_name, last_name FROM core_admin_user WHERE id_user = @param1@</code>
+                </p>
+                <p>
+                    The template :
+                </p>
+                
+                    <div class="code">
+<pre>
+&lt;#list rows as row&gt;
+    &lt;#list row.cols as col&gt;
+        &lt;#if col_index == 0&gt;&lt;#assign firstname="${col}" /&gt;&lt;/#if&gt;
+        &lt;#if col_index == 1&gt;&lt;#assign lastname="${col}" /&gt;&lt;/#if&gt;
+    &lt;/#list&gt;
+&lt;/#list&gt;
+
+&lt;h1&gt;User&lt;/h1&gt;
+Firstname : ${firstname} &lt;br&gt;
+Lastname : ${lastname} &lt;br&gt;                        
+</pre>   
+                    </div>                 
+                
             </subsection>
         </section>
     </body>

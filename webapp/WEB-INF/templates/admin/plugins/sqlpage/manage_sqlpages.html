@@ -1,6 +1,5 @@
 <@rowBox>
     <@boxHeader i18nTitleKey="sqlpage.manage_sqlpages.pageTitle">
-        <@messages infos=infos />
         <@headerButtons>
             <form class="form-horizontal" method="post" name="manage_sqlpages" action="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp">
                 <!-- Add pull-right to class1 -->
@@ -9,6 +8,7 @@
         </@headerButtons>
     </@boxHeader>
     <@boxBody>
+    <@messages infos=infos />
     <h4>#i18n{sqlpage.manage_sqlpages.tableLabel}</h4>
     <@paginationAdmin paginator=paginator combo=1 />
     
