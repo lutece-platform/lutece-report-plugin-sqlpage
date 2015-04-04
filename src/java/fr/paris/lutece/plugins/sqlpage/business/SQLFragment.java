@@ -48,7 +48,6 @@ public class SQLFragment
     private int _nIdPage;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlfragment.Template.notEmpty}" )
     private String _strTemplate;
-    @NotEmpty( message = "#i18n{sqlpage.validation.sqlfragment.SqlQuery.notEmpty}" )
     private String _strSqlQuery;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlfragment.Pool.notEmpty}" )
     @Size( max = 50, message = "#i18n{sqlpage.validation.sqlfragment.Pool.size}" )

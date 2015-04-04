@@ -45,6 +45,10 @@ public class SQLPage
 {
     // Variables declarations 
     private int _nId;
+    @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.ParamName.notEmpty}" )
+    @Size( max = 50, message = "#i18n{sqlpage.validation.sqlpage.ParamName.size}" )
+    @Pattern( regexp = "[a-z]*" , message = "#i18n{sqlpage.validation.sqlpage.ParamName.pattern}")
+    private String _strParamName;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.Title.notEmpty}" )
     @Size( max = 255, message = "#i18n{sqlpage.validation.sqlpage.Title.size}" )
     private String _strTitle;
@@ -54,9 +58,6 @@ public class SQLPage
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.Workgroup.notEmpty}" )
     @Size( max = 50, message = "#i18n{sqlpage.validation.sqlpage.Workgroup.size}" )
     private String _strWorkgroup;
-    @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.ParamName.notEmpty}" )
-    @Size( max = 50, message = "#i18n{sqlpage.validation.sqlpage.ParamName.size}" )
-    private String _strParamName;
 
     /**
      * Returns the Id
