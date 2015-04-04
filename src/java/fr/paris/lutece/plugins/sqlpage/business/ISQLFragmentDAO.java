@@ -77,9 +77,18 @@ public interface ISQLFragmentDAO
 
     /**
      * Load the data of all the sQLFragment objects and returns them as a List
-     * param nIdPage The Page ID
+     * @param nIdPage The Page ID
      * @param plugin the Plugin
      * @return The List which contains the data of all the sQLFragment objects
      */
     List<SQLFragment> selectSQLFragmentsList( int nIdPage, Plugin plugin );
+    
+    /**
+     * Swap fragments order
+     * @param fragment1 the fragment 1
+     * @param fragment2 the fragment 2
+     * @param plugin The plugin
+     */
+    void swapFragmentsOrder( SQLFragment fragment1, SQLFragment fragment2 , Plugin plugin );
+
 }

@@ -111,4 +111,15 @@ public final class SQLFragmentHome
     {
         return _dao.selectSQLFragmentsList( nIdPage, _plugin );
     }
+    
+    /**
+     * Reorder fragments
+     * @param fragment1 the fragment 1
+     * @param fragment2 the fragment 2
+     */
+    public static void swapFragmentsOrder( SQLFragment fragment1, SQLFragment fragment2 )
+    {
+        _dao.swapFragmentsOrder( fragment1, fragment2, _plugin );
+    }
+
 }

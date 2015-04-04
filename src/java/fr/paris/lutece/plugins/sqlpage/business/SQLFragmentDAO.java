@@ -52,6 +52,7 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM sqlpage_fragment WHERE id_sqlfragment = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE sqlpage_fragment SET id_sqlfragment = ?, id_page = ?, template = ?, sql_query = ?, pool = ?, title = ?, id_order = ?, role = ? WHERE id_sqlfragment = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_sqlfragment, id_page, template, sql_query, pool, title, id_order, role FROM sqlpage_fragment WHERE id_page = ? ORDER BY id_order";
+    private static final String SQL_QUERY_REORDER_FRAGMENTS = "UPDATE sqlpage_fragment SET id_order = ? WHERE id_sqlfragment = ? ";
 
     /**
      * Generates a new primary key
@@ -193,4 +194,21 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
 
         return sQLFragmentList;
     }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public void swapFragmentsOrder( SQLFragment fragment1, SQLFragment fragment2 , Plugin plugin )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_REORDER_FRAGMENTS, plugin );
+        daoUtil.setInt( 1, fragment2.getIdOrder() );
+        daoUtil.setInt( 2, fragment1.getId() );
+        daoUtil.executeUpdate(  );
+        daoUtil.setInt( 1, fragment1.getIdOrder() );
+        daoUtil.setInt( 2, fragment2.getId() );
+        daoUtil.executeUpdate(  );
+        daoUtil.free(  );
+    }
+
 }

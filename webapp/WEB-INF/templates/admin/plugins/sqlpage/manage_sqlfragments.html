@@ -44,11 +44,11 @@
                class="btn btn-primary btn-small" title="#i18n{portal.util.labelModify}">
                 <i class="fa fa-pencil"></i>
             </a>
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?action=up&id=${sqlfragment.id}"
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?action=moveUp&id=${sqlfragment.id}&id_page=${page.id}"
                class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlfragments.buttonUp}">
                 <i class="fa fa-chevron-circle-up"></i>
             </a>
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?action=down&id=${sqlfragment.id}"
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?action=moveDown&id=${sqlfragment.id}&id_page=${page.id}"
                class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlfragments.buttonDown}">
                 <i class="fa fa-chevron-circle-down"></i>
             </a>

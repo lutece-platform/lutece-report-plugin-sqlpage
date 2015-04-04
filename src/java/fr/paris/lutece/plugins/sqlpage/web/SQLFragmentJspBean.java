@@ -116,6 +116,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     private static final String ACTION_MODIFY_SQLFRAGMENT = "modifySQLFragment";
     private static final String ACTION_REMOVE_SQLFRAGMENT = "removeSQLFragment";
     private static final String ACTION_CONFIRM_REMOVE_SQLFRAGMENT = "confirmRemoveSQLFragment";
+    private static final String ACTION_MOVE_UP = "moveUp";
+    private static final String ACTION_MOVE_DOWN = "moveDown";
 
     // Infos
     private static final String INFO_SQLFRAGMENT_CREATED = "sqlpage.info.sqlfragment.created";
@@ -397,5 +399,75 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         }
 
         return true;
+    }
+    
+    /**
+     * Process the data capture form of a new sqlfragment
+     *
+     * @param request The Http Request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_MOVE_UP )
+    public String doMoveUp( HttpServletRequest request )
+    {
+        String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
+        int nPageId = Integer.parseInt( strIdPage );
+
+        int nFragmentId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
+
+        List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList(nPageId);
+
+        SQLFragment previous = null;
+        for( SQLFragment fragment : listFragments )
+        {
+            if( fragment.getId() == nFragmentId )
+            {
+                if( previous != null )
+                {
+                    SQLFragmentHome.swapFragmentsOrder( fragment, previous );
+                    break;
+                }
+            }
+            previous = fragment;
+        }
+        Map<String, String> mapParameters = new HashMap<String, String>(  );
+        mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
+        return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
+        
+    }
+
+    /**
+     * Process the data capture form of a new sqlfragment
+     *
+     * @param request The Http Request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_MOVE_DOWN )
+    public String doMoveDown( HttpServletRequest request )
+    {
+        String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
+        int nPageId = Integer.parseInt( strIdPage );
+
+        int nFragmentId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
+
+        List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList(nPageId);
+
+        SQLFragment previous = null;
+        for( SQLFragment fragment : listFragments )
+        {
+            if( previous != null )
+            {
+                SQLFragmentHome.swapFragmentsOrder( fragment, previous );
+                break;
+            }
+            if( fragment.getId() == nFragmentId )
+            {
+                previous = fragment;
+            }
+        }
+        Map<String, String> mapParameters = new HashMap<String, String>(  );
+        mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
+        return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
+        
     }
 }
