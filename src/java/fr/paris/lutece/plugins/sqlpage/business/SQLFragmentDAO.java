@@ -51,7 +51,7 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
     private static final String SQL_QUERY_INSERT = "INSERT INTO sqlpage_fragment ( id_sqlfragment, id_page, template, sql_query, pool, title, id_order, role ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM sqlpage_fragment WHERE id_sqlfragment = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE sqlpage_fragment SET id_sqlfragment = ?, id_page = ?, template = ?, sql_query = ?, pool = ?, title = ?, id_order = ?, role = ? WHERE id_sqlfragment = ?";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_sqlfragment, id_page, template, sql_query, pool, title, id_order, role FROM sqlpage_fragment WHERE id_page = ?";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_sqlfragment, id_page, template, sql_query, pool, title, id_order, role FROM sqlpage_fragment WHERE id_page = ? ORDER BY id_order";
 
     /**
      * Generates a new primary key

@@ -18,6 +18,11 @@
         <min-core-version>4.1.0</min-core-version>
         <max-core-version/>	
     </core-version-dependency>
+    
+    
+    <javascript-files>
+         <javascript-file>sqlpage/Chart.min.js</javascript-file>
+    </javascript-files>
 
     <!-- Admin features parameters -->
     <admin-features>
