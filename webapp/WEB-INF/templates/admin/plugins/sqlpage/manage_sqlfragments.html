@@ -8,7 +8,9 @@
         </form>
         </@headerButtons>
         
-    <h4>#i18n{sqlpage.manage_sqlfragments.tableLabel} ${page.paramName} - ${page.title}</h4>    
+    <h4>
+        #i18n{sqlpage.manage_sqlfragments.tableLabel} 
+        <span class="label label-default">${page.paramName}</span> - ${page.title}</h4>    
     </@boxHeader>
     <@boxBody>
     <@messages infos=infos />
@@ -37,7 +39,11 @@
                 ${sqlfragment.pool}
             </td>
             <td>
-                ${sqlfragment.role}
+                <#if sqlfragment.role = "none" >
+                   <span class="label label-success">#i18n{sqlpage.manage_sqlfragments.labelNoRestriction}</span>
+                <#else>
+                   <span class="label label-danger">${sqlfragment.role}</span>
+                </#if>
             </td>
         <td>
             <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?view=modifySQLFragment&id=${sqlfragment.id}&id_page=${page.id}"

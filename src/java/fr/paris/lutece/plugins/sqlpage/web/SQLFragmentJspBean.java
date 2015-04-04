@@ -205,11 +205,15 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
             return redirect( request, VIEW_CREATE_SQLFRAGMENT, mapParameters );
         }
 
-        if ( !validateSQL( _fragment.getSqlQuery(  ), _fragment.getPool(  ), getLocale(  ) ) )
+        _fragment.setSqlQuery( _fragment.getSqlQuery().trim() );
+        if( ! _fragment.getSqlQuery().equals(""))
         {
-            return redirect( request, VIEW_CREATE_SQLFRAGMENT, mapParameters );
+            if ( !validateSQL( _fragment.getSqlQuery(  ), _fragment.getPool(  ), getLocale(  ) ) )
+            {
+                return redirect( request, VIEW_CREATE_SQLFRAGMENT, mapParameters );
+            }
         }
-
+        
         if ( !validateTemplate( _fragment.getTemplate(  ), getLocale(  ) ) )
         {
             return redirect( request, VIEW_CREATE_SQLFRAGMENT, mapParameters );
@@ -222,7 +226,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
 
         return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
     }
-
+    
     /**
      * Manages the removal form of a sqlfragment whose identifier is in the http
      * request
@@ -310,9 +314,13 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
             return redirect( request, VIEW_MODIFY_SQLFRAGMENT, mapParameters );
         }
 
-        if ( !validateSQL( _fragment.getSqlQuery(  ), _fragment.getPool(  ), getLocale(  ) ) )
+        _fragment.setSqlQuery( _fragment.getSqlQuery().trim() );
+        if( ! _fragment.getSqlQuery().equals(""))
         {
-            return redirect( request, VIEW_MODIFY_SQLFRAGMENT, mapParameters );
+            if ( !validateSQL( _fragment.getSqlQuery(  ), _fragment.getPool(  ), getLocale(  ) ) )
+            {
+                return redirect( request, VIEW_MODIFY_SQLFRAGMENT, mapParameters );
+            }
         }
 
         if ( !validateTemplate( _fragment.getTemplate(  ), getLocale(  ) ) )
