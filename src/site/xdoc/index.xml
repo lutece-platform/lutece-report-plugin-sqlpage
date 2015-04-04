@@ -52,9 +52,8 @@ jsp/site/Portal.jsp?page=sqlpage&amp;sqlpage=mypage[&amp;param1=myparam1 ... &am
     &lt;tbody&gt;
         &lt;#list rows as row&gt;
             &lt;tr&gt;
-            &lt;#list row.cols as col&gt;
-                 &lt;td&gt;${col}&lt;/td&gt;
-            &lt;/#list&gt;
+               &lt;td&gt;${row.cols[0]}&lt;/td&gt;
+               &lt;td&gt;${row.cols[1]}&lt;/td&gt;
             &lt;/tr&gt;
         &lt;/#list&gt;
     &lt;/tbody&gt;
@@ -76,16 +75,11 @@ jsp/site/Portal.jsp?page=sqlpage&amp;sqlpage=mypage[&amp;param1=myparam1 ... &am
                 
                     <div class="code">
 <pre>
-&lt;#list rows as row&gt;
-    &lt;#list row.cols as col&gt;
-        &lt;#if col_index == 0&gt;&lt;#assign firstname="${col}" /&gt;&lt;/#if&gt;
-        &lt;#if col_index == 1&gt;&lt;#assign lastname="${col}" /&gt;&lt;/#if&gt;
-    &lt;/#list&gt;
-&lt;/#list&gt;
 
 &lt;h1&gt;User&lt;/h1&gt;
-Firstname : ${firstname} &lt;br&gt;
-Lastname : ${lastname} &lt;br&gt;                        
+Firstname : ${rows[0].cols[0]} &lt;br&gt;
+Lastname : ${rows[0].cols[1]} &lt;br&gt;                        
+
 </pre>   
                     </div>                 
                 

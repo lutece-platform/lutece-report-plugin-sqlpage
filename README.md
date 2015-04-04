@@ -39,9 +39,8 @@ The template :
     <tbody>
         <#list rows as row>
             <tr>
-            <#list row.cols as col>
-                 <td>${col}</td>
-            </#list>
+               <td>${row.cols[0]}</td>
+               <td>${row.cols[1]}</td>
             </tr>
         </#list>
     </tbody>
@@ -59,16 +58,11 @@ The template :
 
 ```
 
-<#list rows as row>
-    <#list row.cols as col>
-        <#if col_index == 0><#assign firstname="${col}" /></#if>
-        <#if col_index == 1><#assign lastname="${col}" /></#if>
-    </#list>
-</#list>
 
 <h1>User</h1>
-Firstname : ${firstname} <br>
-Lastname : ${lastname} <br>                        
+Firstname : ${rows[0].cols[0]} <br>
+Lastname : ${rows[0].cols[1]} <br>                        
+
 
 ```
 
