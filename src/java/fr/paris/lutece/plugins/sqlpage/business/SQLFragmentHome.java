@@ -111,7 +111,7 @@ public final class SQLFragmentHome
     {
         return _dao.selectSQLFragmentsList( nIdPage, _plugin );
     }
-    
+
     /**
      * Reorder fragments
      * @param previous the fragment 1
@@ -119,11 +119,11 @@ public final class SQLFragmentHome
      */
     public static void swapFragmentsOrder( SQLFragment previous, SQLFragment next )
     {
-        if( ( next.getIdOrder() - previous.getIdOrder()) != 1 )
+        if ( ( next.getIdOrder(  ) - previous.getIdOrder(  ) ) != 1 )
         {
-            next.setIdOrder( previous.getIdOrder() + 1 );
+            next.setIdOrder( previous.getIdOrder(  ) + 1 );
         }
+
         _dao.swapFragmentsOrder( previous, next, _plugin );
     }
-
 }

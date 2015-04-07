@@ -47,7 +47,7 @@ public class SQLPage
     private int _nId;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.ParamName.notEmpty}" )
     @Size( max = 50, message = "#i18n{sqlpage.validation.sqlpage.ParamName.size}" )
-    @Pattern( regexp = "[a-z]*" , message = "#i18n{sqlpage.validation.sqlpage.ParamName.pattern}")
+    @Pattern( regexp = "[a-z]*", message = "#i18n{sqlpage.validation.sqlpage.ParamName.pattern}" )
     private String _strParamName;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.Title.notEmpty}" )
     @Size( max = 255, message = "#i18n{sqlpage.validation.sqlpage.Title.size}" )

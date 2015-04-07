@@ -194,21 +194,20 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
 
         return sQLFragmentList;
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
-    public void swapFragmentsOrder( SQLFragment fragment1, SQLFragment fragment2 , Plugin plugin )
+    public void swapFragmentsOrder( SQLFragment fragment1, SQLFragment fragment2, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_REORDER_FRAGMENTS, plugin );
-        daoUtil.setInt( 1, fragment2.getIdOrder() );
-        daoUtil.setInt( 2, fragment1.getId() );
+        daoUtil.setInt( 1, fragment2.getIdOrder(  ) );
+        daoUtil.setInt( 2, fragment1.getId(  ) );
         daoUtil.executeUpdate(  );
-        daoUtil.setInt( 1, fragment1.getIdOrder() );
-        daoUtil.setInt( 2, fragment2.getId() );
+        daoUtil.setInt( 1, fragment1.getIdOrder(  ) );
+        daoUtil.setInt( 2, fragment2.getId(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
-
 }
