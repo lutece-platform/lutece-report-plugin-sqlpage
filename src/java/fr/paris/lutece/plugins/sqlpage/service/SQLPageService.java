@@ -38,6 +38,8 @@ import fr.paris.lutece.plugins.sqlpage.business.SQLFragmentHome;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
 import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
+import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 
@@ -81,14 +83,17 @@ public class SQLPageService
         {
             try
             {
-                Map<String, Object> model = new HashMap<String, Object>(  );
-                List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
-                        fragment.getPool(  ), request.getParameterMap(  ) );
-                model.put( MARK_ROWS, listResults );
+                if( isVisible( request , fragment.getRole() ))
+                {
+                    Map<String, Object> model = new HashMap<String, Object>(  );
+                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
+                            fragment.getPool(  ), request.getParameterMap(  ) );
+                    model.put( MARK_ROWS, listResults );
 
-                String strTemplate = fragment.getTemplate(  );
-                strHtml += TemplateService.instance(  )
-                                          .process( "" + fragment.getId(  ), strTemplate, request.getLocale(  ), model );
+                    String strTemplate = fragment.getTemplate(  );
+                    strHtml += TemplateService.instance(  )
+                                              .process( "" + fragment.getId(  ), strTemplate, request.getLocale(  ), model );
+                }
             }
             catch ( TemplateException ex )
             {
@@ -124,4 +129,27 @@ public class SQLPageService
         model.put( MARK_ROWS, listResults );
         TemplateService.instance(  ).process( MOKE_TEMPLATE_NAME, strTemplate, locale, model );
     }
+    
+    /**
+     * Checks if the page is visible for the current user
+     * @param request The HTTP request
+     * @param strRole The role
+     * @return true if the page could be shown to the user
+     */
+    private static boolean isVisible( HttpServletRequest request, String strRole )
+    {
+        if ( ( strRole == null ) || strRole.trim(  ).equals( "" ) )
+        {
+            return true;
+        }
+
+        if ( !strRole.equals( Page.ROLE_NONE ) && SecurityService.isAuthenticationEnable(  ) )
+        {
+            return SecurityService.getInstance(  ).isUserInRole( request, strRole );
+        }
+
+        return true;
+    }
+
+
 }
