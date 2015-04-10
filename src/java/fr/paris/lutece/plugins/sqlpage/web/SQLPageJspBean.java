@@ -108,25 +108,9 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     public String getManageSQLPages( HttpServletRequest request )
     {
         _sqlpage = null;
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_SQLPAGE_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
-                _nDefaultItemsPerPage );
-
-        UrlItem url = new UrlItem( JSP_MANAGE_SQLPAGES );
-        String strUrl = url.getUrl(  );
         List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageHome.getSQLPagesList(  );
-
-        // PAGINATOR
-        LocalizedPaginator paginator = new LocalizedPaginator( listSQLPages, _nItemsPerPage, strUrl,
-                PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale(  ) );
-
-        Map<String, Object> model = getModel(  );
-
-        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-        model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_SQLPAGE_LIST, paginator.getPageItems(  ) );
-
+        Map<String, Object> model = getPaginatedListModel(request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
+        
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES, TEMPLATE_MANAGE_SQLPAGES, model );
     }
 

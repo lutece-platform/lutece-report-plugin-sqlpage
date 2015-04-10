@@ -76,6 +76,10 @@ public class SQLPageApp extends MVCApplication
         else
         {
             xpage = SQLPageService.getSQLPage( strName, request );
+            if( xpage == null )
+            {
+                xpage = getSQLPagesList( request );
+            }
         }
 
         return xpage;

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business;
 
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import org.hibernate.validator.constraints.*;
 
 import javax.validation.constraints.*;
@@ -41,7 +42,7 @@ import javax.validation.constraints.*;
 /**
  * This is the business class for the object SQLPage
  */
-public class SQLPage
+public class SQLPage implements AdminWorkgroupResource
 {
     // Variables declarations 
     private int _nId;
@@ -117,6 +118,7 @@ public class SQLPage
      * Returns the Workgroup
      * @return The Workgroup
      */
+    @Override
     public String getWorkgroup(  )
     {
         return _strWorkgroup;

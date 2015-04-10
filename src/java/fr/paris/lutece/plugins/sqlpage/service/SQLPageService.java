@@ -76,6 +76,10 @@ public class SQLPageService
         XPage xpage = new XPage(  );
         int nPageId = SQLPageHome.findByName( strName );
         SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
+        if( page == null )
+        {
+            return null;
+        }
         List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
         String strHtml = "";
 
