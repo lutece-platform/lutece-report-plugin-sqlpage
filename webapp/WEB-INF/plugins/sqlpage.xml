@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plug-in>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><plug-in>
     <name>sqlpage</name>
     <class>fr.paris.lutece.plugins.sqlpage.service.SQLPagePlugin</class>
     <version>1.0.0</version>
-    <documentation></documentation>
-    <installation></installation>
-    <changes></changes>
-    <user-guide></user-guide>
+    <documentation/>
+    <installation/>
+    <changes/>
+    <user-guide/>
     <description>sqlpage.plugin.description</description>
     <provider>sqlpage.plugin.provider</provider>
     <provider-url>http://dev.lutece.paris.fr</provider-url>
@@ -32,7 +31,7 @@
             <feature-description>sqlpage.adminFeature.ManageSQLPage.description</feature-description>
             <feature-level>0</feature-level>
             <feature-url>jsp/admin/plugins/sqlpage/ManageSQLPages.jsp</feature-url>
-            <feature-icon-url></feature-icon-url>
+            <feature-icon-url/>
       </admin-feature>
     </admin-features>    
 
