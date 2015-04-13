@@ -39,8 +39,10 @@ import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
 import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
 import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 
 import freemarker.core.ParseException;
@@ -48,6 +50,7 @@ import freemarker.core.ParseException;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -154,6 +157,34 @@ public class SQLPageService
 
         return true;
     }
-
+    
+    /**
+     * Checks if the page has an authorized workgroup for a given user
+     * @param page The page 
+     * @param user The user
+     * @return True if the user can access to the page
+     */
+    public static boolean isAuthorized( SQLPage page , AdminUser user )
+    {
+        return AdminWorkgroupService.isAuthorized( page, user );
+    }
+    
+    /**
+     * Filter the list of pages according user authorization
+     * @param user The page
+     * @return List of authorized pages
+     */
+    public static List<SQLPage> getAuthorizedPages( AdminUser user )
+    {
+        List<SQLPage> listPages = new ArrayList<SQLPage>();
+        for( SQLPage page : SQLPageHome.getSQLPagesList() )
+        {
+            if( isAuthorized( page, user ))
+            {
+                listPages.add(page);
+            }
+        }
+        return listPages;
+    }
 
 }

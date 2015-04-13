@@ -35,15 +35,13 @@ package fr.paris.lutece.plugins.sqlpage.web;
 
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
+import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.List;
@@ -82,7 +80,8 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
 
     // Properties
     private static final String MESSAGE_CONFIRM_REMOVE_SQLPAGE = "sqlpage.message.confirmRemoveSQLPage";
-    private static final String PROPERTY_DEFAULT_LIST_SQLPAGE_PER_PAGE = "sqlpage.listSQLPages.itemsPerPage";
+    private static final String MESSAGE_NOT_AUTHORIZED = "sqlpage.message.notAuthorized";
+    private static final String MESSAGE_PAGE_NOT_FOUND = "sqlpage.message.pageNotFound";
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "sqlpage.model.entity.sqlpage.attribute.";
 
     // Views
@@ -108,7 +107,7 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     public String getManageSQLPages( HttpServletRequest request )
     {
         _sqlpage = null;
-        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageHome.getSQLPagesList(  );
+        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser() );
         Map<String, Object> model = getPaginatedListModel(request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
         
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES, TEMPLATE_MANAGE_SQLPAGES, model );
@@ -207,8 +206,21 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
             _sqlpage = SQLPageHome.findByPrimaryKey( nId );
         }
 
+        if( _sqlpage == null )
+        {
+            addError( MESSAGE_PAGE_NOT_FOUND , getLocale() );
+            return redirectView( request, VIEW_MANAGE_SQLPAGES );
+        }
+        
+        if( !SQLPageService.isAuthorized( _sqlpage ,  getUser() ))
+        {
+            addError( MESSAGE_NOT_AUTHORIZED , getLocale() );
+            return redirectView( request, VIEW_MANAGE_SQLPAGES );
+        }
+
         Map<String, Object> model = getModel(  );
         model.put( MARK_SQLPAGE, _sqlpage );
+        model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_SQLPAGE, TEMPLATE_MODIFY_SQLPAGE, model );
     }
@@ -227,6 +239,12 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
         // Check constraints
         if ( !validateBean( _sqlpage, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
+            return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId(  ) );
+        }
+        
+        if( !SQLPageService.isAuthorized( _sqlpage ,  getUser() ))
+        {
+            addError( MESSAGE_NOT_AUTHORIZED , getLocale() );
             return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId(  ) );
         }
 
