@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>plugin-sqlpage</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Lutece sqlpage plugin</name>
 
     <repositories>
@@ -34,14 +34,15 @@
     <properties>
         <componentName>sqlpage</componentName>
         <jiraProjectName>SQLPAGE</jiraProjectName>
-        <jiraComponentId></jiraComponentId>
+        <jiraComponentId />
     </properties>
     
     <scm>
         <connection>scm:git:https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</url>
-    </scm>
+      <tag>lutece-report-plugin-sqlpage-1.0.0</tag>
+  </scm>
     
     
 </project>
