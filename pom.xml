@@ -37,4 +37,11 @@
         <jiraComponentId></jiraComponentId>
     </properties>
     
+    <scm>
+        <connection>scm:git:https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</connection>
+        <developerConnection>scm:git:https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</developerConnection>
+        <url>https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</url>
+    </scm>
+    
+    
 </project>
