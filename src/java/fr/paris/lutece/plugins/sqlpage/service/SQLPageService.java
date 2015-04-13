@@ -50,8 +50,8 @@ import freemarker.core.ParseException;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -79,10 +79,12 @@ public class SQLPageService
         XPage xpage = new XPage(  );
         int nPageId = SQLPageHome.findByName( strName );
         SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
-        if( page == null )
+
+        if ( page == null )
         {
             return null;
         }
+
         List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
         String strHtml = "";
 
@@ -90,7 +92,7 @@ public class SQLPageService
         {
             try
             {
-                if( isVisible( request , fragment.getRole() ))
+                if ( isVisible( request, fragment.getRole(  ) ) )
                 {
                     Map<String, Object> model = new HashMap<String, Object>(  );
                     List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
@@ -99,7 +101,8 @@ public class SQLPageService
 
                     String strTemplate = fragment.getTemplate(  );
                     strHtml += TemplateService.instance(  )
-                                              .process( "" + fragment.getId(  ), strTemplate, request.getLocale(  ), model );
+                                              .process( "" + fragment.getId(  ), strTemplate, request.getLocale(  ),
+                        model );
                 }
             }
             catch ( TemplateException ex )
@@ -136,7 +139,7 @@ public class SQLPageService
         model.put( MARK_ROWS, listResults );
         TemplateService.instance(  ).process( MOKE_TEMPLATE_NAME, strTemplate, locale, model );
     }
-    
+
     /**
      * Checks if the page is visible for the current user
      * @param request The HTTP request
@@ -157,18 +160,18 @@ public class SQLPageService
 
         return true;
     }
-    
+
     /**
      * Checks if the page has an authorized workgroup for a given user
-     * @param page The page 
+     * @param page The page
      * @param user The user
      * @return True if the user can access to the page
      */
-    public static boolean isAuthorized( SQLPage page , AdminUser user )
+    public static boolean isAuthorized( SQLPage page, AdminUser user )
     {
         return AdminWorkgroupService.isAuthorized( page, user );
     }
-    
+
     /**
      * Filter the list of pages according user authorization
      * @param user The page
@@ -176,15 +179,16 @@ public class SQLPageService
      */
     public static List<SQLPage> getAuthorizedPages( AdminUser user )
     {
-        List<SQLPage> listPages = new ArrayList<SQLPage>();
-        for( SQLPage page : SQLPageHome.getSQLPagesList() )
+        List<SQLPage> listPages = new ArrayList<SQLPage>(  );
+
+        for ( SQLPage page : SQLPageHome.getSQLPagesList(  ) )
         {
-            if( isAuthorized( page, user ))
+            if ( isAuthorized( page, user ) )
             {
-                listPages.add(page);
+                listPages.add( page );
             }
         }
+
         return listPages;
     }
-
 }

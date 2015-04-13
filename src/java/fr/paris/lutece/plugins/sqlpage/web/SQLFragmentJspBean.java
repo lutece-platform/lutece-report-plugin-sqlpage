@@ -141,7 +141,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         List<SQLFragment> listSQLFragments = (List<SQLFragment>) SQLFragmentHome.getSQLFragmentsList( nIdPage );
         _nFragmentsCount = listSQLFragments.size(  );
 
-        Map<String, Object> model = getPaginatedListModel(request, MARK_SQLFRAGMENT_LIST, listSQLFragments, JSP_MANAGE_SQLFRAGMENTS );
+        Map<String, Object> model = getPaginatedListModel( request, MARK_SQLFRAGMENT_LIST, listSQLFragments,
+                JSP_MANAGE_SQLFRAGMENTS );
 
         model.put( MARK_PAGE, page );
 

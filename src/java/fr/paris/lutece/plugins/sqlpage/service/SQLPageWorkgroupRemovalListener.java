@@ -61,7 +61,7 @@ public class SQLPageWorkgroupRemovalListener implements RemovalListener
             return true;
         }
 
-        for ( SQLPage page : SQLPageHome.getSQLPagesList() )
+        for ( SQLPage page : SQLPageHome.getSQLPagesList(  ) )
         {
             if ( ( page.getWorkgroup(  ) != null ) && page.getWorkgroup(  ).equals( strId ) )
             {

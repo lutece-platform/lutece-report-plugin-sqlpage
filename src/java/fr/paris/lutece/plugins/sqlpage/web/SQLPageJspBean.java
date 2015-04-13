@@ -107,9 +107,10 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     public String getManageSQLPages( HttpServletRequest request )
     {
         _sqlpage = null;
-        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser() );
-        Map<String, Object> model = getPaginatedListModel(request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
-        
+
+        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser(  ) );
+        Map<String, Object> model = getPaginatedListModel( request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
+
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES, TEMPLATE_MANAGE_SQLPAGES, model );
     }
 
@@ -206,15 +207,17 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
             _sqlpage = SQLPageHome.findByPrimaryKey( nId );
         }
 
-        if( _sqlpage == null )
+        if ( _sqlpage == null )
         {
-            addError( MESSAGE_PAGE_NOT_FOUND , getLocale() );
+            addError( MESSAGE_PAGE_NOT_FOUND, getLocale(  ) );
+
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
-        
-        if( !SQLPageService.isAuthorized( _sqlpage ,  getUser() ))
+
+        if ( !SQLPageService.isAuthorized( _sqlpage, getUser(  ) ) )
         {
-            addError( MESSAGE_NOT_AUTHORIZED , getLocale() );
+            addError( MESSAGE_NOT_AUTHORIZED, getLocale(  ) );
+
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
 
@@ -241,10 +244,11 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
         {
             return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId(  ) );
         }
-        
-        if( !SQLPageService.isAuthorized( _sqlpage ,  getUser() ))
+
+        if ( !SQLPageService.isAuthorized( _sqlpage, getUser(  ) ) )
         {
-            addError( MESSAGE_NOT_AUTHORIZED , getLocale() );
+            addError( MESSAGE_NOT_AUTHORIZED, getLocale(  ) );
+
             return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId(  ) );
         }
 

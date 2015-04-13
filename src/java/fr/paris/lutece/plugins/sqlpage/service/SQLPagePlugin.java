@@ -37,28 +37,27 @@ import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 import fr.paris.lutece.portal.service.util.RemovalListener;
 import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 
+
 /**
  * SQLPage Plugin
  */
 public class SQLPagePlugin extends PluginDefaultImplementation
 {
-    private static RemovalListener _listenerWorkgroup; 
+    private static RemovalListener _listenerWorkgroup;
+
     /**
      * {@inheritDoc }
      */
-
     @Override
-    public void init()
+    public void init(  )
     {
-        super.init(); 
-        
+        super.init(  );
+
         // Create removal listeners and register them
         if ( _listenerWorkgroup == null )
         {
             _listenerWorkgroup = new SQLPageWorkgroupRemovalListener(  );
             WorkgroupRemovalListenerService.getService(  ).registerListener( _listenerWorkgroup );
         }
-        
     }
-    
 }
