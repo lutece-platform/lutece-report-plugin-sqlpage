@@ -57,6 +57,7 @@ public class SQLPageApp extends MVCApplication
     private static final String PARAMETER_SQLPAGE = "sqlpage";
     private static final String MARK_PAGES_LIST = "pages_list";
     private static final String VIEW_HOME = "home";
+    private static final long serialVersionUID = 1L;
 
     /**
      * Returns the content of the page sqlpage.

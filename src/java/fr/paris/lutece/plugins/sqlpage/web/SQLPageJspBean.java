@@ -99,6 +99,7 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     private static final String INFO_SQLPAGE_CREATED = "sqlpage.info.sqlpage.created";
     private static final String INFO_SQLPAGE_UPDATED = "sqlpage.info.sqlpage.updated";
     private static final String INFO_SQLPAGE_REMOVED = "sqlpage.info.sqlpage.removed";
+    private static final long serialVersionUID = 1L;
 
     // Session variable to store working values
     private SQLPage _sqlpage;

@@ -121,6 +121,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     private static final String INFO_SQLFRAGMENT_REMOVED = "sqlpage.info.sqlfragment.removed";
     private static String[] _forbiddenCommands = { "update ", "delete ", "drop ", "truncate" };
 
+    private static final long serialVersionUID = 1L;
+
     // Session variable to store working values
     private SQLFragment _fragment;
     private int _nFragmentsCount;

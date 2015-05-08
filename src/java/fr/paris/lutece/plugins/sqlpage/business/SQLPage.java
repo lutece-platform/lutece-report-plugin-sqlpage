@@ -47,6 +47,8 @@ import javax.validation.constraints.Size;
  */
 public class SQLPage implements AdminWorkgroupResource , Serializable
 {
+    private static final long serialVersionUID = 1L;
+    
     // Variables declarations 
     private int _nId;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.ParamName.notEmpty}" )
