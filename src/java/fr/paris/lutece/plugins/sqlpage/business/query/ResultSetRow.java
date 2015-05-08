@@ -44,11 +44,19 @@ public class ResultSetRow
 {
     private List<String> _listColumns = new ArrayList<String>(  );
 
+    /**
+     * Add a column
+     * @param strColumnValue The column value
+     */
     public void addCol( String strColumnValue )
     {
         _listColumns.add( strColumnValue );
     }
 
+    /**
+     * Gets all the columns
+     * @return The columns
+     */
     public List<String> getCols(  )
     {
         return _listColumns;

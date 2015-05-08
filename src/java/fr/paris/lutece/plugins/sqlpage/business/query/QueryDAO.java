@@ -52,6 +52,13 @@ import java.util.List;
  */
 public class QueryDAO
 {
+    /**
+     * Returns query results
+     * @param strSQL The query
+     * @param connectionService the connection service
+     * @return Query results
+     * @throws SQLQueryException If an error occurs
+     */
     public List<ResultSetRow> getQueryResults( String strSQL, PluginConnectionService connectionService )
         throws SQLQueryException
     {

@@ -55,6 +55,13 @@ public class SQLService
     private static Map _mapConnectionServices = new HashMap(  );
 
     /**
+     * Private constructor
+     */
+    private SQLService(  )
+    {
+    }
+
+    /**
      * Build the model that contains data results
      * @param strSQL The query
      * @param strPool The connection pool
@@ -72,7 +79,7 @@ public class SQLService
         }
         catch ( SQLQueryException ex )
         {
-            // Error already logged.
+            ; // Error already logged.
         }
 
         return listResults;
@@ -198,7 +205,7 @@ public class SQLService
     private static String buildBookmark( String strIndex )
     {
         StringBuilder sbBookmark = new StringBuilder(  );
-        sbBookmark.append( "@" ).append( PARAMETER_PREFIX ).append( strIndex ).append( "@" );
+        sbBookmark.append( '@' ).append( PARAMETER_PREFIX ).append( strIndex ).append( '@' );
 
         return sbBookmark.toString(  );
     }

@@ -63,10 +63,15 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * SQLPage Service
  */
-public class SQLPageService
+public final class SQLPageService
 {
     private static final String MOKE_TEMPLATE_NAME = "SQLFragmentTemplate";
     private static final String MARK_ROWS = "rows";
+
+    /** Private constructor */
+    private SQLPageService(  )
+    {
+    }
 
     /**
      * Build the SQL Page
@@ -86,7 +91,7 @@ public class SQLPageService
         }
 
         List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
-        String strHtml = "";
+        StringBuilder sbHtml = new StringBuilder(  );
 
         for ( SQLFragment fragment : listFragments )
         {
@@ -100,9 +105,9 @@ public class SQLPageService
                     model.put( MARK_ROWS, listResults );
 
                     String strTemplate = fragment.getTemplate(  );
-                    strHtml += TemplateService.instance(  )
-                                              .process( "" + fragment.getId(  ), strTemplate, request.getLocale(  ),
-                        model );
+                    sbHtml.append( TemplateService.instance(  )
+                                                  .process( "" + fragment.getId(  ), strTemplate,
+                            request.getLocale(  ), model ) );
                 }
             }
             catch ( TemplateException ex )
@@ -115,7 +120,7 @@ public class SQLPageService
             }
         }
 
-        xpage.setContent( strHtml );
+        xpage.setContent( sbHtml.toString(  ) );
         xpage.setPathLabel( page.getTitle(  ) );
         xpage.setTitle( page.getTitle(  ) );
 

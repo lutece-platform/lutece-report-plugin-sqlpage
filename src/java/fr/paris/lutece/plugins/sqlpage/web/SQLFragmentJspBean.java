@@ -45,13 +45,10 @@ import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
 import freemarker.template.TemplateException;
@@ -103,7 +100,6 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     private static final String MESSAGE_KEY_SQL_ERROR = "sqlpage.message.validation.sqlError";
     private static final String MESSAGE_KEY_INVALID_SQL_COMMANDS = "sqlpage.message.validation.sqlInvalidCommand";
     private static final String MESSAGE_KEY_TEMPLATE_ERROR = "sqlpage.message.validation.templateError";
-    private static final String PROPERTY_DEFAULT_LIST_SQLFRAGMENT_PER_PAGE = "sqlpage.listSQLFragments.itemsPerPage";
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "sqlpage.model.entity.sqlfragment.attribute.";
 
     // Views
@@ -129,6 +125,11 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     private SQLFragment _fragment;
     private int _nFragmentsCount;
 
+    /**
+     * Build the Manage View
+     * @param request The HTTP request
+     * @return The page
+     */
     @View( value = VIEW_MANAGE_SQLFRAGMENTS, defaultView = true )
     public String getManageSQLFragments( HttpServletRequest request )
     {
@@ -296,7 +297,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
         Map<String, String> mapParameters = new HashMap<String, String>(  );
         mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
-        mapParameters.put( PARAMETER_ID_SQLFRAGMENT, "" + _fragment.getId(  ) );
+        mapParameters.put( PARAMETER_ID_SQLFRAGMENT, String.valueOf( _fragment.getId(  ) ) );
 
         // Check constraints
         if ( !validateBean( _fragment, VALIDATION_ATTRIBUTES_PREFIX ) )

@@ -35,9 +35,10 @@ package fr.paris.lutece.plugins.sqlpage.business;
 
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 
-import org.hibernate.validator.constraints.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 
 /**

@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business;
 
-import org.hibernate.validator.constraints.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Size;
 
 
 /**

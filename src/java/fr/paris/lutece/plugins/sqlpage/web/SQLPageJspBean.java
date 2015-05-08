@@ -103,6 +103,11 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     // Session variable to store working values
     private SQLPage _sqlpage;
 
+    /**
+     * Build the Manage View
+     * @param request The HTTP request
+     * @return The page
+     */
     @View( value = VIEW_MANAGE_SQLPAGES, defaultView = true )
     public String getManageSQLPages( HttpServletRequest request )
     {
