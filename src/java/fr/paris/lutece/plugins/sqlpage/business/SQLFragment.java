@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business;
 
+import java.io.Serializable;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
@@ -41,7 +42,7 @@ import javax.validation.constraints.Size;
 /**
  * This is the business class for the object SQLFragment
  */
-public class SQLFragment
+public class SQLFragment implements Serializable
 {
     // Variables declarations 
     private int _nId;

@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.sqlpage.business;
 
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
+import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -44,7 +45,7 @@ import javax.validation.constraints.Size;
 /**
  * This is the business class for the object SQLPage
  */
-public class SQLPage implements AdminWorkgroupResource
+public class SQLPage implements AdminWorkgroupResource , Serializable
 {
     // Variables declarations 
     private int _nId;

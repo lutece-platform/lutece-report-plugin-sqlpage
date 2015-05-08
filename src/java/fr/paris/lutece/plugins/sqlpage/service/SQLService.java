@@ -48,7 +48,7 @@ import java.util.Map;
 /**
  * SQL Service
  */
-public class SQLService
+public final class SQLService
 {
     private static final String PARAMETER_PREFIX = "param";
     private static QueryDAO _dao = new QueryDAO(  );
