@@ -34,7 +34,7 @@
     <properties>
         <componentName>sqlpage</componentName>
         <jiraProjectName>SQLPAGE</jiraProjectName>
-        <jiraComponentId/>
+        <jiraComponentId />
     </properties>
     
     <scm>
