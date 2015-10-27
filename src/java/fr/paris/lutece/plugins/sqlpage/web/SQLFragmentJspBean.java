@@ -94,6 +94,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     private static final String MARK_POOLS_LIST = "pools_list";
     private static final String MARK_ROLES_LIST = "roles_list";
     private static final String JSP_MANAGE_SQLFRAGMENTS = "jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp";
+   
 
     // Properties
     private static final String MESSAGE_CONFIRM_REMOVE_SQLFRAGMENT = "sqlpage.message.confirmRemoveSQLFragment";
@@ -135,6 +136,9 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @View( value = VIEW_MANAGE_SQLFRAGMENTS, defaultView = true )
     public String getManageSQLFragments( HttpServletRequest request )
     {
+        
+        
+        
         _fragment = null;
 
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
@@ -161,6 +165,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @View( VIEW_CREATE_SQLFRAGMENT )
     public String getCreateSQLFragment( HttpServletRequest request )
     {
+        
+        
         _fragment = ( _fragment != null ) ? _fragment : new SQLFragment(  );
 
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
@@ -182,6 +188,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @Action( ACTION_CREATE_SQLFRAGMENT )
     public String doCreateSQLFragment( HttpServletRequest request )
     {
+       
+        
         _fragment = ( _fragment != null ) ? _fragment : new SQLFragment(  );
         populate( _fragment, request );
 
@@ -228,6 +236,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @Action( ACTION_CONFIRM_REMOVE_SQLFRAGMENT )
     public String getConfirmRemoveSQLFragment( HttpServletRequest request )
     {
+        
+     
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_SQLFRAGMENT ) );
@@ -249,6 +259,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @Action( ACTION_REMOVE_SQLFRAGMENT )
     public String doRemoveSQLFragment( HttpServletRequest request )
     {
+        
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
         SQLFragmentHome.remove( nId );
@@ -269,6 +280,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @View( VIEW_MODIFY_SQLFRAGMENT )
     public String getModifySQLFragment( HttpServletRequest request )
     {
+        
+         
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
 
@@ -294,6 +307,10 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     @Action( ACTION_MODIFY_SQLFRAGMENT )
     public String doModifySQLFragment( HttpServletRequest request )
     {
+        
+         
+        
+        
         populate( _fragment, request );
 
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
@@ -328,12 +345,17 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
     }
 
+    
+    
+    
+    
     /**
      * Add commons objects to the model
      * @param model The model
      */
     private void addCommons( Map<String, Object> model )
     {
+        
         // Add pools list
         ReferenceList listPools = new ReferenceList(  );
         AppConnectionService.getPoolList( listPools );

@@ -69,6 +69,50 @@ public final class SQLPageService
     private SQLPageService(  )
     {
     }
+    
+    
+    /**
+     * Build the Fragment Page
+     * @param nPageId The id SQLPage  
+     * @param request The Request
+     * @return The StringBuilder
+     */
+  
+    public static StringBuilder getStringSQLFragment( int nPageId, HttpServletRequest request )
+    {
+    	
+    	  List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
+          StringBuilder sbHtml = new StringBuilder(  );
+
+          for ( SQLFragment fragment : listFragments )
+          {
+              try
+              {
+                  if ( isVisible( request, fragment.getRole(  ) ) )
+                  {
+                      Map<String, Object> model = new HashMap<String, Object>(  );
+                      List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
+                              fragment.getPool(  ), request.getParameterMap(  ) );
+                      model.put( MARK_ROWS, listResults );
+
+                      String strTemplate = fragment.getTemplate(  );
+                      sbHtml.append( TemplateService.instance(  )
+                                                    .process( "" + fragment.getId(  ), strTemplate,
+                              request.getLocale(  ), model ) );
+                  }
+              }
+              catch ( TemplateException ex )
+              {
+                  AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
+              }
+              catch ( IOException ex )
+              {
+                  AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
+              }
+          }
+
+          return sbHtml;
+    }
 
     /**
      * Build the SQL Page
@@ -87,36 +131,7 @@ public final class SQLPageService
             return null;
         }
 
-        List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
-        StringBuilder sbHtml = new StringBuilder(  );
-
-        for ( SQLFragment fragment : listFragments )
-        {
-            try
-            {
-                if ( isVisible( request, fragment.getRole(  ) ) )
-                {
-                    Map<String, Object> model = new HashMap<String, Object>(  );
-                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
-                            fragment.getPool(  ), request.getParameterMap(  ) );
-                    model.put( MARK_ROWS, listResults );
-
-                    String strTemplate = fragment.getTemplate(  );
-                    sbHtml.append( TemplateService.instance(  )
-                                                  .process( "" + fragment.getId(  ), strTemplate,
-                            request.getLocale(  ), model ) );
-                }
-            }
-            catch ( TemplateException ex )
-            {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
-            }
-            catch ( IOException ex )
-            {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
-            }
-        }
-
+        StringBuilder sbHtml =  SQLPageService.getStringSQLFragment( nPageId , request );       
         xpage.setContent( sbHtml.toString(  ) );
         xpage.setPathLabel( page.getTitle(  ) );
         xpage.setTitle( page.getTitle(  ) );
@@ -197,9 +212,9 @@ public final class SQLPageService
      * 
      * @param strName The page name
      * @return String
-     */
-    public static String getSQLTemplate(String strName){
-    	
+     */       
+    public static String getSQLTemplate( String strName )
+    {	
     	 Map<String, String[]> mapParameters = new HashMap<String, String[]>();
          int nPageId = SQLPageHome.findByName( strName );
          SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
@@ -225,7 +240,7 @@ public final class SQLPageService
                   String strTemplate = fragment.getTemplate(  );
                   sbHtml.append( TemplateService.instance(  )
                                                    .process( "" + fragment.getId(  ), strTemplate,
-                             new Locale("fr","FR"), model ) );
+                  new Locale( "fr" , "FR" ), model ) );
                 
              }
              catch ( TemplateException ex )

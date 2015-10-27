@@ -1,15 +1,9 @@
 <@rowBox>
     <@boxHeader i18nTitleKey="sqlpage.manage_sqlpages.pageTitle">
+       
      
-        <@headerButtons>
 
-            <form class="form-horizontal" method="post" name="manage_sqlpages" action="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp">
-                <!-- Add pull-right to class1 -->
-                <@actionButtons button1Name="view_createSQLPage" icon1="icon-plus icon-white" i18nValue1Key="sqlpage.manage_sqlpages.buttonAdd" />
-            </form>
-        </@headerButtons>
-
-        
+         
     </@boxHeader>
     <@boxBody>
     <@messages infos=infos />
@@ -42,26 +36,16 @@
         <td>
             
           
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=modifySQLPage&id=${sqlpage.id}"
-               class="btn btn-primary btn-small" title="#i18n{portal.util.labelModify}">
-                <i class="fa fa-pencil"></i>
-            </a>
-         
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=showSQLPage&id=${sqlpage.id}"
+            
+      
+            <a href="jsp/admin/plugins/sqlpage/ManageSecondaireSQLPages.jsp?view=showSQLPage&id=${sqlpage.id}"
                class="btn btn-info btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonShow}">
                 <i class="fa fa-play"></i>
             </a>
             
-      
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?id_page=${sqlpage.id}"
-               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonFragments}">
-                <i class="fa fa-table"></i>
-            </a>
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?action=confirmRemoveSQLPage&id=${sqlpage.id}"
-               class="btn btn-danger btn-small" title="#i18n{portal.util.labelDelete}" >
-                <i class="fa fa-trash"></i>
-            </a>
-        
+         
+          
+            
         </td>
         </tr>
         </#list>

@@ -96,7 +96,7 @@ public class SQLPageApp extends MVCApplication
     {
         List<SQLPage> listPages = SQLPageHome.getSQLPagesList(  );
 
-        Map model = getModel(  );
+        Map<String, Object> model = getModel(  );
         model.put( MARK_PAGES_LIST, listPages );
 
         return getXPage( TEMPLATE_XPAGE, request.getLocale(  ), model );

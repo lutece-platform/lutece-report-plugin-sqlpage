@@ -50,7 +50,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public abstract class ManageSQLPageJspBean extends MVCAdminJspBean
 {
-    // Right
+    /**
+	 * 
+	 */
+	
+	// Right
     public static final String RIGHT_MANAGESQLPAGE = "SQLPAGE_MANAGEMENT";
     private static final String PROPERTY_DEFAULT_LIST_ITEM_PER_PAGE = "sqlpage.listItems.itemsPerPage";
     private static final String PARAMETER_PAGE_INDEX = "page_index";

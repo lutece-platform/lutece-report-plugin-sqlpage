@@ -29,11 +29,26 @@
             <feature-id>SQLPAGE_MANAGEMENT</feature-id>
             <feature-title>sqlpage.adminFeature.ManageSQLPage.name</feature-title>
             <feature-description>sqlpage.adminFeature.ManageSQLPage.description</feature-description>
-            <feature-level>0</feature-level>
+              <feature-level>0</feature-level>                    
             <feature-url>jsp/admin/plugins/sqlpage/ManageSQLPages.jsp</feature-url>
             <feature-icon-url/>
       </admin-feature>
-    </admin-features>    
+       <admin-feature>
+            <feature-id>SQLPAGE_MANAGEMENT_WEBMASTER</feature-id>
+            <feature-title>sqlpage.adminFeature.ManageSecondaireSQLPage.name</feature-title>
+            <feature-description>sqlpage.adminFeature.ManageSecondaireSQLPage.description</feature-description>
+              <feature-level>2</feature-level>                    
+            <feature-url>jsp/admin/plugins/sqlpage/ManageSecondaireSQLPages.jsp</feature-url>
+            <feature-icon-url/>
+      </admin-feature>
+    </admin-features>   
+    
+   
+    
+    
+    
+    
+    
 
     <!-- XPages parameters -->
     <applications>
