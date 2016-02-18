@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.sqlpage.web;
 
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
-
 import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -43,7 +42,7 @@ import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-
+import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.List;
@@ -69,18 +68,20 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
 
     // Parameters
     private static final String PARAMETER_ID_SQLPAGE = "id";
+    private static final String PARAMETER_SQLPAGE = "sqlpage";
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES = "sqlpage.manage_sqlpages.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_SQLPAGE = "sqlpage.modify_sqlpage.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_SQLPAGE = "sqlpage.create_sqlpage.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_SHOW_SQLPAGE = "sqlpage.show_sqlpage.pageTitle";
+
     // Markers
     private static final String MARK_SQLPAGE_LIST = "sqlpage_list";
     private static final String MARK_SQLPAGE = "sqlpage";
     private static final String MARK_SQLFRAGMENTS_PAGE = "sqlfragementpage";
     private static final String MARK_WORKGROUP_LIST = "workgroup_list";
-
+    private static final String MARK_PAGES_LIST = "pages_list";
     private static final String JSP_MANAGE_SQLPAGES = "jsp/admin/plugins/sqlpage/ManageSQLPages.jsp";
 
     // Properties
@@ -119,13 +120,10 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     public String getManageSQLPages( HttpServletRequest request )
     {
         _sqlpage = null;
-        
-      
 
-        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser() );
+        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser(  ) );
         Map<String, Object> model = getPaginatedListModel( request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
-       
-        
+
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES, TEMPLATE_MANAGE_SQLPAGES, model );
     }
 
@@ -138,9 +136,6 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @View( VIEW_CREATE_SQLPAGE )
     public String getCreateSQLPage( HttpServletRequest request )
     {
-        
-        
-        
         _sqlpage = ( _sqlpage != null ) ? _sqlpage : new SQLPage(  );
 
         Map<String, Object> model = getModel(  );
@@ -159,8 +154,6 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @Action( ACTION_CREATE_SQLPAGE )
     public String doCreateSQLPage( HttpServletRequest request )
     {
-        
-        
         populate( _sqlpage, request );
 
         // Check constraints
@@ -185,8 +178,6 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @Action( ACTION_CONFIRM_REMOVE_SQLPAGE )
     public String getConfirmRemoveSQLPage( HttpServletRequest request )
     {
-          
-        
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_SQLPAGE ) );
         url.addParameter( PARAMETER_ID_SQLPAGE, nId );
@@ -206,10 +197,6 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @Action( ACTION_REMOVE_SQLPAGE )
     public String doRemoveSQLPage( HttpServletRequest request )
     {
-        
-         
-        
-        
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
         SQLPageHome.remove( nId );
         addInfo( INFO_SQLPAGE_REMOVED, getLocale(  ) );
@@ -226,9 +213,6 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @View( VIEW_MODIFY_SQLPAGE )
     public String getModifySQLPage( HttpServletRequest request )
     {
-        
-        
-        
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
 
         if ( ( _sqlpage == null ) || ( _sqlpage.getId(  ) != nId ) )
@@ -257,10 +241,8 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_SQLPAGE, TEMPLATE_MODIFY_SQLPAGE, model );
     }
 
-    
-    
     /**
-     * Returns the SQLPage 
+     * Returns the SQLPage
      *
      * @param request The Http request
      * @return The HTML to test SQLPage
@@ -268,42 +250,49 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @View( VIEW_SHOW_SQLPAGE )
     public String getShowSQLPage( HttpServletRequest request )
     {
-    	
-        int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
+        StringBuilder sbHtml;
+        String pageHtml = null;
 
-        if ( ( _sqlpage == null ) || ( _sqlpage.getId(  ) != nId ) )
+        String strName = request.getParameter( PARAMETER_SQLPAGE );
+
+        if ( strName == null )
         {
-            _sqlpage = SQLPageHome.findByPrimaryKey( nId );
+            pageHtml = getSQLPagesList( request );
+        }
+        else
+        {
+            int nPageId = SQLPageHome.findByName( strName );
+            //SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
+            sbHtml = SQLPageService.getStringSQLFragment( nPageId, request );
+
+            if ( sbHtml == null )
+            {
+                pageHtml = getSQLPagesList( request );
+            }
+            else
+            {
+                pageHtml = sbHtml.toString(  );
+            }
         }
 
-       
-        if ( _sqlpage == null )
-        {
-            addError( MESSAGE_PAGE_NOT_FOUND, getLocale(  ) );
+        return pageHtml;
+    }
 
-            return redirectView( request, VIEW_MANAGE_SQLPAGES );
-        }
+    /**
+     * Returns the XPage that displays all SQLPages
+     * @param request The HTTP request
+     * @return The XPage
+     */
+    private String getSQLPagesList( HttpServletRequest request )
+    {
+        List<SQLPage> listPages = SQLPageHome.getSQLPagesList(  );
 
-        if ( !SQLPageService.isAuthorized( _sqlpage, getUser(  ) ) )
-        {
-            addError( MESSAGE_NOT_AUTHORIZED, getLocale(  ) );
-
-            return redirectView( request, VIEW_MANAGE_SQLPAGES );
-        }
-        
-       //nId
-      
-        StringBuilder sbHtml = SQLPageService.getStringSQLFragment( nId, request );
         Map<String, Object> model = getModel(  );
-        model.put( MARK_SQLFRAGMENTS_PAGE, sbHtml.toString(  ) );
-      //  model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
+        model.put( MARK_PAGES_LIST, listPages );
 
         return getPage( PROPERTY_PAGE_TITLE_SHOW_SQLPAGE, TEMPLATE_SHOW_SQLPAGE, model );
-        
-        
     }
-    
-    
+
     /**
      * Process the change form of a sqlpage
      *
@@ -313,9 +302,6 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @Action( ACTION_MODIFY_SQLPAGE )
     public String doModifySQLPage( HttpServletRequest request )
     {
-        
-         
-        
         populate( _sqlpage, request );
 
         // Check constraints

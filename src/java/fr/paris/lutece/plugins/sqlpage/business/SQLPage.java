@@ -34,9 +34,10 @@
 package fr.paris.lutece.plugins.sqlpage.business;
 
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
-import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -45,10 +46,10 @@ import javax.validation.constraints.Size;
 /**
  * This is the business class for the object SQLPage
  */
-public class SQLPage implements AdminWorkgroupResource , Serializable
+public class SQLPage implements AdminWorkgroupResource, Serializable
 {
     private static final long serialVersionUID = 1L;
-    
+
     // Variables declarations 
     private int _nId;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.ParamName.notEmpty}" )

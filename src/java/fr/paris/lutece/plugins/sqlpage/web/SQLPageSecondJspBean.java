@@ -36,11 +36,8 @@ package fr.paris.lutece.plugins.sqlpage.web;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
 import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
-
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
-
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-
 
 import java.util.List;
 import java.util.Map;
@@ -66,22 +63,20 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES = "sqlpage.manage_sqlpages.pageTitle";
-     private static final String PROPERTY_PAGE_TITLE_SHOW_SQLPAGE = "sqlpage.show_sqlpage.pageTitle";
+    private static final String PROPERTY_PAGE_TITLE_SHOW_SQLPAGE = "sqlpage.show_sqlpage.pageTitle";
+
     // Markers
     private static final String MARK_SQLPAGE_LIST = "sqlpage_list";
     private static final String MARK_SQLFRAGMENTS_PAGE = "sqlfragementpage";
     private static final String JSP_MANAGE_SQLPAGES = "jsp/admin/plugins/sqlpage/ManageSecondaireSQLPages.jsp";
 
     // Properties
-   private static final String MESSAGE_NOT_AUTHORIZED = "sqlpage.message.notAuthorized";
+    private static final String MESSAGE_NOT_AUTHORIZED = "sqlpage.message.notAuthorized";
     private static final String MESSAGE_PAGE_NOT_FOUND = "sqlpage.message.pageNotFound";
 
     // Views
-    private static final String VIEW_MANAGE_SQLPAGES = "manageSQLPages";   
+    private static final String VIEW_MANAGE_SQLPAGES = "manageSQLPages";
     private static final String VIEW_SHOW_SQLPAGE = "showSQLPage";
-
-
-
     private static final long serialVersionUID = 1L;
 
     // Session variable to store working values
@@ -96,22 +91,15 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
     public String getManageSQLPages( HttpServletRequest request )
     {
         _sqlpage = null;
-        
-     
 
-        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser() );
+        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser(  ) );
         Map<String, Object> model = getPaginatedListModel( request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
-       
-       
+
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES, TEMPLATE_MANAGE_SQLPAGES, model );
     }
 
-
-   
-    
-    
     /**
-     * Returns the SQLPage 
+     * Returns the SQLPage
      *
      * @param request The Http request
      * @return The HTML to test SQLPage
@@ -119,7 +107,6 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
     @View( VIEW_SHOW_SQLPAGE )
     public String getShowSQLPage( HttpServletRequest request )
     {
-    	
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
 
         if ( ( _sqlpage == null ) || ( _sqlpage.getId(  ) != nId ) )
@@ -127,7 +114,6 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
             _sqlpage = SQLPageHome.findByPrimaryKey( nId );
         }
 
-       
         if ( _sqlpage == null )
         {
             addError( MESSAGE_PAGE_NOT_FOUND, getLocale(  ) );
@@ -141,18 +127,13 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
 
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
-        
-       //nId     
+
+        //nId     
         StringBuilder sbHtml = SQLPageService.getStringSQLFragment( nId, request );
         Map<String, Object> model = getModel(  );
         model.put( MARK_SQLFRAGMENTS_PAGE, sbHtml.toString(  ) );
-      //  model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
 
+        //  model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
         return getPage( PROPERTY_PAGE_TITLE_SHOW_SQLPAGE, TEMPLATE_SHOW_SQLPAGE, model );
-        
-        
     }
-    
-    
-   
 }
