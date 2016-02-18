@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><plug-in>
     <name>sqlpage</name>
     <class>fr.paris.lutece.plugins.sqlpage.service.SQLPagePlugin</class>
-    <version>1.0.1</version>
+    <version>1.0.1-SNAPSHOT</version>
     <documentation/>
     <installation/>
     <changes/>
@@ -42,14 +42,7 @@
             <feature-icon-url/>
       </admin-feature>
     </admin-features>   
-    
    
-    
-    
-    
-    
-    
-
     <!-- XPages parameters -->
     <applications>
         <application>
