@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,18 +56,15 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
 
     // templates
     private static final String TEMPLATE_MANAGE_SQLPAGES = "/admin/plugins/sqlpage/manage_secondaire_sqlpages.html";
-    private static final String TEMPLATE_SHOW_SQLPAGE = "/admin/plugins/sqlpage/show_sqlpage.html";
 
     // Parameters
     private static final String PARAMETER_ID_SQLPAGE = "id";
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES = "sqlpage.manage_sqlpages.pageTitle";
-    private static final String PROPERTY_PAGE_TITLE_SHOW_SQLPAGE = "sqlpage.show_sqlpage.pageTitle";
 
     // Markers
     private static final String MARK_SQLPAGE_LIST = "sqlpage_list";
-    private static final String MARK_SQLFRAGMENTS_PAGE = "sqlfragementpage";
     private static final String JSP_MANAGE_SQLPAGES = "jsp/admin/plugins/sqlpage/ManageSecondaireSQLPages.jsp";
 
     // Properties
@@ -127,13 +124,9 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
 
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
-
-        //nId     
+     
         StringBuilder sbHtml = SQLPageService.getStringSQLFragment( nId, request );
-        Map<String, Object> model = getModel(  );
-        model.put( MARK_SQLFRAGMENTS_PAGE, sbHtml.toString(  ) );
-
-        //  model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
-        return getPage( PROPERTY_PAGE_TITLE_SHOW_SQLPAGE, TEMPLATE_SHOW_SQLPAGE, model );
+        
+        return sbHtml.toString( );
     }
 }
