@@ -36,17 +36,18 @@ package fr.paris.lutece.plugins.sqlpage.business.query;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Resulset Row
  */
 public class ResultSetRow
 {
-    private List<String> _listColumns = new ArrayList<String>(  );
+    private List<String> _listColumns = new ArrayList<String>( );
 
     /**
      * Add a column
-     * @param strColumnValue The column value
+     * 
+     * @param strColumnValue
+     *            The column value
      */
     public void addCol( String strColumnValue )
     {
@@ -55,9 +56,10 @@ public class ResultSetRow
 
     /**
      * Gets all the columns
+     * 
      * @return The columns
      */
-    public List<String> getCols(  )
+    public List<String> getCols( )
     {
         return _listColumns;
     }

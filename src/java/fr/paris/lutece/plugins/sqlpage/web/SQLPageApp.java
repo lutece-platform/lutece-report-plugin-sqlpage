@@ -46,7 +46,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides a simple implementation of an XPage
  */
@@ -61,7 +60,9 @@ public class SQLPageApp extends MVCApplication
 
     /**
      * Returns the content of the page sqlpage.
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The view
      */
     @View( value = VIEW_HOME, defaultView = true )
@@ -89,16 +90,18 @@ public class SQLPageApp extends MVCApplication
 
     /**
      * Returns the XPage that displays all SQLPages
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The XPage
      */
     private XPage getSQLPagesList( HttpServletRequest request )
     {
-        List<SQLPage> listPages = SQLPageHome.getSQLPagesList(  );
+        List<SQLPage> listPages = SQLPageHome.getSQLPagesList( );
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_PAGES_LIST, listPages );
 
-        return getXPage( TEMPLATE_XPAGE, request.getLocale(  ), model );
+        return getXPage( TEMPLATE_XPAGE, request.getLocale( ), model );
     }
 }

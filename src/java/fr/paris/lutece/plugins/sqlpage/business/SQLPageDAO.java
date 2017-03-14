@@ -39,7 +39,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class provides Data Access methods for SQLPage objects
  */
@@ -57,22 +56,24 @@ public final class SQLPageDAO implements ISQLPageDAO
 
     /**
      * Generates a new primary key
-     * @param plugin The Plugin
+     * 
+     * @param plugin
+     *            The Plugin
      * @return The new primary key
      */
     public int newPrimaryKey( Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey = 1;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nKey = daoUtil.getInt( 1 ) + 1;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -87,14 +88,14 @@ public final class SQLPageDAO implements ISQLPageDAO
 
         sQLPage.setId( newPrimaryKey( plugin ) );
 
-        daoUtil.setInt( 1, sQLPage.getId(  ) );
-        daoUtil.setString( 2, sQLPage.getTitle(  ) );
-        daoUtil.setString( 3, sQLPage.getDescription(  ) );
-        daoUtil.setString( 4, sQLPage.getWorkgroup(  ) );
-        daoUtil.setString( 5, sQLPage.getParamName(  ) );
+        daoUtil.setInt( 1, sQLPage.getId( ) );
+        daoUtil.setString( 2, sQLPage.getTitle( ) );
+        daoUtil.setString( 3, sQLPage.getDescription( ) );
+        daoUtil.setString( 4, sQLPage.getWorkgroup( ) );
+        daoUtil.setString( 5, sQLPage.getParamName( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -105,13 +106,13 @@ public final class SQLPageDAO implements ISQLPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
         daoUtil.setInt( 1, nKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         SQLPage sQLPage = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            sQLPage = new SQLPage(  );
+            sQLPage = new SQLPage( );
             sQLPage.setId( daoUtil.getInt( 1 ) );
             sQLPage.setTitle( daoUtil.getString( 2 ) );
             sQLPage.setDescription( daoUtil.getString( 3 ) );
@@ -119,7 +120,7 @@ public final class SQLPageDAO implements ISQLPageDAO
             sQLPage.setParamName( daoUtil.getString( 5 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return sQLPage;
     }
@@ -132,8 +133,8 @@ public final class SQLPageDAO implements ISQLPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
         daoUtil.setInt( 1, nKey );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -144,15 +145,15 @@ public final class SQLPageDAO implements ISQLPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
 
-        daoUtil.setInt( 1, sQLPage.getId(  ) );
-        daoUtil.setString( 2, sQLPage.getTitle(  ) );
-        daoUtil.setString( 3, sQLPage.getDescription(  ) );
-        daoUtil.setString( 4, sQLPage.getWorkgroup(  ) );
-        daoUtil.setString( 5, sQLPage.getParamName(  ) );
-        daoUtil.setInt( 6, sQLPage.getId(  ) );
+        daoUtil.setInt( 1, sQLPage.getId( ) );
+        daoUtil.setString( 2, sQLPage.getTitle( ) );
+        daoUtil.setString( 3, sQLPage.getDescription( ) );
+        daoUtil.setString( 4, sQLPage.getWorkgroup( ) );
+        daoUtil.setString( 5, sQLPage.getParamName( ) );
+        daoUtil.setInt( 6, sQLPage.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -161,13 +162,13 @@ public final class SQLPageDAO implements ISQLPageDAO
     @Override
     public List<SQLPage> selectSQLPagesList( Plugin plugin )
     {
-        List<SQLPage> sQLPageList = new ArrayList<SQLPage>(  );
+        List<SQLPage> sQLPageList = new ArrayList<SQLPage>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            SQLPage sQLPage = new SQLPage(  );
+            SQLPage sQLPage = new SQLPage( );
 
             sQLPage.setId( daoUtil.getInt( 1 ) );
             sQLPage.setTitle( daoUtil.getString( 2 ) );
@@ -178,7 +179,7 @@ public final class SQLPageDAO implements ISQLPageDAO
             sQLPageList.add( sQLPage );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return sQLPageList;
     }
@@ -189,16 +190,16 @@ public final class SQLPageDAO implements ISQLPageDAO
     @Override
     public List<Integer> selectIdSQLPagesList( Plugin plugin )
     {
-        List<Integer> sQLPageList = new ArrayList<Integer>(  );
+        List<Integer> sQLPageList = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_ID, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             sQLPageList.add( daoUtil.getInt( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return sQLPageList;
     }
@@ -211,16 +212,16 @@ public final class SQLPageDAO implements ISQLPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_NAME, plugin );
         daoUtil.setString( 1, strName );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey = -1;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nKey = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }

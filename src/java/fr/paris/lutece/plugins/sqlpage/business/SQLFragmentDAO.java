@@ -39,7 +39,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class provides Data Access methods for SQLFragment objects
  */
@@ -56,22 +55,24 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
 
     /**
      * Generates a new primary key
-     * @param plugin The Plugin
+     * 
+     * @param plugin
+     *            The Plugin
      * @return The new primary key
      */
     public int newPrimaryKey( Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey = 1;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nKey = daoUtil.getInt( 1 ) + 1;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -86,17 +87,17 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
 
         sQLFragment.setId( newPrimaryKey( plugin ) );
 
-        daoUtil.setInt( 1, sQLFragment.getId(  ) );
-        daoUtil.setInt( 2, sQLFragment.getIdPage(  ) );
-        daoUtil.setString( 3, sQLFragment.getTemplate(  ) );
-        daoUtil.setString( 4, sQLFragment.getSqlQuery(  ) );
-        daoUtil.setString( 5, sQLFragment.getPool(  ) );
-        daoUtil.setString( 6, sQLFragment.getTitle(  ) );
-        daoUtil.setInt( 7, sQLFragment.getIdOrder(  ) );
-        daoUtil.setString( 8, sQLFragment.getRole(  ) );
+        daoUtil.setInt( 1, sQLFragment.getId( ) );
+        daoUtil.setInt( 2, sQLFragment.getIdPage( ) );
+        daoUtil.setString( 3, sQLFragment.getTemplate( ) );
+        daoUtil.setString( 4, sQLFragment.getSqlQuery( ) );
+        daoUtil.setString( 5, sQLFragment.getPool( ) );
+        daoUtil.setString( 6, sQLFragment.getTitle( ) );
+        daoUtil.setInt( 7, sQLFragment.getIdOrder( ) );
+        daoUtil.setString( 8, sQLFragment.getRole( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -107,13 +108,13 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
         daoUtil.setInt( 1, nKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         SQLFragment sQLFragment = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            sQLFragment = new SQLFragment(  );
+            sQLFragment = new SQLFragment( );
             sQLFragment.setId( daoUtil.getInt( 1 ) );
             sQLFragment.setIdPage( daoUtil.getInt( 2 ) );
             sQLFragment.setTemplate( daoUtil.getString( 3 ) );
@@ -124,7 +125,7 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
             sQLFragment.setRole( daoUtil.getString( 8 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return sQLFragment;
     }
@@ -137,8 +138,8 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
         daoUtil.setInt( 1, nKey );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -149,18 +150,18 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
 
-        daoUtil.setInt( 1, sQLFragment.getId(  ) );
-        daoUtil.setInt( 2, sQLFragment.getIdPage(  ) );
-        daoUtil.setString( 3, sQLFragment.getTemplate(  ) );
-        daoUtil.setString( 4, sQLFragment.getSqlQuery(  ) );
-        daoUtil.setString( 5, sQLFragment.getPool(  ) );
-        daoUtil.setString( 6, sQLFragment.getTitle(  ) );
-        daoUtil.setInt( 7, sQLFragment.getIdOrder(  ) );
-        daoUtil.setString( 8, sQLFragment.getRole(  ) );
-        daoUtil.setInt( 9, sQLFragment.getId(  ) );
+        daoUtil.setInt( 1, sQLFragment.getId( ) );
+        daoUtil.setInt( 2, sQLFragment.getIdPage( ) );
+        daoUtil.setString( 3, sQLFragment.getTemplate( ) );
+        daoUtil.setString( 4, sQLFragment.getSqlQuery( ) );
+        daoUtil.setString( 5, sQLFragment.getPool( ) );
+        daoUtil.setString( 6, sQLFragment.getTitle( ) );
+        daoUtil.setInt( 7, sQLFragment.getIdOrder( ) );
+        daoUtil.setString( 8, sQLFragment.getRole( ) );
+        daoUtil.setInt( 9, sQLFragment.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -169,14 +170,14 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
     @Override
     public List<SQLFragment> selectSQLFragmentsList( int nIdPage, Plugin plugin )
     {
-        List<SQLFragment> sQLFragmentList = new ArrayList<SQLFragment>(  );
+        List<SQLFragment> sQLFragmentList = new ArrayList<SQLFragment>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL, plugin );
         daoUtil.setInt( 1, nIdPage );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            SQLFragment sQLFragment = new SQLFragment(  );
+            SQLFragment sQLFragment = new SQLFragment( );
 
             sQLFragment.setId( daoUtil.getInt( 1 ) );
             sQLFragment.setIdPage( daoUtil.getInt( 2 ) );
@@ -190,7 +191,7 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
             sQLFragmentList.add( sQLFragment );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return sQLFragmentList;
     }
@@ -202,12 +203,12 @@ public final class SQLFragmentDAO implements ISQLFragmentDAO
     public void swapFragmentsOrder( SQLFragment fragment1, SQLFragment fragment2, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_REORDER_FRAGMENTS, plugin );
-        daoUtil.setInt( 1, fragment2.getIdOrder(  ) );
-        daoUtil.setInt( 2, fragment1.getId(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.setInt( 1, fragment1.getIdOrder(  ) );
-        daoUtil.setInt( 2, fragment2.getId(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.setInt( 1, fragment2.getIdOrder( ) );
+        daoUtil.setInt( 2, fragment1.getId( ) );
+        daoUtil.executeUpdate( );
+        daoUtil.setInt( 1, fragment1.getIdOrder( ) );
+        daoUtil.setInt( 2, fragment2.getId( ) );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

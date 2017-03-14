@@ -59,7 +59,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * SQLPage Service
  */
@@ -68,45 +67,45 @@ public final class SQLPageService
     private static final String MARK_ROWS = "rows";
 
     /** Private constructor */
-    private SQLPageService(  )
+    private SQLPageService( )
     {
     }
 
     /**
      * Build the Fragment Page
-     * @param nPageId The id SQLPage
-     * @param request The Request
+     * 
+     * @param nPageId
+     *            The id SQLPage
+     * @param request
+     *            The Request
      * @return The StringBuilder
      */
     public static StringBuilder getStringSQLFragment( int nPageId, HttpServletRequest request )
     {
         List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
-        StringBuilder sbHtml = new StringBuilder(  );
+        StringBuilder sbHtml = new StringBuilder( );
 
         for ( SQLFragment fragment : listFragments )
         {
             try
             {
-                if ( isVisible( request, fragment.getRole(  ) ) )
+                if ( isVisible( request, fragment.getRole( ) ) )
                 {
-                    Map<String, Object> model = new HashMap<String, Object>(  );
-                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
-                            fragment.getPool(  ), request.getParameterMap(  ) );
+                    Map<String, Object> model = new HashMap<String, Object>( );
+                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery( ), fragment.getPool( ), request.getParameterMap( ) );
                     model.put( MARK_ROWS, listResults );
 
-                    String strTemplate = fragment.getTemplate(  );
-                    sbHtml.append( TemplateService.instance(  )
-                                                  .process( strTemplate,
-                            request.getLocale(  ), model ) );
+                    String strTemplate = fragment.getTemplate( );
+                    sbHtml.append( TemplateService.instance( ).process( strTemplate, request.getLocale( ), model ) );
                 }
             }
-            catch ( TemplateException ex )
+            catch( TemplateException ex )
             {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
+                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage( ), ex );
             }
-            catch ( IOException ex )
+            catch( IOException ex )
             {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
+                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage( ), ex );
             }
         }
 
@@ -115,13 +114,16 @@ public final class SQLPageService
 
     /**
      * Build the SQL Page
-     * @param strName The page name
-     * @param request The HTTP request
+     * 
+     * @param strName
+     *            The page name
+     * @param request
+     *            The HTTP request
      * @return The XPAGE
      */
     public static XPage getSQLPage( String strName, HttpServletRequest request )
     {
-        XPage xpage = new XPage(  );
+        XPage xpage = new XPage( );
         int nPageId = SQLPageHome.findByName( strName );
         SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
 
@@ -131,9 +133,9 @@ public final class SQLPageService
         }
 
         StringBuilder sbHtml = SQLPageService.getStringSQLFragment( nPageId, request );
-        xpage.setContent( sbHtml.toString(  ) );
-        xpage.setPathLabel( page.getTitle(  ) );
-        xpage.setTitle( page.getTitle(  ) );
+        xpage.setContent( sbHtml.toString( ) );
+        xpage.setPathLabel( page.getTitle( ) );
+        xpage.setTitle( page.getTitle( ) );
 
         return xpage;
     }
@@ -141,37 +143,44 @@ public final class SQLPageService
     /**
      * Validate a template content
      *
-     * @param strTemplate The template content
-     * @param locale The Locale
-     * @throws TemplateException if the template is not valid
-     * @throws java.io.IOException if the template is not valid
-     * @throws freemarker.core.ParseException if the template is not valid
+     * @param strTemplate
+     *            The template content
+     * @param locale
+     *            The Locale
+     * @throws TemplateException
+     *             if the template is not valid
+     * @throws java.io.IOException
+     *             if the template is not valid
+     * @throws freemarker.core.ParseException
+     *             if the template is not valid
      */
-    public static void validateTemplate( String strTemplate, Locale locale )
-        throws TemplateException, IOException, ParseException
+    public static void validateTemplate( String strTemplate, Locale locale ) throws TemplateException, IOException, ParseException
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        List<ResultSetRow> listResults = SQLService.getMokeResults(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        List<ResultSetRow> listResults = SQLService.getMokeResults( );
         model.put( MARK_ROWS, listResults );
-        TemplateService.instance(  ).process( strTemplate, locale, model );
+        TemplateService.instance( ).process( strTemplate, locale, model );
     }
 
     /**
      * Checks if the page is visible for the current user
-     * @param request The HTTP request
-     * @param strRole The role
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strRole
+     *            The role
      * @return true if the page could be shown to the user
      */
     private static boolean isVisible( HttpServletRequest request, String strRole )
     {
-        if ( ( strRole == null ) || strRole.trim(  ).equals( "" ) )
+        if ( ( strRole == null ) || strRole.trim( ).equals( "" ) )
         {
             return true;
         }
 
-        if ( !strRole.equals( Page.ROLE_NONE ) && SecurityService.isAuthenticationEnable(  ) )
+        if ( !strRole.equals( Page.ROLE_NONE ) && SecurityService.isAuthenticationEnable( ) )
         {
-            return SecurityService.getInstance(  ).isUserInRole( request, strRole );
+            return SecurityService.getInstance( ).isUserInRole( request, strRole );
         }
 
         return true;
@@ -179,8 +188,11 @@ public final class SQLPageService
 
     /**
      * Checks if the page has an authorized workgroup for a given user
-     * @param page The page
-     * @param user The user
+     * 
+     * @param page
+     *            The page
+     * @param user
+     *            The user
      * @return True if the user can access to the page
      */
     public static boolean isAuthorized( SQLPage page, AdminUser user )
@@ -190,14 +202,16 @@ public final class SQLPageService
 
     /**
      * Filter the list of pages according user authorization
-     * @param user The page
+     * 
+     * @param user
+     *            The page
      * @return List of authorized pages
      */
     public static List<SQLPage> getAuthorizedPages( AdminUser user )
     {
-        List<SQLPage> listPages = new ArrayList<SQLPage>(  );
+        List<SQLPage> listPages = new ArrayList<SQLPage>( );
 
-        for ( SQLPage page : SQLPageHome.getSQLPagesList(  ) )
+        for ( SQLPage page : SQLPageHome.getSQLPagesList( ) )
         {
             if ( isAuthorized( page, user ) )
             {
@@ -210,12 +224,13 @@ public final class SQLPageService
 
     /**
      *
-     * @param strName The page name
+     * @param strName
+     *            The page name
      * @return String
      */
     public static String getSQLTemplate( String strName )
     {
-        Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
+        Map<String, String [ ]> mapParameters = new HashMap<String, String [ ]>( );
         int nPageId = SQLPageHome.findByName( strName );
         SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
 
@@ -225,32 +240,29 @@ public final class SQLPageService
         }
 
         List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
-        StringBuilder sbHtml = new StringBuilder(  );
+        StringBuilder sbHtml = new StringBuilder( );
 
         for ( SQLFragment fragment : listFragments )
         {
             try
             {
-                Map<String, Object> model = new HashMap<String, Object>(  );
-                List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery(  ),
-                        fragment.getPool(  ), mapParameters );
+                Map<String, Object> model = new HashMap<String, Object>( );
+                List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery( ), fragment.getPool( ), mapParameters );
                 model.put( MARK_ROWS, listResults );
 
-                String strTemplate = fragment.getTemplate(  );
-                sbHtml.append( TemplateService.instance(  )
-                                              .process( strTemplate, new Locale( "fr", "FR" ),
-                        model ) );
+                String strTemplate = fragment.getTemplate( );
+                sbHtml.append( TemplateService.instance( ).process( strTemplate, new Locale( "fr", "FR" ), model ) );
             }
-            catch ( TemplateException ex )
+            catch( TemplateException ex )
             {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
+                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage( ), ex );
             }
-            catch ( IOException ex )
+            catch( IOException ex )
             {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage(  ), ex );
+                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage( ), ex );
             }
         }
 
-        return sbHtml.toString(  );
+        return sbHtml.toString( );
     }
 }

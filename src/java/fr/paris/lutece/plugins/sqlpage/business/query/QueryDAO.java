@@ -46,7 +46,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Query DAO
  */
@@ -54,37 +53,40 @@ public class QueryDAO
 {
     /**
      * Returns query results
-     * @param strSQL The query
-     * @param connectionService the connection service
+     * 
+     * @param strSQL
+     *            The query
+     * @param connectionService
+     *            the connection service
      * @return Query results
-     * @throws SQLQueryException If an error occurs
+     * @throws SQLQueryException
+     *             If an error occurs
      */
-    public List<ResultSetRow> getQueryResults( String strSQL, PluginConnectionService connectionService )
-        throws SQLQueryException
+    public List<ResultSetRow> getQueryResults( String strSQL, PluginConnectionService connectionService ) throws SQLQueryException
     {
         Connection connection = null;
         Statement statement = null;
 
-        List<ResultSetRow> listRow = new ArrayList<ResultSetRow>(  );
+        List<ResultSetRow> listRow = new ArrayList<ResultSetRow>( );
 
         try
         {
-            connection = connectionService.getConnection(  );
+            connection = connectionService.getConnection( );
             statement = connection.createStatement( ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY );
 
             ResultSet resultSet = statement.executeQuery( strSQL );
-            ResultSetMetaData rsmd = resultSet.getMetaData(  );
+            ResultSetMetaData rsmd = resultSet.getMetaData( );
 
-            while ( resultSet.next(  ) )
+            while ( resultSet.next( ) )
             {
                 String strValue;
-                ResultSetRow row = new ResultSetRow(  );
+                ResultSetRow row = new ResultSetRow( );
 
-                for ( int i = 1; i <= rsmd.getColumnCount(  ); i++ )
+                for ( int i = 1; i <= rsmd.getColumnCount( ); i++ )
                 {
                     if ( resultSet.getObject( rsmd.getColumnName( i ) ) != null )
                     {
-                        strValue = resultSet.getObject( rsmd.getColumnName( i ) ).toString(  );
+                        strValue = resultSet.getObject( rsmd.getColumnName( i ) ).toString( );
                     }
                     else
                     {
@@ -97,13 +99,13 @@ public class QueryDAO
                 listRow.add( row );
             }
 
-            statement.close(  );
+            statement.close( );
             statement = null;
         }
-        catch ( SQLException ex )
+        catch( SQLException ex )
         {
-            AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage(  ), ex );
-            throw new SQLQueryException( ex.getMessage(  ), ex );
+            AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage( ), ex );
+            throw new SQLQueryException( ex.getMessage( ), ex );
         }
         finally
         {
@@ -111,12 +113,12 @@ public class QueryDAO
             {
                 if ( statement != null )
                 {
-                    statement.close(  );
+                    statement.close( );
                 }
             }
-            catch ( SQLException e )
+            catch( SQLException e )
             {
-                throw new AppException( "SQL Error executing command : " + e.toString(  ) );
+                throw new AppException( "SQL Error executing command : " + e.toString( ) );
             }
 
             connectionService.freeConnection( connection );

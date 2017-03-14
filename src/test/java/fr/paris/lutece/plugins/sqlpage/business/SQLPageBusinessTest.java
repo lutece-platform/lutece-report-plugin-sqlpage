@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.sqlpage.business;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 public class SQLPageBusinessTest extends LuteceTestCase
 {
     private final static String TITLE1 = "Title1";
@@ -45,10 +44,10 @@ public class SQLPageBusinessTest extends LuteceTestCase
     private final static String WORKGROUP1 = "Workgroup1";
     private final static String WORKGROUP2 = "Workgroup2";
 
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         // Initialize an object
-        SQLPage sQLPage = new SQLPage(  );
+        SQLPage sQLPage = new SQLPage( );
         sQLPage.setTitle( TITLE1 );
         sQLPage.setDescription( DESCRIPTION1 );
         sQLPage.setWorkgroup( WORKGROUP1 );
@@ -56,27 +55,27 @@ public class SQLPageBusinessTest extends LuteceTestCase
         // Create test
         SQLPageHome.create( sQLPage );
 
-        SQLPage sQLPageStored = SQLPageHome.findByPrimaryKey( sQLPage.getId(  ) );
-        assertEquals( sQLPageStored.getTitle(  ), sQLPage.getTitle(  ) );
-        assertEquals( sQLPageStored.getDescription(  ), sQLPage.getDescription(  ) );
-        assertEquals( sQLPageStored.getWorkgroup(  ), sQLPage.getWorkgroup(  ) );
+        SQLPage sQLPageStored = SQLPageHome.findByPrimaryKey( sQLPage.getId( ) );
+        assertEquals( sQLPageStored.getTitle( ), sQLPage.getTitle( ) );
+        assertEquals( sQLPageStored.getDescription( ), sQLPage.getDescription( ) );
+        assertEquals( sQLPageStored.getWorkgroup( ), sQLPage.getWorkgroup( ) );
 
         // Update test
         sQLPage.setTitle( TITLE2 );
         sQLPage.setDescription( DESCRIPTION2 );
         sQLPage.setWorkgroup( WORKGROUP2 );
         SQLPageHome.update( sQLPage );
-        sQLPageStored = SQLPageHome.findByPrimaryKey( sQLPage.getId(  ) );
-        assertEquals( sQLPageStored.getTitle(  ), sQLPage.getTitle(  ) );
-        assertEquals( sQLPageStored.getDescription(  ), sQLPage.getDescription(  ) );
-        assertEquals( sQLPageStored.getWorkgroup(  ), sQLPage.getWorkgroup(  ) );
+        sQLPageStored = SQLPageHome.findByPrimaryKey( sQLPage.getId( ) );
+        assertEquals( sQLPageStored.getTitle( ), sQLPage.getTitle( ) );
+        assertEquals( sQLPageStored.getDescription( ), sQLPage.getDescription( ) );
+        assertEquals( sQLPageStored.getWorkgroup( ), sQLPage.getWorkgroup( ) );
 
         // List test
-        SQLPageHome.getSQLPagesList(  );
+        SQLPageHome.getSQLPagesList( );
 
         // Delete test
-        SQLPageHome.remove( sQLPage.getId(  ) );
-        sQLPageStored = SQLPageHome.findByPrimaryKey( sQLPage.getId(  ) );
+        SQLPageHome.remove( sQLPage.getId( ) );
+        sQLPageStored = SQLPageHome.findByPrimaryKey( sQLPage.getId( ) );
         assertNull( sQLPageStored );
     }
 }

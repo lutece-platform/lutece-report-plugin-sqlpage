@@ -50,14 +50,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage SQLPage features ( manage, create, modify, remove )
  */
 @Controller( controllerJsp = "ManageSQLPages.jsp", controllerPath = "jsp/admin/plugins/sqlpage/", right = "SQLPAGE_MANAGEMENT" )
 public class SQLPageJspBean extends ManageSQLPageJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
 
     // templates
@@ -113,7 +112,9 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
 
     /**
      * Build the Manage View
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     @View( value = VIEW_MANAGE_SQLPAGES, defaultView = true )
@@ -121,7 +122,7 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     {
         _sqlpage = null;
 
-        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser(  ) );
+        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser( ) );
         Map<String, Object> model = getPaginatedListModel( request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES, TEMPLATE_MANAGE_SQLPAGES, model );
@@ -130,17 +131,18 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     /**
      * Returns the form to create a sqlpage
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code of the sqlpage form
      */
     @View( VIEW_CREATE_SQLPAGE )
     public String getCreateSQLPage( HttpServletRequest request )
     {
-        _sqlpage = ( _sqlpage != null ) ? _sqlpage : new SQLPage(  );
+        _sqlpage = ( _sqlpage != null ) ? _sqlpage : new SQLPage( );
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_SQLPAGE, _sqlpage );
-        model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
+        model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
 
         return getPage( PROPERTY_PAGE_TITLE_CREATE_SQLPAGE, TEMPLATE_CREATE_SQLPAGE, model );
     }
@@ -148,7 +150,8 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     /**
      * Process the data capture form of a new sqlpage
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_CREATE_SQLPAGE )
@@ -163,16 +166,16 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
         }
 
         SQLPageHome.create( _sqlpage );
-        addInfo( INFO_SQLPAGE_CREATED, getLocale(  ) );
+        addInfo( INFO_SQLPAGE_CREATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_SQLPAGES );
     }
 
     /**
-     * Manages the removal form of a sqlpage whose identifier is in the http
-     * request
+     * Manages the removal form of a sqlpage whose identifier is in the http request
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code to confirm
      */
     @Action( ACTION_CONFIRM_REMOVE_SQLPAGE )
@@ -182,8 +185,7 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_SQLPAGE ) );
         url.addParameter( PARAMETER_ID_SQLPAGE, nId );
 
-        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_SQLPAGE,
-                url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_SQLPAGE, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
 
         return redirect( request, strMessageUrl );
     }
@@ -191,7 +193,8 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     /**
      * Handles the removal form of a sqlpage
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the jsp URL to display the form to manage sqlpages
      */
     @Action( ACTION_REMOVE_SQLPAGE )
@@ -199,7 +202,7 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
         SQLPageHome.remove( nId );
-        addInfo( INFO_SQLPAGE_REMOVED, getLocale(  ) );
+        addInfo( INFO_SQLPAGE_REMOVED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_SQLPAGES );
     }
@@ -207,7 +210,8 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     /**
      * Returns the form to update info about a sqlpage
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML form to update info
      */
     @View( VIEW_MODIFY_SQLPAGE )
@@ -215,28 +219,28 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
 
-        if ( ( _sqlpage == null ) || ( _sqlpage.getId(  ) != nId ) )
+        if ( ( _sqlpage == null ) || ( _sqlpage.getId( ) != nId ) )
         {
             _sqlpage = SQLPageHome.findByPrimaryKey( nId );
         }
 
         if ( _sqlpage == null )
         {
-            addError( MESSAGE_PAGE_NOT_FOUND, getLocale(  ) );
+            addError( MESSAGE_PAGE_NOT_FOUND, getLocale( ) );
 
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
 
-        if ( !SQLPageService.isAuthorized( _sqlpage, getUser(  ) ) )
+        if ( !SQLPageService.isAuthorized( _sqlpage, getUser( ) ) )
         {
-            addError( MESSAGE_NOT_AUTHORIZED, getLocale(  ) );
+            addError( MESSAGE_NOT_AUTHORIZED, getLocale( ) );
 
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_SQLPAGE, _sqlpage );
-        model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) ) );
+        model.put( MARK_WORKGROUP_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
 
         return getPage( PROPERTY_PAGE_TITLE_MODIFY_SQLPAGE, TEMPLATE_MODIFY_SQLPAGE, model );
     }
@@ -244,7 +248,8 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     /**
      * Returns the SQLPage
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML to test SQLPage
      */
     @View( VIEW_SHOW_SQLPAGE )
@@ -262,7 +267,7 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
         else
         {
             int nPageId = SQLPageHome.findByName( strName );
-            //SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
+            // SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
             sbHtml = SQLPageService.getStringSQLFragment( nPageId, request );
 
             if ( sbHtml == null )
@@ -271,7 +276,7 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
             }
             else
             {
-                pageHtml = sbHtml.toString(  );
+                pageHtml = sbHtml.toString( );
             }
         }
 
@@ -280,14 +285,16 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
 
     /**
      * Returns the XPage that displays all SQLPages
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The XPage
      */
     private String getSQLPagesList( HttpServletRequest request )
     {
-        List<SQLPage> listPages = SQLPageHome.getSQLPagesList(  );
+        List<SQLPage> listPages = SQLPageHome.getSQLPagesList( );
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_PAGES_LIST, listPages );
 
         return getPage( PROPERTY_PAGE_TITLE_SHOW_SQLPAGE, TEMPLATE_SHOW_SQLPAGE, model );
@@ -296,7 +303,8 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     /**
      * Process the change form of a sqlpage
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_SQLPAGE )
@@ -307,18 +315,18 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
         // Check constraints
         if ( !validateBean( _sqlpage, VALIDATION_ATTRIBUTES_PREFIX ) )
         {
-            return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId(  ) );
+            return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId( ) );
         }
 
-        if ( !SQLPageService.isAuthorized( _sqlpage, getUser(  ) ) )
+        if ( !SQLPageService.isAuthorized( _sqlpage, getUser( ) ) )
         {
-            addError( MESSAGE_NOT_AUTHORIZED, getLocale(  ) );
+            addError( MESSAGE_NOT_AUTHORIZED, getLocale( ) );
 
-            return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId(  ) );
+            return redirect( request, VIEW_MODIFY_SQLPAGE, PARAMETER_ID_SQLPAGE, _sqlpage.getId( ) );
         }
 
         SQLPageHome.update( _sqlpage );
-        addInfo( INFO_SQLPAGE_UPDATED, getLocale(  ) );
+        addInfo( INFO_SQLPAGE_UPDATED, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_SQLPAGES );
     }

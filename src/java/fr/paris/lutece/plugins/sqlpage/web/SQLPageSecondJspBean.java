@@ -44,14 +44,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage SQLPage features ( manage, create, modify, remove )
  */
 @Controller( controllerJsp = "ManageSecondaireSQLPages.jsp", controllerPath = "jsp/admin/plugins/sqlpage/", right = "SQLPAGE_MANAGEMENT_WEBMASTER" )
 public class SQLPageSecondJspBean extends ManageSQLPageJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
 
     // templates
@@ -81,7 +80,9 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
 
     /**
      * Build the Manage View
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     @View( value = VIEW_MANAGE_SQLPAGES, defaultView = true )
@@ -89,7 +90,7 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
     {
         _sqlpage = null;
 
-        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser(  ) );
+        List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( getUser( ) );
         Map<String, Object> model = getPaginatedListModel( request, MARK_SQLPAGE_LIST, listSQLPages, JSP_MANAGE_SQLPAGES );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_SQLPAGES, TEMPLATE_MANAGE_SQLPAGES, model );
@@ -98,7 +99,8 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
     /**
      * Returns the SQLPage
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML to test SQLPage
      */
     @View( VIEW_SHOW_SQLPAGE )
@@ -106,27 +108,27 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
     {
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLPAGE ) );
 
-        if ( ( _sqlpage == null ) || ( _sqlpage.getId(  ) != nId ) )
+        if ( ( _sqlpage == null ) || ( _sqlpage.getId( ) != nId ) )
         {
             _sqlpage = SQLPageHome.findByPrimaryKey( nId );
         }
 
         if ( _sqlpage == null )
         {
-            addError( MESSAGE_PAGE_NOT_FOUND, getLocale(  ) );
+            addError( MESSAGE_PAGE_NOT_FOUND, getLocale( ) );
 
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
 
-        if ( !SQLPageService.isAuthorized( _sqlpage, getUser(  ) ) )
+        if ( !SQLPageService.isAuthorized( _sqlpage, getUser( ) ) )
         {
-            addError( MESSAGE_NOT_AUTHORIZED, getLocale(  ) );
+            addError( MESSAGE_NOT_AUTHORIZED, getLocale( ) );
 
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
-     
+
         StringBuilder sbHtml = SQLPageService.getStringSQLFragment( nId, request );
-        
+
         return sbHtml.toString( );
     }
 }

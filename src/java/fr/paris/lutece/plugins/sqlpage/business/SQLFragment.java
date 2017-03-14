@@ -39,7 +39,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Size;
 
-
 /**
  * This is the business class for the object SQLFragment
  */
@@ -47,7 +46,7 @@ public class SQLFragment implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
     private int _nIdPage;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlfragment.Template.notEmpty}" )
@@ -66,16 +65,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
 
     /**
      * Sets the Id
-     * @param nId The Id
+     * 
+     * @param nId
+     *            The Id
      */
     public void setId( int nId )
     {
@@ -84,16 +86,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the IdPage
+     * 
      * @return The IdPage
      */
-    public int getIdPage(  )
+    public int getIdPage( )
     {
         return _nIdPage;
     }
 
     /**
      * Sets the IdPage
-     * @param nIdPage The IdPage
+     * 
+     * @param nIdPage
+     *            The IdPage
      */
     public void setIdPage( int nIdPage )
     {
@@ -102,16 +107,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the Template
+     * 
      * @return The Template
      */
-    public String getTemplate(  )
+    public String getTemplate( )
     {
         return _strTemplate;
     }
 
     /**
      * Sets the Template
-     * @param strTemplate The Template
+     * 
+     * @param strTemplate
+     *            The Template
      */
     public void setTemplate( String strTemplate )
     {
@@ -120,16 +128,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the SqlQuery
+     * 
      * @return The SqlQuery
      */
-    public String getSqlQuery(  )
+    public String getSqlQuery( )
     {
         return _strSqlQuery;
     }
 
     /**
      * Sets the SqlQuery
-     * @param strSqlQuery The SqlQuery
+     * 
+     * @param strSqlQuery
+     *            The SqlQuery
      */
     public void setSqlQuery( String strSqlQuery )
     {
@@ -138,16 +149,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the Pool
+     * 
      * @return The Pool
      */
-    public String getPool(  )
+    public String getPool( )
     {
         return _strPool;
     }
 
     /**
      * Sets the Pool
-     * @param strPool The Pool
+     * 
+     * @param strPool
+     *            The Pool
      */
     public void setPool( String strPool )
     {
@@ -156,16 +170,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the Title
+     * 
      * @return The Title
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * Sets the Title
-     * @param strTitle The Title
+     * 
+     * @param strTitle
+     *            The Title
      */
     public void setTitle( String strTitle )
     {
@@ -174,16 +191,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the IdOrder
+     * 
      * @return The IdOrder
      */
-    public int getIdOrder(  )
+    public int getIdOrder( )
     {
         return _nIdOrder;
     }
 
     /**
      * Sets the IdOrder
-     * @param nIdOrder The IdOrder
+     * 
+     * @param nIdOrder
+     *            The IdOrder
      */
     public void setIdOrder( int nIdOrder )
     {
@@ -192,16 +212,19 @@ public class SQLFragment implements Serializable
 
     /**
      * Returns the Role
+     * 
      * @return The Role
      */
-    public String getRole(  )
+    public String getRole( )
     {
         return _strRole;
     }
 
     /**
      * Sets the Role
-     * @param strRole The Role
+     * 
+     * @param strRole
+     *            The Role
      */
     public void setRole( String strRole )
     {

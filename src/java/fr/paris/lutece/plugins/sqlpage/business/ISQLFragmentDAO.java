@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  * ISQLFragmentDAO Interface
  */
@@ -45,49 +44,68 @@ public interface ISQLFragmentDAO
 {
     /**
      * Insert a new record in the table.
-     * @param sQLFragment instance of the SQLFragment object to insert
-     * @param plugin the Plugin
+     * 
+     * @param sQLFragment
+     *            instance of the SQLFragment object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( SQLFragment sQLFragment, Plugin plugin );
 
     /**
      * Update the record in the table
-     * @param sQLFragment the reference of the SQLFragment
-     * @param plugin the Plugin
+     * 
+     * @param sQLFragment
+     *            the reference of the SQLFragment
+     * @param plugin
+     *            the Plugin
      */
     void store( SQLFragment sQLFragment, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param nKey The identifier of the SQLFragment to delete
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the SQLFragment to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( int nKey, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param nKey The identifier of the sQLFragment
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the sQLFragment
+     * @param plugin
+     *            the Plugin
      * @return The instance of the sQLFragment
      */
     SQLFragment load( int nKey, Plugin plugin );
 
     /**
      * Load the data of all the sQLFragment objects and returns them as a List
-     * @param nIdPage The Page ID
-     * @param plugin the Plugin
+     * 
+     * @param nIdPage
+     *            The Page ID
+     * @param plugin
+     *            the Plugin
      * @return The List which contains the data of all the sQLFragment objects
      */
     List<SQLFragment> selectSQLFragmentsList( int nIdPage, Plugin plugin );
 
     /**
      * Swap fragments order
-     * @param fragment1 the fragment 1
-     * @param fragment2 the fragment 2
-     * @param plugin The plugin
+     * 
+     * @param fragment1
+     *            the fragment 1
+     * @param fragment2
+     *            the fragment 2
+     * @param plugin
+     *            The plugin
      */
     void swapFragmentsOrder( SQLFragment fragment1, SQLFragment fragment2, Plugin plugin );
 }

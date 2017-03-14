@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business.query;
 
-
 /**
  * SQLQueryException
  */
@@ -41,8 +40,11 @@ public class SQLQueryException extends Exception
 {
     /**
      * Constructor
-     * @param strMessage The message
-     * @param cause The cause
+     * 
+     * @param strMessage
+     *            The message
+     * @param cause
+     *            The cause
      */
     public SQLQueryException( String strMessage, Throwable cause )
     {

@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class SQLReportLauncher implements IReportLauncherService
 {
     public static final String URL_BO_SQLPAGE = "jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=showSQLPage&sqlpage=";
@@ -51,13 +50,13 @@ public class SQLReportLauncher implements IReportLauncherService
     public List<PageDTO> getPage( AdminUser user )
     {
         List<SQLPage> listSQLPages = (List<SQLPage>) SQLPageService.getAuthorizedPages( user );
-        List<PageDTO> listPageDTO = new ArrayList<PageDTO>(  );
+        List<PageDTO> listPageDTO = new ArrayList<PageDTO>( );
 
         for ( SQLPage sqlPage : listSQLPages )
         {
-            PageDTO pagedto = new PageDTO(  );
-            pagedto.setName( sqlPage.getTitle(  ) );
-            pagedto.setValue( sqlPage.getParamName(  ) );
+            PageDTO pagedto = new PageDTO( );
+            pagedto.setName( sqlPage.getTitle( ) );
+            pagedto.setValue( sqlPage.getParamName( ) );
 
             listPageDTO.add( pagedto );
         }
@@ -66,13 +65,13 @@ public class SQLReportLauncher implements IReportLauncherService
     }
 
     @Override
-    public String getBOUrl(  )
+    public String getBOUrl( )
     {
         return URL_BO_SQLPAGE;
     }
 
     @Override
-    public String getFOUrl(  )
+    public String getFOUrl( )
     {
         return URL_FO_SQLPAGE;
     }

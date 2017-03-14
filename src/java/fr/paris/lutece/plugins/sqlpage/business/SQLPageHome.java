@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for SQLPage objects
  */
@@ -52,14 +51,16 @@ public final class SQLPageHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private SQLPageHome(  )
+    private SQLPageHome( )
     {
     }
 
     /**
      * Create an instance of the sQLPage class
-     * @param sQLPage The instance of the SQLPage which contains the informations to store
-     * @return The  instance of sQLPage which has been created with its primary key.
+     * 
+     * @param sQLPage
+     *            The instance of the SQLPage which contains the informations to store
+     * @return The instance of sQLPage which has been created with its primary key.
      */
     public static SQLPage create( SQLPage sQLPage )
     {
@@ -70,8 +71,10 @@ public final class SQLPageHome
 
     /**
      * Update of the sQLPage which is specified in parameter
-     * @param sQLPage The instance of the SQLPage which contains the data to store
-     * @return The instance of the  sQLPage which has been updated
+     * 
+     * @param sQLPage
+     *            The instance of the SQLPage which contains the data to store
+     * @return The instance of the sQLPage which has been updated
      */
     public static SQLPage update( SQLPage sQLPage )
     {
@@ -82,19 +85,23 @@ public final class SQLPageHome
 
     /**
      * Remove the sQLPage whose identifier is specified in parameter
-     * @param nKey The sQLPage Id
+     * 
+     * @param nKey
+     *            The sQLPage Id
      */
     public static void remove( int nKey )
     {
         _dao.delete( nKey, _plugin );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a sQLPage whose identifier is specified in parameter
-     * @param nKey The sQLPage primary key
+     * 
+     * @param nKey
+     *            The sQLPage primary key
      * @return an instance of SQLPage
      */
     public static SQLPage findByPrimaryKey( int nKey )
@@ -104,7 +111,9 @@ public final class SQLPageHome
 
     /**
      * Find a page by its name
-     * @param strName The page name
+     * 
+     * @param strName
+     *            The page name
      * @return The page ID
      */
     public static int findByName( String strName )
@@ -114,18 +123,20 @@ public final class SQLPageHome
 
     /**
      * Load the data of all the sQLPage objects and returns them in form of a List
+     * 
      * @return the List which contains the data of all the sQLPage objects
      */
-    public static List<SQLPage> getSQLPagesList(  )
+    public static List<SQLPage> getSQLPagesList( )
     {
         return _dao.selectSQLPagesList( _plugin );
     }
 
     /**
      * Load the id of all the sQLPage objects and returns them in form of a List
+     * 
      * @return the List which contains the id of all the sQLPage objects
      */
-    public static List<Integer> getIdSQLPagesList(  )
+    public static List<Integer> getIdSQLPagesList( )
     {
         return _dao.selectIdSQLPagesList( _plugin );
     }

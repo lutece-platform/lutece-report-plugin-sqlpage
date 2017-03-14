@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for SQLFragment objects
  */
@@ -52,14 +51,16 @@ public final class SQLFragmentHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private SQLFragmentHome(  )
+    private SQLFragmentHome( )
     {
     }
 
     /**
      * Create an instance of the sQLFragment class
-     * @param sQLFragment The instance of the SQLFragment which contains the informations to store
-     * @return The  instance of sQLFragment which has been created with its primary key.
+     * 
+     * @param sQLFragment
+     *            The instance of the SQLFragment which contains the informations to store
+     * @return The instance of sQLFragment which has been created with its primary key.
      */
     public static SQLFragment create( SQLFragment sQLFragment )
     {
@@ -70,8 +71,10 @@ public final class SQLFragmentHome
 
     /**
      * Update of the sQLFragment which is specified in parameter
-     * @param sQLFragment The instance of the SQLFragment which contains the data to store
-     * @return The instance of the  sQLFragment which has been updated
+     * 
+     * @param sQLFragment
+     *            The instance of the SQLFragment which contains the data to store
+     * @return The instance of the sQLFragment which has been updated
      */
     public static SQLFragment update( SQLFragment sQLFragment )
     {
@@ -82,19 +85,23 @@ public final class SQLFragmentHome
 
     /**
      * Remove the sQLFragment whose identifier is specified in parameter
-     * @param nKey The sQLFragment Id
+     * 
+     * @param nKey
+     *            The sQLFragment Id
      */
     public static void remove( int nKey )
     {
         _dao.delete( nKey, _plugin );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a sQLFragment whose identifier is specified in parameter
-     * @param nKey The sQLFragment primary key
+     * 
+     * @param nKey
+     *            The sQLFragment primary key
      * @return an instance of SQLFragment
      */
     public static SQLFragment findByPrimaryKey( int nKey )
@@ -104,7 +111,9 @@ public final class SQLFragmentHome
 
     /**
      * Load the data of all the sQLFragment objects and returns them in form of a List
-     * @param nIdPage The Page ID
+     * 
+     * @param nIdPage
+     *            The Page ID
      * @return the List which contains the data of all the sQLFragment objects
      */
     public static List<SQLFragment> getSQLFragmentsList( int nIdPage )
@@ -114,14 +123,17 @@ public final class SQLFragmentHome
 
     /**
      * Reorder fragments
-     * @param previous the fragment 1
-     * @param next the fragment 2
+     * 
+     * @param previous
+     *            the fragment 1
+     * @param next
+     *            the fragment 2
      */
     public static void swapFragmentsOrder( SQLFragment previous, SQLFragment next )
     {
-        if ( ( next.getIdOrder(  ) - previous.getIdOrder(  ) ) != 1 )
+        if ( ( next.getIdOrder( ) - previous.getIdOrder( ) ) != 1 )
         {
-            next.setIdOrder( previous.getIdOrder(  ) + 1 );
+            next.setIdOrder( previous.getIdOrder( ) + 1 );
         }
 
         _dao.swapFragmentsOrder( previous, next, _plugin );

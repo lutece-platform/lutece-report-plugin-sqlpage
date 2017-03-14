@@ -42,7 +42,6 @@ import java.io.Serializable;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 /**
  * This is the business class for the object SQLPage
  */
@@ -50,7 +49,7 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    // Variables declarations 
+    // Variables declarations
     private int _nId;
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.ParamName.notEmpty}" )
     @Size( max = 50, message = "#i18n{sqlpage.validation.sqlpage.ParamName.size}" )
@@ -68,16 +67,19 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
 
     /**
      * Returns the Id
+     * 
      * @return The Id
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
 
     /**
      * Sets the Id
-     * @param nId The Id
+     * 
+     * @param nId
+     *            The Id
      */
     public void setId( int nId )
     {
@@ -86,16 +88,19 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
 
     /**
      * Returns the Title
+     * 
      * @return The Title
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * Sets the Title
-     * @param strTitle The Title
+     * 
+     * @param strTitle
+     *            The Title
      */
     public void setTitle( String strTitle )
     {
@@ -104,16 +109,19 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
 
     /**
      * Returns the Description
+     * 
      * @return The Description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
 
     /**
      * Sets the Description
-     * @param strDescription The Description
+     * 
+     * @param strDescription
+     *            The Description
      */
     public void setDescription( String strDescription )
     {
@@ -122,17 +130,20 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
 
     /**
      * Returns the Workgroup
+     * 
      * @return The Workgroup
      */
     @Override
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
         return _strWorkgroup;
     }
 
     /**
      * Sets the Workgroup
-     * @param strWorkgroup The Workgroup
+     * 
+     * @param strWorkgroup
+     *            The Workgroup
      */
     public void setWorkgroup( String strWorkgroup )
     {
@@ -141,16 +152,19 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
 
     /**
      * Returns the ParamName
+     * 
      * @return The ParamName
      */
-    public String getParamName(  )
+    public String getParamName( )
     {
         return _strParamName;
     }
 
     /**
      * Sets the ParamName
-     * @param strParamName The ParamName
+     * 
+     * @param strParamName
+     *            The ParamName
      */
     public void setParamName( String strParamName )
     {

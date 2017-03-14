@@ -62,14 +62,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage SQLFragment features ( manage, create, modify, remove )
  */
 @Controller( controllerJsp = "ManageSQLFragments.jsp", controllerPath = "jsp/admin/plugins/sqlpage/", right = "SQLPAGE_MANAGEMENT" )
 public class SQLFragmentJspBean extends ManageSQLPageJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
 
     // templates
@@ -119,7 +118,9 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     private static final String INFO_SQLFRAGMENT_CREATED = "sqlpage.info.sqlfragment.created";
     private static final String INFO_SQLFRAGMENT_UPDATED = "sqlpage.info.sqlfragment.updated";
     private static final String INFO_SQLFRAGMENT_REMOVED = "sqlpage.info.sqlfragment.removed";
-    private static String[] _forbiddenCommands = { "update ", "delete ", "drop ", "truncate" };
+    private static String [ ] _forbiddenCommands = {
+            "update ", "delete ", "drop ", "truncate"
+    };
     private static final long serialVersionUID = 1L;
 
     // Session variable to store working values
@@ -128,7 +129,9 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
 
     /**
      * Build the Manage View
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     @View( value = VIEW_MANAGE_SQLFRAGMENTS, defaultView = true )
@@ -141,10 +144,9 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
 
         SQLPage page = SQLPageHome.findByPrimaryKey( nIdPage );
         List<SQLFragment> listSQLFragments = (List<SQLFragment>) SQLFragmentHome.getSQLFragmentsList( nIdPage );
-        _nFragmentsCount = listSQLFragments.size(  );
+        _nFragmentsCount = listSQLFragments.size( );
 
-        Map<String, Object> model = getPaginatedListModel( request, MARK_SQLFRAGMENT_LIST, listSQLFragments,
-                JSP_MANAGE_SQLFRAGMENTS );
+        Map<String, Object> model = getPaginatedListModel( request, MARK_SQLFRAGMENT_LIST, listSQLFragments, JSP_MANAGE_SQLFRAGMENTS );
 
         model.put( MARK_PAGE, page );
 
@@ -154,17 +156,18 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     /**
      * Returns the form to create a sqlfragment
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code of the sqlfragment form
      */
     @View( VIEW_CREATE_SQLFRAGMENT )
     public String getCreateSQLFragment( HttpServletRequest request )
     {
-        _fragment = ( _fragment != null ) ? _fragment : new SQLFragment(  );
+        _fragment = ( _fragment != null ) ? _fragment : new SQLFragment( );
 
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_SQLFRAGMENT, _fragment );
         model.put( MARK_ID_PAGE, strIdPage );
         addCommons( model );
@@ -175,17 +178,18 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     /**
      * Process the data capture form of a new sqlfragment
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_CREATE_SQLFRAGMENT )
     public String doCreateSQLFragment( HttpServletRequest request )
     {
-        _fragment = ( _fragment != null ) ? _fragment : new SQLFragment(  );
+        _fragment = ( _fragment != null ) ? _fragment : new SQLFragment( );
         populate( _fragment, request );
 
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
-        Map<String, String> mapParameters = new HashMap<String, String>(  );
+        Map<String, String> mapParameters = new HashMap<String, String>( );
         mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
 
         // Check constraints
@@ -194,17 +198,17 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
             return redirect( request, VIEW_CREATE_SQLFRAGMENT, mapParameters );
         }
 
-        _fragment.setSqlQuery( _fragment.getSqlQuery(  ).trim(  ) );
+        _fragment.setSqlQuery( _fragment.getSqlQuery( ).trim( ) );
 
-        if ( !_fragment.getSqlQuery(  ).equals( "" ) )
+        if ( !_fragment.getSqlQuery( ).equals( "" ) )
         {
-            if ( !validateSQL( _fragment.getSqlQuery(  ), _fragment.getPool(  ), getLocale(  ) ) )
+            if ( !validateSQL( _fragment.getSqlQuery( ), _fragment.getPool( ), getLocale( ) ) )
             {
                 return redirect( request, VIEW_CREATE_SQLFRAGMENT, mapParameters );
             }
         }
 
-        if ( !validateTemplate( _fragment.getTemplate(  ), getLocale(  ) ) )
+        if ( !validateTemplate( _fragment.getTemplate( ), getLocale( ) ) )
         {
             return redirect( request, VIEW_CREATE_SQLFRAGMENT, mapParameters );
         }
@@ -212,16 +216,16 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         _fragment.setIdOrder( _nFragmentsCount );
 
         SQLFragmentHome.create( _fragment );
-        addInfo( INFO_SQLFRAGMENT_CREATED, getLocale(  ) );
+        addInfo( INFO_SQLFRAGMENT_CREATED, getLocale( ) );
 
         return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
     }
 
     /**
-     * Manages the removal form of a sqlfragment whose identifier is in the http
-     * request
+     * Manages the removal form of a sqlfragment whose identifier is in the http request
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code to confirm
      */
     @Action( ACTION_CONFIRM_REMOVE_SQLFRAGMENT )
@@ -233,8 +237,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         url.addParameter( PARAMETER_ID_SQLFRAGMENT, nId );
         url.addParameter( PARAMETER_ID_SQLPAGE, strIdPage );
 
-        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_SQLFRAGMENT,
-                url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_SQLFRAGMENT, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
 
         return redirect( request, strMessageUrl );
     }
@@ -242,7 +245,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     /**
      * Handles the removal form of a sqlfragment
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the jsp URL to display the form to manage sqlfragments
      */
     @Action( ACTION_REMOVE_SQLFRAGMENT )
@@ -251,9 +255,9 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
         SQLFragmentHome.remove( nId );
-        addInfo( INFO_SQLFRAGMENT_REMOVED, getLocale(  ) );
+        addInfo( INFO_SQLFRAGMENT_REMOVED, getLocale( ) );
 
-        Map<String, String> mapParameters = new HashMap<String, String>(  );
+        Map<String, String> mapParameters = new HashMap<String, String>( );
         mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
 
         return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
@@ -262,7 +266,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     /**
      * Returns the form to update info about a sqlfragment
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML form to update info
      */
     @View( VIEW_MODIFY_SQLFRAGMENT )
@@ -271,12 +276,12 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         int nId = Integer.parseInt( request.getParameter( PARAMETER_ID_SQLFRAGMENT ) );
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
 
-        if ( ( _fragment == null ) || ( _fragment.getId(  ) != nId ) )
+        if ( ( _fragment == null ) || ( _fragment.getId( ) != nId ) )
         {
             _fragment = SQLFragmentHome.findByPrimaryKey( nId );
         }
 
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_SQLFRAGMENT, _fragment );
         model.put( MARK_ID_PAGE, strIdPage );
         addCommons( model );
@@ -287,7 +292,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     /**
      * Process the change form of a sqlfragment
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MODIFY_SQLFRAGMENT )
@@ -296,9 +302,9 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         populate( _fragment, request );
 
         String strIdPage = request.getParameter( PARAMETER_ID_SQLPAGE );
-        Map<String, String> mapParameters = new HashMap<String, String>(  );
+        Map<String, String> mapParameters = new HashMap<String, String>( );
         mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
-        mapParameters.put( PARAMETER_ID_SQLFRAGMENT, String.valueOf( _fragment.getId(  ) ) );
+        mapParameters.put( PARAMETER_ID_SQLFRAGMENT, String.valueOf( _fragment.getId( ) ) );
 
         // Check constraints
         if ( !validateBean( _fragment, VALIDATION_ATTRIBUTES_PREFIX ) )
@@ -306,53 +312,59 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
             return redirect( request, VIEW_MODIFY_SQLFRAGMENT, mapParameters );
         }
 
-        _fragment.setSqlQuery( _fragment.getSqlQuery(  ).trim(  ) );
+        _fragment.setSqlQuery( _fragment.getSqlQuery( ).trim( ) );
 
-        if ( !_fragment.getSqlQuery(  ).equals( "" ) )
+        if ( !_fragment.getSqlQuery( ).equals( "" ) )
         {
-            if ( !validateSQL( _fragment.getSqlQuery(  ), _fragment.getPool(  ), getLocale(  ) ) )
+            if ( !validateSQL( _fragment.getSqlQuery( ), _fragment.getPool( ), getLocale( ) ) )
             {
                 return redirect( request, VIEW_MODIFY_SQLFRAGMENT, mapParameters );
             }
         }
 
-        if ( !validateTemplate( _fragment.getTemplate(  ), getLocale(  ) ) )
+        if ( !validateTemplate( _fragment.getTemplate( ), getLocale( ) ) )
         {
             return redirect( request, VIEW_MODIFY_SQLFRAGMENT, mapParameters );
         }
 
         SQLFragmentHome.update( _fragment );
-        addInfo( INFO_SQLFRAGMENT_UPDATED, getLocale(  ) );
+        addInfo( INFO_SQLFRAGMENT_UPDATED, getLocale( ) );
 
         return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
     }
 
     /**
      * Add commons objects to the model
-     * @param model The model
+     * 
+     * @param model
+     *            The model
      */
     private void addCommons( Map<String, Object> model )
     {
         // Add pools list
-        ReferenceList listPools = new ReferenceList(  );
+        ReferenceList listPools = new ReferenceList( );
         AppConnectionService.getPoolList( listPools );
         model.put( MARK_POOLS_LIST, listPools );
 
-        //Add roles List
-        ReferenceList roleList = RoleHome.getRolesList(  );
+        // Add roles List
+        ReferenceList roleList = RoleHome.getRolesList( );
         model.put( MARK_ROLES_LIST, roleList );
     }
 
     /**
      * Validate The SQL query
-     * @param strSqlQuery The query
-     * @param strPool The connection pool
-     * @param locale The locale
+     * 
+     * @param strSqlQuery
+     *            The query
+     * @param strPool
+     *            The connection pool
+     * @param locale
+     *            The locale
      * @return true if valid else false
      */
     private boolean validateSQL( String strSqlQuery, String strPool, Locale locale )
     {
-        String strCheckedQuery = strSqlQuery.toLowerCase(  );
+        String strCheckedQuery = strSqlQuery.toLowerCase( );
 
         for ( String strCommand : _forbiddenCommands )
         {
@@ -369,10 +381,10 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         {
             SQLService.validateSQL( strSqlQuery, strPool );
         }
-        catch ( SQLQueryException ex )
+        catch( SQLQueryException ex )
         {
             String strMessage = I18nService.getLocalizedString( MESSAGE_KEY_SQL_ERROR, locale );
-            addError( strMessage + ex.getCause(  ).getMessage(  ) );
+            addError( strMessage + ex.getCause( ).getMessage( ) );
 
             return false;
         }
@@ -382,8 +394,11 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
 
     /**
      * Validate a template
-     * @param strTemplate The template
-     * @param locale The locale
+     * 
+     * @param strTemplate
+     *            The template
+     * @param locale
+     *            The locale
      * @return true if valid otherwise false
      */
     private boolean validateTemplate( String strTemplate, Locale locale )
@@ -392,17 +407,17 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
         {
             SQLPageService.validateTemplate( strTemplate, locale );
         }
-        catch ( TemplateException ex )
+        catch( TemplateException ex )
         {
             String strMessage = I18nService.getLocalizedString( MESSAGE_KEY_TEMPLATE_ERROR, locale );
-            addError( strMessage + ex.getMessage(  ) );
+            addError( strMessage + ex.getMessage( ) );
 
             return false;
         }
-        catch ( IOException ex )
+        catch( IOException ex )
         {
             String strMessage = I18nService.getLocalizedString( MESSAGE_KEY_TEMPLATE_ERROR, locale );
-            addError( strMessage + ex.getMessage(  ) );
+            addError( strMessage + ex.getMessage( ) );
 
             return false;
         }
@@ -413,7 +428,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     /**
      * Process the data capture form of a new sqlfragment
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MOVE_UP )
@@ -430,7 +446,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
 
         for ( SQLFragment fragment : listFragments )
         {
-            if ( fragment.getId(  ) == nFragmentId )
+            if ( fragment.getId( ) == nFragmentId )
             {
                 if ( previous != null )
                 {
@@ -443,7 +459,7 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
             previous = fragment;
         }
 
-        Map<String, String> mapParameters = new HashMap<String, String>(  );
+        Map<String, String> mapParameters = new HashMap<String, String>( );
         mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
 
         return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );
@@ -452,7 +468,8 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
     /**
      * Process the data capture form of a new sqlfragment
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return The Jsp URL of the process result
      */
     @Action( ACTION_MOVE_DOWN )
@@ -476,13 +493,13 @@ public class SQLFragmentJspBean extends ManageSQLPageJspBean
                 break;
             }
 
-            if ( fragment.getId(  ) == nFragmentId )
+            if ( fragment.getId( ) == nFragmentId )
             {
                 previous = fragment;
             }
         }
 
-        Map<String, String> mapParameters = new HashMap<String, String>(  );
+        Map<String, String> mapParameters = new HashMap<String, String>( );
         mapParameters.put( PARAMETER_ID_SQLPAGE, strIdPage );
 
         return redirect( request, VIEW_MANAGE_SQLFRAGMENTS, mapParameters );

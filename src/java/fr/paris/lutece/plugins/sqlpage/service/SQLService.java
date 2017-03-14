@@ -44,31 +44,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * SQL Service
  */
 public final class SQLService
 {
     private static final String PARAMETER_PREFIX = "param";
-    private static QueryDAO _dao = new QueryDAO(  );
-    private static Map _mapConnectionServices = new HashMap(  );
+    private static QueryDAO _dao = new QueryDAO( );
+    private static Map _mapConnectionServices = new HashMap( );
 
     /**
      * Private constructor
      */
-    private SQLService(  )
+    private SQLService( )
     {
     }
 
     /**
      * Build the model that contains data results
-     * @param strSQL The query
-     * @param strPool The connection pool
-     * @param mapParameters Parameters of the request that can be variables of the query
+     * 
+     * @param strSQL
+     *            The query
+     * @param strPool
+     *            The connection pool
+     * @param mapParameters
+     *            Parameters of the request that can be variables of the query
      * @return The results
      */
-    public static List<ResultSetRow> getQueryResults( String strSQL, String strPool, Map<String, String[]> mapParameters )
+    public static List<ResultSetRow> getQueryResults( String strSQL, String strPool, Map<String, String [ ]> mapParameters )
     {
         List<ResultSetRow> listResults = null;
 
@@ -77,7 +80,7 @@ public final class SQLService
             String strQuery = buildQuery( strSQL, mapParameters );
             listResults = _dao.getQueryResults( strQuery, getConnectionService( strPool ) );
         }
-        catch ( SQLQueryException ex )
+        catch( SQLQueryException ex )
         {
             ; // Error already logged.
         }
@@ -87,12 +90,15 @@ public final class SQLService
 
     /**
      * Checks if the SQL query is valid
-     * @param strSQL The SQL query
-     * @param strPool The connection pool
-     * @throws SQLQueryException if the query is not valid
+     * 
+     * @param strSQL
+     *            The SQL query
+     * @param strPool
+     *            The connection pool
+     * @throws SQLQueryException
+     *             if the query is not valid
      */
-    public static void validateSQL( String strSQL, String strPool )
-        throws SQLQueryException
+    public static void validateSQL( String strSQL, String strPool ) throws SQLQueryException
     {
         String strQuery = buildQueryToCheck( strSQL );
         _dao.getQueryResults( strQuery, getConnectionService( strPool ) );
@@ -103,13 +109,13 @@ public final class SQLService
      *
      * @return results
      */
-    public static List<ResultSetRow> getMokeResults(  )
+    public static List<ResultSetRow> getMokeResults( )
     {
-        List<ResultSetRow> listRows = new ArrayList<ResultSetRow>(  );
+        List<ResultSetRow> listRows = new ArrayList<ResultSetRow>( );
 
         for ( int i = 0; i < 20; i++ )
         {
-            ResultSetRow row = new ResultSetRow(  );
+            ResultSetRow row = new ResultSetRow( );
 
             for ( int j = 0; j < 20; j++ )
             {
@@ -123,11 +129,11 @@ public final class SQLService
     }
 
     /**
-     * Get a connection service corresponding to the given poolname. If the pool
-     * name is empty, the default connection service of the current plugin is returned
+     * Get a connection service corresponding to the given poolname. If the pool name is empty, the default connection service of the current plugin is returned
      *
      * @return A Connection Service
-     * @param strPoolName The Poolname
+     * @param strPoolName
+     *            The Poolname
      */
     public static PluginConnectionService getConnectionService( String strPoolName )
     {
@@ -147,7 +153,7 @@ public final class SQLService
         }
         else
         {
-            connectionService = AppConnectionService.getDefaultConnectionService(  );
+            connectionService = AppConnectionService.getDefaultConnectionService( );
         }
 
         return connectionService;
@@ -155,11 +161,14 @@ public final class SQLService
 
     /**
      * Build the final query with the parameters
-     * @param strSQL The SQL query
-     * @param mapParameters The parameters
+     * 
+     * @param strSQL
+     *            The SQL query
+     * @param mapParameters
+     *            The parameters
      * @return The final query
      */
-    private static String buildQuery( String strSQL, Map<String, String[]> mapParameters )
+    private static String buildQuery( String strSQL, Map<String, String [ ]> mapParameters )
     {
         String strQuery = strSQL;
 
@@ -170,7 +179,7 @@ public final class SQLService
         if ( mapParameters.containsKey( strParameterName ) )
         {
             String strBookmark = buildBookmark( nIndex );
-            strQuery = strQuery.replaceAll( strBookmark, mapParameters.get( strParameterName )[0] );
+            strQuery = strQuery.replaceAll( strBookmark, mapParameters.get( strParameterName ) [0] );
         }
 
         return strQuery;
@@ -178,7 +187,9 @@ public final class SQLService
 
     /**
      * Build a query with fake parameters values
-     * @param strSQL The SQL query
+     * 
+     * @param strSQL
+     *            The SQL query
      * @return The query
      */
     private static String buildQueryToCheck( String strSQL )
@@ -189,7 +200,9 @@ public final class SQLService
 
     /**
      * Build a parameter bookmark
-     * @param nIndex The Index
+     * 
+     * @param nIndex
+     *            The Index
      * @return The bookmark
      */
     private static String buildBookmark( int nIndex )
@@ -199,14 +212,16 @@ public final class SQLService
 
     /**
      * Build a parameter bookmark
-     * @param strIndex The Index
+     * 
+     * @param strIndex
+     *            The Index
      * @return The bookmark
      */
     private static String buildBookmark( String strIndex )
     {
-        StringBuilder sbBookmark = new StringBuilder(  );
+        StringBuilder sbBookmark = new StringBuilder( );
         sbBookmark.append( '@' ).append( PARAMETER_PREFIX ).append( strIndex ).append( '@' );
 
-        return sbBookmark.toString(  );
+        return sbBookmark.toString( );
     }
 }

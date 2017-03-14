@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.sqlpage.business;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 public class SQLFragmentBusinessTest extends LuteceTestCase
 {
     private final static int IDPAGE1 = 1;
@@ -53,10 +52,10 @@ public class SQLFragmentBusinessTest extends LuteceTestCase
     private final static String ROLE1 = "Role1";
     private final static String ROLE2 = "Role2";
 
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         // Initialize an object
-        SQLFragment sQLFragment = new SQLFragment(  );
+        SQLFragment sQLFragment = new SQLFragment( );
         sQLFragment.setIdPage( IDPAGE1 );
         sQLFragment.setTemplate( TEMPLATE1 );
         sQLFragment.setSqlQuery( SQLQUERY1 );
@@ -68,14 +67,14 @@ public class SQLFragmentBusinessTest extends LuteceTestCase
         // Create test
         SQLFragmentHome.create( sQLFragment );
 
-        SQLFragment sQLFragmentStored = SQLFragmentHome.findByPrimaryKey( sQLFragment.getId(  ) );
-        assertEquals( sQLFragmentStored.getIdPage(  ), sQLFragment.getIdPage(  ) );
-        assertEquals( sQLFragmentStored.getTemplate(  ), sQLFragment.getTemplate(  ) );
-        assertEquals( sQLFragmentStored.getSqlQuery(  ), sQLFragment.getSqlQuery(  ) );
-        assertEquals( sQLFragmentStored.getPool(  ), sQLFragment.getPool(  ) );
-        assertEquals( sQLFragmentStored.getTitle(  ), sQLFragment.getTitle(  ) );
-        assertEquals( sQLFragmentStored.getIdOrder(  ), sQLFragment.getIdOrder(  ) );
-        assertEquals( sQLFragmentStored.getRole(  ), sQLFragment.getRole(  ) );
+        SQLFragment sQLFragmentStored = SQLFragmentHome.findByPrimaryKey( sQLFragment.getId( ) );
+        assertEquals( sQLFragmentStored.getIdPage( ), sQLFragment.getIdPage( ) );
+        assertEquals( sQLFragmentStored.getTemplate( ), sQLFragment.getTemplate( ) );
+        assertEquals( sQLFragmentStored.getSqlQuery( ), sQLFragment.getSqlQuery( ) );
+        assertEquals( sQLFragmentStored.getPool( ), sQLFragment.getPool( ) );
+        assertEquals( sQLFragmentStored.getTitle( ), sQLFragment.getTitle( ) );
+        assertEquals( sQLFragmentStored.getIdOrder( ), sQLFragment.getIdOrder( ) );
+        assertEquals( sQLFragmentStored.getRole( ), sQLFragment.getRole( ) );
 
         // Update test
         sQLFragment.setIdPage( IDPAGE2 );
@@ -86,21 +85,21 @@ public class SQLFragmentBusinessTest extends LuteceTestCase
         sQLFragment.setIdOrder( IDORDER2 );
         sQLFragment.setRole( ROLE2 );
         SQLFragmentHome.update( sQLFragment );
-        sQLFragmentStored = SQLFragmentHome.findByPrimaryKey( sQLFragment.getId(  ) );
-        assertEquals( sQLFragmentStored.getIdPage(  ), sQLFragment.getIdPage(  ) );
-        assertEquals( sQLFragmentStored.getTemplate(  ), sQLFragment.getTemplate(  ) );
-        assertEquals( sQLFragmentStored.getSqlQuery(  ), sQLFragment.getSqlQuery(  ) );
-        assertEquals( sQLFragmentStored.getPool(  ), sQLFragment.getPool(  ) );
-        assertEquals( sQLFragmentStored.getTitle(  ), sQLFragment.getTitle(  ) );
-        assertEquals( sQLFragmentStored.getIdOrder(  ), sQLFragment.getIdOrder(  ) );
-        assertEquals( sQLFragmentStored.getRole(  ), sQLFragment.getRole(  ) );
+        sQLFragmentStored = SQLFragmentHome.findByPrimaryKey( sQLFragment.getId( ) );
+        assertEquals( sQLFragmentStored.getIdPage( ), sQLFragment.getIdPage( ) );
+        assertEquals( sQLFragmentStored.getTemplate( ), sQLFragment.getTemplate( ) );
+        assertEquals( sQLFragmentStored.getSqlQuery( ), sQLFragment.getSqlQuery( ) );
+        assertEquals( sQLFragmentStored.getPool( ), sQLFragment.getPool( ) );
+        assertEquals( sQLFragmentStored.getTitle( ), sQLFragment.getTitle( ) );
+        assertEquals( sQLFragmentStored.getIdOrder( ), sQLFragment.getIdOrder( ) );
+        assertEquals( sQLFragmentStored.getRole( ), sQLFragment.getRole( ) );
 
         // List test
         SQLFragmentHome.getSQLFragmentsList( 1 );
 
         // Delete test
-        SQLFragmentHome.remove( sQLFragment.getId(  ) );
-        sQLFragmentStored = SQLFragmentHome.findByPrimaryKey( sQLFragment.getId(  ) );
+        SQLFragmentHome.remove( sQLFragment.getId( ) );
+        sQLFragmentStored = SQLFragmentHome.findByPrimaryKey( sQLFragment.getId( ) );
         assertNull( sQLFragmentStored );
     }
 }

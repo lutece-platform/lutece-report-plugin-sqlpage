@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  * ISQLPageDAO Interface
  */
@@ -45,54 +44,73 @@ public interface ISQLPageDAO
 {
     /**
      * Insert a new record in the table.
-     * @param sQLPage instance of the SQLPage object to insert
-     * @param plugin the Plugin
+     * 
+     * @param sQLPage
+     *            instance of the SQLPage object to insert
+     * @param plugin
+     *            the Plugin
      */
     void insert( SQLPage sQLPage, Plugin plugin );
 
     /**
      * Update the record in the table
-     * @param sQLPage the reference of the SQLPage
-     * @param plugin the Plugin
+     * 
+     * @param sQLPage
+     *            the reference of the SQLPage
+     * @param plugin
+     *            the Plugin
      */
     void store( SQLPage sQLPage, Plugin plugin );
 
     /**
      * Delete a record from the table
-     * @param nKey The identifier of the SQLPage to delete
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the SQLPage to delete
+     * @param plugin
+     *            the Plugin
      */
     void delete( int nKey, Plugin plugin );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param nKey The identifier of the sQLPage
-     * @param plugin the Plugin
+     * 
+     * @param nKey
+     *            The identifier of the sQLPage
+     * @param plugin
+     *            the Plugin
      * @return The instance of the sQLPage
      */
     SQLPage load( int nKey, Plugin plugin );
 
     /**
      * Load the data of all the sQLPage objects and returns them as a List
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The List which contains the data of all the sQLPage objects
      */
     List<SQLPage> selectSQLPagesList( Plugin plugin );
 
     /**
      * Load the id of all the sQLPage objects and returns them as a List
-     * @param plugin the Plugin
+     * 
+     * @param plugin
+     *            the Plugin
      * @return The List which contains the id of all the sQLPage objects
      */
     List<Integer> selectIdSQLPagesList( Plugin plugin );
 
     /**
      * Find a page by its name
-     * @param strName The page name
-     * @param plugin The plugin
+     * 
+     * @param strName
+     *            The page name
+     * @param plugin
+     *            The plugin
      * @return The page ID
      */
     int selectByName( String strName, Plugin plugin );

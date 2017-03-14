@@ -43,7 +43,6 @@ import java.util.Map;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-
 /**
  * Template Service
  */
@@ -53,13 +52,14 @@ public class TemplateService
 
     /**
      * Returns the unique instance
+     * 
      * @return the unique instance
      */
-    public static synchronized TemplateService instance(  )
+    public static synchronized TemplateService instance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new TemplateService(  );
+            _singleton = new TemplateService( );
         }
 
         return _singleton;
@@ -67,15 +67,20 @@ public class TemplateService
 
     /**
      * Process a template
-     * @param strTemplateValue The template content
-     * @param locale The locale
-     * @param model The model
+     * 
+     * @param strTemplateValue
+     *            The template content
+     * @param locale
+     *            The locale
+     * @param model
+     *            The model
      * @return The processed template
-     * @throws TemplateException If an error occurs
-     * @throws java.io.IOException If an error occurs
+     * @throws TemplateException
+     *             If an error occurs
+     * @throws java.io.IOException
+     *             If an error occurs
      */
-    public String process( String strTemplateValue, Locale locale, Map<String, Object> model )
-        throws TemplateException, IOException
+    public String process( String strTemplateValue, Locale locale, Map<String, Object> model ) throws TemplateException, IOException
     {
         HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strTemplateValue, locale, model );
 

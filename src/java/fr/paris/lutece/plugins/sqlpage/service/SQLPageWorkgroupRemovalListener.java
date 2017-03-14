@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.service.util.RemovalListener;
 
 import java.util.Locale;
 
-
 /**
  * SQLPage Removal Listener
  */
@@ -49,10 +48,12 @@ public class SQLPageWorkgroupRemovalListener implements RemovalListener
     private static final String PROPERTY_WORKGROUP_CANNOT_BE_REMOVED = "sqlpage.message.workgroupCannotBeRemoved";
 
     /**
-    * Check if the object can be safely removed
-    * @param strId The object id
-    * @return true if the pbject can be removed otherwise false
-    */
+     * Check if the object can be safely removed
+     * 
+     * @param strId
+     *            The object id
+     * @return true if the pbject can be removed otherwise false
+     */
     @Override
     public boolean canBeRemoved( String strId )
     {
@@ -61,9 +62,9 @@ public class SQLPageWorkgroupRemovalListener implements RemovalListener
             return true;
         }
 
-        for ( SQLPage page : SQLPageHome.getSQLPagesList(  ) )
+        for ( SQLPage page : SQLPageHome.getSQLPagesList( ) )
         {
-            if ( ( page.getWorkgroup(  ) != null ) && page.getWorkgroup(  ).equals( strId ) )
+            if ( ( page.getWorkgroup( ) != null ) && page.getWorkgroup( ).equals( strId ) )
             {
                 return false;
             }
@@ -74,14 +75,17 @@ public class SQLPageWorkgroupRemovalListener implements RemovalListener
 
     /**
      * Gives a message explaining why the object can't be removed
-     * @param strId The object id
-     * @param locale The current locale
+     * 
+     * @param strId
+     *            The object id
+     * @param locale
+     *            The current locale
      * @return The message
      */
     @Override
     public String getRemovalRefusedMessage( String strId, Locale locale )
     {
-        // Build a message SQLPage for using this workgroup 
+        // Build a message SQLPage for using this workgroup
         return I18nService.getLocalizedString( PROPERTY_WORKGROUP_CANNOT_BE_REMOVED, locale );
     }
 }
