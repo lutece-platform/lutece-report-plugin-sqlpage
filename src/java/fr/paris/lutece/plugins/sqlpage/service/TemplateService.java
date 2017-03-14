@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,18 +33,15 @@
  */
 package fr.paris.lutece.plugins.sqlpage.service;
 
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
 
 import java.util.Locale;
 import java.util.Map;
+
+import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 
 /**
@@ -53,7 +50,6 @@ import java.util.Map;
 public class TemplateService
 {
     private static TemplateService _singleton;
-    private static Configuration _cfg;
 
     /**
      * Returns the unique instance
@@ -64,8 +60,6 @@ public class TemplateService
         if ( _singleton == null )
         {
             _singleton = new TemplateService(  );
-            _cfg = new Configuration(  );
-            _cfg.setObjectWrapper( new DefaultObjectWrapper(  ) );
         }
 
         return _singleton;
@@ -73,7 +67,6 @@ public class TemplateService
 
     /**
      * Process a template
-     * @param strTemplateName The template name
      * @param strTemplateValue The template content
      * @param locale The locale
      * @param model The model
@@ -81,13 +74,11 @@ public class TemplateService
      * @throws TemplateException If an error occurs
      * @throws java.io.IOException If an error occurs
      */
-    public String process( String strTemplateName, String strTemplateValue, Locale locale, Map model )
+    public String process( String strTemplateValue, Locale locale, Map<String, Object> model )
         throws TemplateException, IOException
     {
-        Template template = new Template( strTemplateName, new StringReader( strTemplateValue ), _cfg );
-        Writer out = new StringWriter(  );
-        template.process( model, out );
+        HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strTemplateValue, locale, model );
 
-        return out.toString(  );
+        return template.getHtml( );
     }
 }
