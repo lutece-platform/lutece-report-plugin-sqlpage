@@ -1,11 +1,11 @@
+![](http://dev.lutece.paris.fr/jenkins/buildStatus/icon?job=report-plugin-sqlpage-deploy)
+# Plugin sqlpage
 
-#Plugin sqlpage
-
-##Introduction
+## Introduction
 
 This plugin lets create pages with SQL statements and Freemarker HTML templates. Each page may contain one or more SQL fragments. Each fragment has its own HTML template.
 
-##Call an SQLPage in the Front Office
+## Call an SQLPage in the Front Office
 
 Call an SQLPage is very simple :
 
@@ -17,7 +17,7 @@ jsp/site/Portal.jsp?page=sqlpage&sqlpage=mypage[&param1=myparam1 ... &paramN=myp
 
 Optional parameters can be passed to be used by SQL queries.
 
-##Create SQLPage in the Back Office
+## Create SQLPage in the Back Office
 
 Templates are using [Freemarker Template Engine](http://freemarker.org) syntax.
 
