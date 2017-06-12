@@ -71,7 +71,7 @@ public interface ISQLPageParameterDAO
      *            the Plugin
      */
     void delete( int nId, Plugin plugin );
-    
+
     /**
      * Load the data from the table
      * 
@@ -82,27 +82,27 @@ public interface ISQLPageParameterDAO
      * @return The instance of the sqlPageParameter
      */
     SQLPageParameter load( int nId, Plugin plugin );
-    
+
     /**
      * Load the data of all the sqlPageParameter objects associated to a SQLPage
      * 
      * @param nIdPage
-     *             The identifier of the SQLPage
+     *            The identifier of the SQLPage
      * @param plugin
-     *             the Plugin
+     *            the Plugin
      * @return The List which contains the data of all the sqlPageParameter objects
      */
     List<SQLPageParameter> selectSQLPageParametersList( int nIdPage, Plugin plugin );
-    
+
     /**
      * Select the parameter associated to a SQL Page by its name
      * 
      * @param strParameterKey
-     *              The key of the parameter to find
+     *            The key of the parameter to find
      * @param nIdPage
-     *              The identifier of the SQLPage where to search for the parameter
+     *            The identifier of the SQLPage where to search for the parameter
      * @param plugin
-     *             the Plugin          
+     *            the Plugin
      * @return The parameter with the specified name associated to the SQLPage
      */
     SQLPageParameter selectSQLPageParameterByKey( String strParameterKey, int nIdPage, Plugin plugin );

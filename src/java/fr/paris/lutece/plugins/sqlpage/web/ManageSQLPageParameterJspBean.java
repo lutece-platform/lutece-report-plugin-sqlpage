@@ -60,45 +60,45 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
     private static final String TEMPLATE_MANAGE_PARAMETERS_SQLPAGE = "/admin/plugins/sqlpage/manage_sqlpage_parameters.html";
     private static final String TEMPLATE_CREATE_SQLPAGE_PARAMETER = "/admin/plugins/sqlpage/create_sqlpage_parameter.html";
     private static final String TEMPLATE_MODIFY_SQLPAGE_PARAMETER = "/admin/plugins/sqlpage/modify_sqlpage_parameter.html";
-    
+
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_PARAMETER = "sqlpage.manage_sqlpages_parameters.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_PARAMETER = "sqlpage.manage_sqlpages_parameters.createPageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_PARAMETER = "sqlpage.manage_sqlpages_parameters.modifyPageTitle";
-    
+
     // Properties
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "sqlpage.model.entity.sqlpageparameter.attribute.";
-    
+
     // Views
     private static final String VIEW_MANAGE_SQLPAGES = "manageSQLPages";
     private static final String VIEW_MANAGE_SQLPAGE_PARAMETERS = "manageSQLPageParameters";
     private static final String VIEW_CREATE_SQLPAGE_PARAMETER = "createSQLPageParameter";
     private static final String VIEW_MODIFY_SQLPAGE_PARAMETER = "modifySQLPageParameter";
     private static final String VIEW_REDIRECT_MANAGE_SQLPAGE_PARAMETERS = "redirectManageSQLPageParameters";
-    
+
     // Actions
     private static final String ACTION_CREATE_SQLPAGE_PARAMETER = "createSQLPageParameter";
     private static final String ACTION_REMOVE_SQLPAGE_PARAMETER = "removeSQLPageParameter";
     private static final String ACTION_MODIFY_SQLPAGE_PARAMETER = "modifySQLPageParameter";
     private static final String ACTION_CONFIRM_REMOVE_SQLPAGE_PARAMETER = "confirmRemoveSQLPageParameter";
-    
+
     // Messages
     private static final String MESSAGE_CONFIRM_REMOVE_SQLPAGE_PARAMETER = "sqlpage.message.confirmRemoveSQLPageParameter";
     private static final String MESSAGE_NOT_AUTHORIZED = "sqlpage.message.notAuthorized";
-    
+
     // Infos
     private static final String INFO_SQLPAGE_PARAMETER_CREATED = "sqlpage.info.sqlpageparameter.created";
     private static final String INFO_SQLPAGE_PARAMETER_UPDATED = "sqlpage.info.sqlpageparameter.updated";
     private static final String INFO_SQLPAGE_PARAMETER_REMOVED = "sqlpage.info.sqlpageparameter.removed";
-    
+
     // Errors
     private static final String ERROR_SQLPAGE_PARAMETER = "sqlpage.manage_sqlpages_parameters.error";
     private static final String ERROR_PARAMETER_KEY_ALREADY_EXIST = "sqlpage.manage_sqlpages_parameters.error.key_already_exist";
-    
+
     // Session variable to store working values
     private SQLPage _sqlPage;
     private SQLPageParameter _sqlPageParameter;
-    
+
     /**
      * Generated serial version ID
      */
@@ -107,7 +107,8 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
     /**
      * Return the Manage SQLPage parameters page
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The HTML template for manage the parameters of the SQLPage
      */
     @View( VIEW_MANAGE_SQLPAGE_PARAMETERS )
@@ -115,14 +116,14 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
     {
         try
         {
-            int nId = Integer.parseInt( request.getParameter( SQLPageConstants.PARAMETER_ID_SQLPAGE ) ) ;
+            int nId = Integer.parseInt( request.getParameter( SQLPageConstants.PARAMETER_ID_SQLPAGE ) );
             _sqlPage = SQLPageHome.findByPrimaryKey( nId );
             _sqlPageParameter = null;
-            
+
             Map<String, Object> model = getModel( );
             model.put( SQLPageConstants.MARK_SQLPAGE, _sqlPage );
             model.put( SQLPageConstants.MARK_PARAMETERS_LIST, SQLPageParameterHome.getSQLPageParametersList( nId ) );
-        
+
             return getPage( PROPERTY_PAGE_TITLE_MANAGE_PARAMETER, TEMPLATE_MANAGE_PARAMETERS_SQLPAGE, model );
         }
         catch( NumberFormatException e )
@@ -133,29 +134,31 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
             return redirect( request, VIEW_MANAGE_SQLPAGES );
         }
     }
-    
+
     /**
      * Return the Create SQLPage parameter page
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The HTML template for create a parameter for the SQLPage
      */
     @View( VIEW_CREATE_SQLPAGE_PARAMETER )
     public String getCreateSQLPageParameter( HttpServletRequest request )
     {
         _sqlPageParameter = ( _sqlPageParameter != null ) ? _sqlPageParameter : new SQLPageParameter( );
-        
+
         Map<String, Object> model = getModel( );
         model.put( SQLPageConstants.MARK_SQLPAGE_ID, _sqlPage.getId( ) );
         model.put( SQLPageConstants.MARK_SQLPAGE_PARAMETER, _sqlPageParameter );
-        
+
         return getPage( PROPERTY_PAGE_TITLE_CREATE_PARAMETER, TEMPLATE_CREATE_SQLPAGE_PARAMETER, model );
     }
-    
+
     /**
      * Redirect to the Manage SQLPage Parameter page
      * 
-     * @param request the HTTP request
+     * @param request
+     *            the HTTP request
      * @return
      */
     @View( VIEW_REDIRECT_MANAGE_SQLPAGE_PARAMETERS )
@@ -163,7 +166,7 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
     {
         return redirect( request, VIEW_MANAGE_SQLPAGE_PARAMETERS, getMapParameters( ) );
     }
-    
+
     /**
      * Action used for create a new SQLPageParameter
      *
@@ -181,7 +184,7 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
         {
             return redirectView( request, VIEW_CREATE_SQLPAGE_PARAMETER );
         }
-        
+
         // Check if the key for the parameter doesn't already exist for the SQL Page
         if ( SQLPageParameterHome.findSQLPageParameterByName( _sqlPageParameter.getKey( ), _sqlPage.getId( ) ) != null )
         {
@@ -194,7 +197,7 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
 
         return redirect( request, VIEW_MANAGE_SQLPAGE_PARAMETERS, getMapParameters( ) );
     }
-    
+
     /**
      * Manages the removal form of a sqlpage parameter
      *
@@ -209,7 +212,8 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_SQLPAGE_PARAMETER ) );
         url.addParameter( SQLPageConstants.PARAMETER_ID_SQLPAGE_PARAMETER, nIdSQLPageParameter );
 
-        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_SQLPAGE_PARAMETER, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_SQLPAGE_PARAMETER, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION );
 
         return redirect( request, strMessageUrl );
     }
@@ -226,12 +230,12 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
     {
         int nId = Integer.parseInt( request.getParameter( SQLPageConstants.PARAMETER_ID_SQLPAGE_PARAMETER ) );
         SQLPageParameterHome.remove( nId );
-        
+
         addInfo( INFO_SQLPAGE_PARAMETER_REMOVED, getLocale( ) );
-        
+
         return redirect( request, VIEW_MANAGE_SQLPAGE_PARAMETERS, getMapParameters( ) );
     }
-    
+
     /**
      * Returns the form to update info about a sqlpage parameter
      *
@@ -246,7 +250,7 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
         {
             int nId = Integer.parseInt( request.getParameter( SQLPageConstants.PARAMETER_ID_SQLPAGE_PARAMETER ) );
             _sqlPageParameter = SQLPageParameterHome.findByPrimaryKey( nId );
-        
+
             if ( _sqlPageParameter != null )
             {
                 Map<String, Object> model = getModel( );
@@ -260,7 +264,7 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
                 // In the case where the sql page parameter has not been found
                 addError( ERROR_SQLPAGE_PARAMETER, getLocale( ) );
 
-                return redirect( request, VIEW_MANAGE_SQLPAGES );                
+                return redirect( request, VIEW_MANAGE_SQLPAGES );
             }
         }
         catch( NumberFormatException e )
@@ -271,7 +275,7 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
             return redirect( request, VIEW_MANAGE_SQLPAGES );
         }
     }
-    
+
     /**
      * Process the change form of a sqlpage parameter
      *
@@ -290,9 +294,10 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
         {
             return redirect( request, VIEW_MODIFY_SQLPAGE_PARAMETER, SQLPageConstants.PARAMETER_ID_SQLPAGE_PARAMETER, _sqlPageParameter.getId( ) );
         }
-        
+
         // Check if the key for the parameter doesn't already exist for the SQL Page
-        if ( !_sqlPageParameter.getKey( ).equals( strActualKey ) && SQLPageParameterHome.findSQLPageParameterByName( _sqlPageParameter.getKey( ), _sqlPage.getId( ) ) != null )
+        if ( !_sqlPageParameter.getKey( ).equals( strActualKey )
+                && SQLPageParameterHome.findSQLPageParameterByName( _sqlPageParameter.getKey( ), _sqlPage.getId( ) ) != null )
         {
             addError( ERROR_PARAMETER_KEY_ALREADY_EXIST, getLocale( ) );
             return redirect( request, VIEW_MODIFY_SQLPAGE_PARAMETER, SQLPageConstants.PARAMETER_ID_SQLPAGE_PARAMETER, _sqlPageParameter.getId( ) );
@@ -311,7 +316,7 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
 
         return redirect( request, VIEW_MANAGE_SQLPAGE_PARAMETERS, getMapParameters( ) );
     }
-    
+
     /**
      * Return the map of the parameters use for the redirection
      * 
@@ -320,9 +325,9 @@ public class ManageSQLPageParameterJspBean extends ManageSQLPageJspBean
     private Map<String, String> getMapParameters( )
     {
         Map<String, String> mapParameters = new HashMap<String, String>( );
-        mapParameters.put( SQLPageConstants.PARAMETER_ID_SQLPAGE, ( (_sqlPage != null ) ? String.valueOf( _sqlPage.getId( ) ) : "" ) );
-        
+        mapParameters.put( SQLPageConstants.PARAMETER_ID_SQLPAGE, ( ( _sqlPage != null ) ? String.valueOf( _sqlPage.getId( ) ) : "" ) );
+
         return mapParameters;
     }
-    
+
 }

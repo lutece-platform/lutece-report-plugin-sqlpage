@@ -38,12 +38,12 @@ package fr.paris.lutece.plugins.sqlpage.web;
  */
 public class SQLPageConstants
 {
-    
+
     // Parameters
     public static final String PARAMETER_ID_SQLPAGE = "id";
     public static final String PARAMETER_SQLPAGE = "sqlpage";
     public static final String PARAMETER_ID_SQLPAGE_PARAMETER = "id_parameter";
-    
+
     // Markers
     public static final String MARK_SQLPAGE_ID = "id_sqlpage";
     public static final String MARK_SQLPAGE_LIST = "sqlpage_list";
@@ -52,5 +52,5 @@ public class SQLPageConstants
     public static final String MARK_WORKGROUP_LIST = "workgroup_list";
     public static final String MARK_PAGES_LIST = "pages_list";
     public static final String MARK_PARAMETERS_LIST = "parameters_list";
-    
+
 }

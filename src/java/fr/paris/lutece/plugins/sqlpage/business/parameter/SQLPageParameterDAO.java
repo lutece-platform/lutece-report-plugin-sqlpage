@@ -44,7 +44,7 @@ import fr.paris.lutece.util.sql.DAOUtil;
  */
 public class SQLPageParameterDAO implements ISQLPageParameterDAO
 {
-    
+
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_parameter ) FROM sqlpage_page_parameter";
     private static final String SQL_QUERY_INSERT = "INSERT INTO sqlpage_page_parameter ( id_parameter, id_sqlpage, param_key, param_name, default_value, help_message ) VALUES ( ?, ?, ?, ?, ?, ? )";
@@ -77,7 +77,7 @@ public class SQLPageParameterDAO implements ISQLPageParameterDAO
 
         return nKey;
     }
-    
+
     /**
      * {@inheritDoc }
      */

@@ -44,11 +44,11 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
  */
 public final class SQLPageParameterHome
 {
-    
+
     // Static variable pointed at the DAO instance
     private static ISQLPageParameterDAO _dao = SpringContextService.getBean( "sqlpage.sQLPageParameterDAO" );
     private static Plugin _plugin = PluginService.getPlugin( "sqlpage" );
-    
+
     /**
      * Private constructor - this class doesn't need to be instantiated
      */
@@ -94,7 +94,7 @@ public final class SQLPageParameterHome
     {
         _dao.delete( nKey, _plugin );
     }
-    
+
     /**
      * Returns an instance of a sqlPageParameter whose identifier is specified in parameter
      * 
@@ -106,7 +106,7 @@ public final class SQLPageParameterHome
     {
         return _dao.load( nKey, _plugin );
     }
-    
+
     /**
      * Load the data of all the sqlPageParameter objects associated to a SQLPage and returns them in a List
      * 
@@ -118,15 +118,15 @@ public final class SQLPageParameterHome
     {
         return _dao.selectSQLPageParametersList( nIdPage, _plugin );
     }
-    
+
     /**
      * Return the SQL Page Parameter with the specified name associated to the SQL Page
      * 
      * @param strParameterKey
-     *          The key of the parameter to find
+     *            The key of the parameter to find
      * @param nIdPage
-     *          The identifier of the SQL Page
-     * @return the SQL Page Parameter of the SQL Page with the specified key 
+     *            The identifier of the SQL Page
+     * @return the SQL Page Parameter of the SQL Page with the specified key
      */
     public static SQLPageParameter findSQLPageParameterByName( String strParameterKey, int nIdPage )
     {

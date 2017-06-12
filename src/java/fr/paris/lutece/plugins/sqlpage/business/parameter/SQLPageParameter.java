@@ -57,7 +57,7 @@ public class SQLPageParameter implements Serializable
     private String _strName;
     private String _strDefaultValue;
     private String _strHelpMessage;
-    
+
     /**
      * @return the _nId
      */
@@ -65,15 +65,16 @@ public class SQLPageParameter implements Serializable
     {
         return _nId;
     }
-    
+
     /**
-     * @param _nId the _nId to set
+     * @param _nId
+     *            the _nId to set
      */
     public void setId( int nId )
     {
         this._nId = nId;
     }
-    
+
     /**
      * @return the _nIdPage
      */
@@ -81,15 +82,16 @@ public class SQLPageParameter implements Serializable
     {
         return _nIdPage;
     }
-    
+
     /**
-     * @param _nIdPage the _nIdPage to set
+     * @param _nIdPage
+     *            the _nIdPage to set
      */
     public void setIdPage( int nIdPage )
     {
         this._nIdPage = nIdPage;
     }
-    
+
     /**
      * @return the _strKey
      */
@@ -97,15 +99,16 @@ public class SQLPageParameter implements Serializable
     {
         return _strKey;
     }
-    
+
     /**
-     * @param _strKey the _strKey to set
+     * @param _strKey
+     *            the _strKey to set
      */
     public void setKey( String strKey )
     {
         this._strKey = strKey;
     }
-    
+
     /**
      * @return the _strName
      */
@@ -113,15 +116,16 @@ public class SQLPageParameter implements Serializable
     {
         return _strName;
     }
-    
+
     /**
-     * @param _strName the _strName to set
+     * @param _strName
+     *            the _strName to set
      */
     public void setName( String strName )
     {
         this._strName = strName;
     }
-    
+
     /**
      * @return the _strDefaultValue
      */
@@ -129,15 +133,16 @@ public class SQLPageParameter implements Serializable
     {
         return _strDefaultValue;
     }
-    
+
     /**
-     * @param _strDefaultValue the _strDefaultValue to set
+     * @param _strDefaultValue
+     *            the _strDefaultValue to set
      */
     public void setDefaultValue( String strDefaultValue )
     {
         this._strDefaultValue = strDefaultValue;
     }
-    
+
     /**
      * @return the _strHelpMessage
      */
@@ -145,13 +150,14 @@ public class SQLPageParameter implements Serializable
     {
         return _strHelpMessage;
     }
-    
+
     /**
-     * @param _strHelpMessage the _strHelpMessage to set
+     * @param _strHelpMessage
+     *            the _strHelpMessage to set
      */
     public void setHelpMessage( String strHelpMessage )
     {
         this._strHelpMessage = strHelpMessage;
     }
-    
+
 }
