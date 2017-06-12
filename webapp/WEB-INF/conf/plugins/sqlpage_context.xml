@@ -6,5 +6,6 @@
 
 
     <bean id="sqlpage.sQLPageDAO"  class="fr.paris.lutece.plugins.sqlpage.business.SQLPageDAO" />  
-    <bean id="sqlpage.sQLFragmentDAO"  class="fr.paris.lutece.plugins.sqlpage.business.SQLFragmentDAO" />  
+    <bean id="sqlpage.sQLFragmentDAO"  class="fr.paris.lutece.plugins.sqlpage.business.SQLFragmentDAO" />
+    <bean id="sqlpage.sQLPageParameterDAO"  class="fr.paris.lutece.plugins.sqlpage.business.parameter.SQLPageParameterDAO" />
 </beans>

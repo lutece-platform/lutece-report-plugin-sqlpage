@@ -1,0 +1,12 @@
+<@rowBoxHeader i18nTitleKey="sqlpage.create_sqlpages_parameter.pageTitle" >
+    <form class="form-horizontal" method="post" name="create_sqlpageparameter" action="jsp/admin/plugins/sqlpage/ManageSQLPageParameters.jsp">
+        <@messages errors=errors />
+        <input type="hidden" id="idPage" name="idPage" value="${id_sqlpage}"/>
+        
+        <@fieldInputText i18nLabelKey="sqlpage.create_sqlpages_parameter.labelKey" inputName="key" mandatory=true value="${(sqlpage_parameter.key)!''}" i18nHelpBlockKey="" />
+        <@fieldInputText i18nLabelKey="sqlpage.create_sqlpages_parameter.labelName" inputName="name" mandatory=true value="${(sqlpage_parameter.name)!''}" i18nHelpBlockKey="" />
+        <@fieldInputText i18nLabelKey="sqlpage.create_sqlpages_parameter.labelDefaultValue" inputName="default_value" value="${(sqlpage_parameter.defaultValue)!''}" i18nHelpBlockKey="" />
+        <@fieldInputText i18nLabelKey="sqlpage.create_sqlpages_parameter.labelHelpMessage" inputName="help_message" value="${(sqlpage_parameter.helpMessage)!''}" i18nHelpBlockKey="sqlpage.create_sqlpages_parameter.labelHelpMessage.help"/>
+        <@actionButtons button1Name="action_createSQLPageParameter" button2Name="view_redirectManageSQLPageParameters"/>
+    </form>
+</@rowBoxHeader>

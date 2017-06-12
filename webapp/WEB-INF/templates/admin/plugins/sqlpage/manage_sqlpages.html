@@ -31,7 +31,6 @@
         <tr>
             <input type="hidden" id="id" name="id"/>
             <td>
-                
                 <a href="jsp/site/Portal.jsp?page=sqlpage&sqlpage=${sqlpage.paramName}" target="sqlpageview" ><i class="fa  fa-external-link"></i></a>
                 &nbsp; 
                 ${sqlpage.title}
@@ -40,28 +39,30 @@
             <td>${sqlpage.description}</td>
             <td>${sqlpage.workgroup}</td>
         <td>
-            
-          
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=modifySQLPage&id=${sqlpage.id}"
+           <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=modifySQLPage&id=${sqlpage.id}"
                class="btn btn-primary btn-small" title="#i18n{portal.util.labelModify}">
                 <i class="fa fa-pencil"></i>
             </a>
-         
+            
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLPageParameters.jsp?view=manageSQLPageParameters&id=${sqlpage.id}"
+               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonManageParameters}">
+                <i class="fa fa-cogs"></i>
+            </a>
+            
+            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?id_page=${sqlpage.id}"
+               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonFragments}">
+                <i class="fa fa-table"></i>
+            </a>
+            
             <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=showSQLPage&sqlpage=${sqlpage.paramName!}"
                class="btn btn-info btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonShow}">
                 <i class="fa fa-play"></i>
             </a>
             
-      
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?id_page=${sqlpage.id}"
-               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonFragments}">
-                <i class="fa fa-table"></i>
-            </a>
             <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?action=confirmRemoveSQLPage&id=${sqlpage.id}"
                class="btn btn-danger btn-small" title="#i18n{portal.util.labelDelete}" >
                 <i class="fa fa-trash"></i>
             </a>
-        
         </td>
         </tr>
         </#list>
