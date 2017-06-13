@@ -187,7 +187,8 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
     /**
      * Sets the listSQLPageParameter
      * 
-     * @param listSQLPageParameter The listSQLPageParameter
+     * @param listSQLPageParameter
+     *            The listSQLPageParameter
      */
     public void setListSQLPageParameter( List<SQLPageParameter> listSQLPageParameter )
     {

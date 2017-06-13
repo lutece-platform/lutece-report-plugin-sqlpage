@@ -108,12 +108,12 @@ public final class SQLPageHome
     public static SQLPage findByPrimaryKey( int nKey )
     {
         SQLPage sqlPage = _dao.load( nKey, _plugin );
-        
+
         if ( sqlPage != null )
         {
             sqlPage.setListSQLPageParameter( SQLPageParameterHome.getSQLPageParametersList( nKey ) );
         }
-        
+
         return sqlPage;
     }
 
@@ -137,7 +137,7 @@ public final class SQLPageHome
     public static List<SQLPage> getSQLPagesList( )
     {
         List<SQLPage> listSQLPage = _dao.selectSQLPagesList( _plugin );
-        
+
         if ( listSQLPage != null )
         {
             for ( SQLPage sqlPage : listSQLPage )
@@ -146,7 +146,7 @@ public final class SQLPageHome
                 sqlPage.setListSQLPageParameter( SQLPageParameterHome.getSQLPageParametersList( nIdSQLPage ) );
             }
         }
-        
+
         return listSQLPage;
     }
 
