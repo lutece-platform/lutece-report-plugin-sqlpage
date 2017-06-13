@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business;
 
+import fr.paris.lutece.plugins.sqlpage.business.parameter.SQLPageParameterHome;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -106,7 +107,14 @@ public final class SQLPageHome
      */
     public static SQLPage findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey, _plugin );
+        SQLPage sqlPage = _dao.load( nKey, _plugin );
+        
+        if ( sqlPage != null )
+        {
+            sqlPage.setListSQLPageParameter( SQLPageParameterHome.getSQLPageParametersList( nKey ) );
+        }
+        
+        return sqlPage;
     }
 
     /**
@@ -128,7 +136,18 @@ public final class SQLPageHome
      */
     public static List<SQLPage> getSQLPagesList( )
     {
-        return _dao.selectSQLPagesList( _plugin );
+        List<SQLPage> listSQLPage = _dao.selectSQLPagesList( _plugin );
+        
+        if ( listSQLPage != null )
+        {
+            for ( SQLPage sqlPage : listSQLPage )
+            {
+                int nIdSQLPage = sqlPage.getId( );
+                sqlPage.setListSQLPageParameter( SQLPageParameterHome.getSQLPageParametersList( nIdSQLPage ) );
+            }
+        }
+        
+        return listSQLPage;
     }
 
     /**

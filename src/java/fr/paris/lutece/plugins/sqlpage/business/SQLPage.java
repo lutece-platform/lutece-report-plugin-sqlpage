@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business;
 
+import fr.paris.lutece.plugins.sqlpage.business.parameter.SQLPageParameter;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -64,6 +66,7 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
     @NotEmpty( message = "#i18n{sqlpage.validation.sqlpage.Workgroup.notEmpty}" )
     @Size( max = 50, message = "#i18n{sqlpage.validation.sqlpage.Workgroup.size}" )
     private String _strWorkgroup;
+    private List<SQLPageParameter> _listSQLPageParameter;
 
     /**
      * Returns the Id
@@ -169,5 +172,25 @@ public class SQLPage implements AdminWorkgroupResource, Serializable
     public void setParamName( String strParamName )
     {
         _strParamName = strParamName;
+    }
+
+    /**
+     * Return the listSQLPageParameter
+     * 
+     * @return the listSQLPageParameter
+     */
+    public List<SQLPageParameter> getListSQLPageParameter( )
+    {
+        return _listSQLPageParameter;
+    }
+
+    /**
+     * Sets the listSQLPageParameter
+     * 
+     * @param listSQLPageParameter The listSQLPageParameter
+     */
+    public void setListSQLPageParameter( List<SQLPageParameter> listSQLPageParameter )
+    {
+        this._listSQLPageParameter = listSQLPageParameter;
     }
 }
