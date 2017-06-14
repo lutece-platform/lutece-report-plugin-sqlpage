@@ -1,13 +1,43 @@
-<div class="row">
+
     
     <div class="well jumbotron">
         <h1>SQLPages</h1>
+	</div> 
+	<div class="row">
         <#list pages_list as page>
-        <ul>
-            <li><a href="jsp/site/Portal.jsp?page=sqlpage&sqlpage=${page.paramName}">${page.title} - ${page.description}</a></li>
-        </ul>
+		<div class="col-sm-12">
+		<form action="jsp/site/Portal.jsp?page=sqlpage&sqlpage=${page.paramName}" method="post" >
+			<input type="hidden"  name="page" value="sqlpage" />
+			<input type="hidden"  name="sqlpage" value="${page.paramName!''}" />
+			<input type="hidden"  name="action" value="displaysqlpage" />
+
+		<h4>${page.title} - ${page.description} </h4>
+		
+			<div class="form-group">
+			<#if (page.listSQLPageParameter)?has_content>
+				<#assign listParam = page.listSQLPageParameter/>
+
+					<#list listParam as parameter>
+					<div class="row">
+							<div class="col-sm-offset-1 col-sm-4">
+								<label class="control-label" for="${parameter.key!}">${parameter.name!}</label>
+								<input type="text" class="form-control input-sm" id="${parameter.key!}" name="${parameter.key!}" value="${parameter.defaultValue!''}" maxlength="255" />
+								<span class="help-block">${parameter.helpMessage!''}</span>
+							</div>
+					</div>
+					</#list>
+
+
+			</#if> 
+				<div class="row">
+					<div class="col-sm-offset-1 col-sm-4">			
+						<button class="btn btn-primary" type="submit" >#i18n{sqlpage.xpage.sqlpage.button.display}</button>
+					</div>
+				</div>	
+			</div>			
+		</form>
+		</div>
         </#list>
-    </div>
     
 </div>
   
