@@ -33,18 +33,19 @@
  */
 package fr.paris.lutece.plugins.sqlpage.web;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
+import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
 import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides a simple implementation of an XPage
@@ -77,11 +78,21 @@ public class SQLPageApp extends MVCApplication
         }
         else
         {
-            xpage = SQLPageService.getSQLPage( strName, request );
-
-            if ( xpage == null )
+            try
             {
-                xpage = getSQLPagesList( request );
+                xpage = SQLPageService.getSQLPage( strName, request );
+
+                if ( xpage == null )
+                {
+                    xpage = getSQLPagesList( request );
+                }
+            }
+            catch ( SQLQueryException ex )
+            {
+                // An error occured during the creation of the request
+                addError( SQLPageConstants.ERROR_SQLPAGE_REQUEST_CREATION, request.getLocale( ) );
+                
+                return getSQLPagesList( request );
             }
         }
 

@@ -33,31 +33,33 @@
  */
 package fr.paris.lutece.plugins.sqlpage.service;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.plugins.sqlpage.business.SQLFragment;
 import fr.paris.lutece.plugins.sqlpage.business.SQLFragmentHome;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
+import fr.paris.lutece.plugins.sqlpage.business.parameter.SQLPageParameter;
+import fr.paris.lutece.plugins.sqlpage.business.parameter.SQLPageParameterHome;
 import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
+import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.xpages.XPage;
-
 import freemarker.core.ParseException;
-
 import freemarker.template.TemplateException;
-
-import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * SQLPage Service
@@ -79,8 +81,9 @@ public final class SQLPageService
      * @param request
      *            The Request
      * @return The StringBuilder
+     * @throws SQLQueryException 
      */
-    public static StringBuilder getStringSQLFragment( int nPageId, HttpServletRequest request )
+    public static StringBuilder getStringSQLFragment( int nPageId, HttpServletRequest request ) throws SQLQueryException
     {
         List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
         StringBuilder sbHtml = new StringBuilder( );
@@ -92,7 +95,7 @@ public final class SQLPageService
                 if ( isVisible( request, fragment.getRole( ) ) )
                 {
                     Map<String, Object> model = new HashMap<String, Object>( );
-                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery( ), fragment.getPool( ), request.getParameterMap( ) );
+                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery( ), fragment.getPool( ), getMapParameterKeyValueFromRequest( request, nPageId ) );
                     model.put( MARK_ROWS, listResults );
 
                     String strTemplate = fragment.getTemplate( );
@@ -120,8 +123,9 @@ public final class SQLPageService
      * @param request
      *            The HTTP request
      * @return The XPAGE
+     * @throws SQLQueryException 
      */
-    public static XPage getSQLPage( String strName, HttpServletRequest request )
+    public static XPage getSQLPage( String strName, HttpServletRequest request ) throws SQLQueryException
     {
         XPage xpage = new XPage( );
         int nPageId = SQLPageHome.findByName( strName );
@@ -221,48 +225,50 @@ public final class SQLPageService
 
         return listPages;
     }
-
+    
     /**
-     *
-     * @param strName
-     *            The page name
-     * @return String
+     * Return the list of all parameters key associated a SQLPage
+     * 
+     * @param nPageId
+     *          The id of the SQLPage
+     * @return the list of all parameters key associated a SQLPage
      */
-    public static String getSQLTemplate( String strName )
+    private static List<String> getKeySQLPageParameterKeyList( int nPageId )
     {
-        Map<String, String [ ]> mapParameters = new HashMap<String, String [ ]>( );
-        int nPageId = SQLPageHome.findByName( strName );
-        SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
-
-        if ( page == null )
+        List<String> listParametersKey = new ArrayList<>( );
+        
+        List<SQLPageParameter> listSQLPageParameters = SQLPageParameterHome.getSQLPageParametersList( nPageId );
+        if ( listSQLPageParameters != null && !listSQLPageParameters.isEmpty( ) )
         {
-            return null;
+            listSQLPageParameters.stream( ).forEach( parameter -> listParametersKey.add( parameter.getKey( ) ) );
         }
-
-        List<SQLFragment> listFragments = SQLFragmentHome.getSQLFragmentsList( nPageId );
-        StringBuilder sbHtml = new StringBuilder( );
-
-        for ( SQLFragment fragment : listFragments )
+        
+        return listParametersKey;
+    }
+    
+    /**
+     * Return the map which match every SQLPage parameter key its value from the request
+     * 
+     * @param request
+     *          The HttpServletRequest to retrieve the data
+     * @param nIpPage
+     *          The identifier of the SQL page
+     * @return the map which match every SQLPage parameter key its value from the request
+     */
+    private static Map<String, String> getMapParameterKeyValueFromRequest( HttpServletRequest request, int nIpPage )
+    {
+        Map<String, String> mapKeyValueParameters = new LinkedHashMap<>( );
+        
+        List<String> listParametersKey = getKeySQLPageParameterKeyList( nIpPage );
+        
+        if ( listParametersKey != null && !listParametersKey.isEmpty( ) )
         {
-            try
+            for ( String strParameterKey : listParametersKey )
             {
-                Map<String, Object> model = new HashMap<String, Object>( );
-                List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery( ), fragment.getPool( ), mapParameters );
-                model.put( MARK_ROWS, listResults );
-
-                String strTemplate = fragment.getTemplate( );
-                sbHtml.append( TemplateService.instance( ).process( strTemplate, new Locale( "fr", "FR" ), model ) );
-            }
-            catch( TemplateException ex )
-            {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage( ), ex );
-            }
-            catch( IOException ex )
-            {
-                AppLogService.error( "SQLPage - Template error building page : " + ex.getMessage( ), ex );
+                mapKeyValueParameters.put( strParameterKey, request.getParameter( strParameterKey ) );
             }
         }
-
-        return sbHtml.toString( );
+        
+        return mapKeyValueParameters;
     }
 }

@@ -15,60 +15,86 @@
     <@messages infos=infos />
     <@messages errors=errors />
     <h4>#i18n{sqlpage.manage_sqlpages.tableLabel}</h4>
-    <@paginationAdmin paginator=paginator combo=1 />
     
-    <@table>
-        <tr>
-            <input type="hidden" id="id" name="id"/>
-            <th>#i18n{sqlpage.manage_sqlpages.columnTitle}</th>
-            <th>#i18n{sqlpage.manage_sqlpages.columnParamName}</th>
-            <th>#i18n{sqlpage.manage_sqlpages.columnDescription}</th>
-            <th>#i18n{sqlpage.manage_sqlpages.columnWorkgroup}</th>
-            <th>#i18n{portal.util.labelActions}</th>
-        </tr>
-        <@tableHeadBodySeparator />
+	<div class="table">
+    	<table class="table table-hover table-condensed">
+        	<thead>
+        		<tr>
+            		<input type="hidden" id="id" name="id"/>
+            		<th>#i18n{sqlpage.manage_sqlpages.columnTitle}</th>
+            		<th>#i18n{sqlpage.manage_sqlpages.columnParamName}</th>
+            		<th>#i18n{sqlpage.manage_sqlpages.columnDescription}</th>
+            		<th>#i18n{sqlpage.manage_sqlpages.columnWorkgroup}</th>
+            		<th>#i18n{portal.util.labelActions}</th>
+        		</tr>
+        	<@tableHeadBodySeparator />
             <#list sqlpage_list as sqlpage >
-        <tr>
-            <input type="hidden" id="id" name="id"/>
-            <td>
-                <a href="jsp/site/Portal.jsp?page=sqlpage&sqlpage=${sqlpage.paramName}" target="sqlpageview" ><i class="fa  fa-external-link"></i></a>
-                &nbsp; 
-                ${sqlpage.title}
-            </td>
-            <td>${sqlpage.paramName}</td>
-            <td>${sqlpage.description}</td>
-            <td>${sqlpage.workgroup}</td>
-        <td>
-           <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=modifySQLPage&id=${sqlpage.id}"
-               class="btn btn-primary btn-small" title="#i18n{portal.util.labelModify}">
-                <i class="fa fa-pencil"></i>
-            </a>
+            	<form class="form-horizontal" method="post" name="show_SQLPage" action="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp">
+        			<tr>
+            			<input type="hidden" id="id" name="id"/>
+            			<input type="hidden" name="sqlpage" value="${sqlpage.paramName!}"/>
+            			<td>
+                			<a href="jsp/site/Portal.jsp?page=sqlpage"><i class="fa  fa-external-link"></i></a>
+               				&nbsp; 
+                			${sqlpage.title}
+            			</td>
+            			<td>${sqlpage.paramName}</td>
+           				<td>${sqlpage.description}</td>
+            			<td>${sqlpage.workgroup}</td>
+        				<td>
+           					<a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=modifySQLPage&id=${sqlpage.id}"
+               					class="btn btn-primary btn-small" title="#i18n{portal.util.labelModify}">
+                				<i class="fa fa-pencil"></i>
+            				</a>
             
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLPageParameters.jsp?view=manageSQLPageParameters&id=${sqlpage.id}"
-               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonManageParameters}">
-                <i class="fa fa-cogs"></i>
-            </a>
+            				<a href="jsp/admin/plugins/sqlpage/ManageSQLPageParameters.jsp?view=manageSQLPageParameters&id=${sqlpage.id}"
+               					class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonManageParameters}">
+                				<i class="fa fa-cogs"></i>
+            				</a>
             
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?id_page=${sqlpage.id}"
-               class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonFragments}">
-                <i class="fa fa-table"></i>
-            </a>
+            				<a href="jsp/admin/plugins/sqlpage/ManageSQLFragments.jsp?id_page=${sqlpage.id}"
+               					class="btn btn-primary btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonFragments}">
+                				<i class="fa fa-table"></i>
+            				</a>
             
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?view=showSQLPage&sqlpage=${sqlpage.paramName!}"
-               class="btn btn-info btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonShow}">
-                <i class="fa fa-play"></i>
-            </a>
+            				<button type="submit" name="view_showSQLPage" class="btn btn-info btn-small" title="#i18n{sqlpage.manage_sqlpages.buttonShow}">
+                				<i class="fa fa-play"></i>
+            				</button>
             
-            <a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?action=confirmRemoveSQLPage&id=${sqlpage.id}"
-               class="btn btn-danger btn-small" title="#i18n{portal.util.labelDelete}" >
-                <i class="fa fa-trash"></i>
-            </a>
-        </td>
-        </tr>
-        </#list>
-    </@table>
+            				<a href="jsp/admin/plugins/sqlpage/ManageSQLPages.jsp?action=confirmRemoveSQLPage&id=${sqlpage.id}"
+               					class="btn btn-danger btn-small" title="#i18n{portal.util.labelDelete}" >
+                				<i class="fa fa-trash"></i>
+            				</a>
+        				</td>
+        			</tr>
+					<tr>
+						<#if sqlpage.listSQLPageParameter?has_content>
+							<#assign count=0>			
+							<td colspan=5>
+								<div class="row">
+									<#list sqlpage.listSQLPageParameter as parameter>
+										<#if count%2 == 0>
+											</div>
+											<div class="row">
+										</#if>
+										<div class="form-group col-xs-6">
+											<label for="${parameter.key}">${parameter.name}</label>
+											<input type="text" name="${parameter.key}" id="parameter_${parameter.id}" class="form-control input-lg" value="${parameter.defaultValue!''}">
+											<span class="help-block">${parameter.helpMessage}</span>
+										</div>
+										<#assign count=count+1>
+									</#list>
+								</div>
+							</td>
+						</#if>
+					</tr>
+				</form>
+        	</#list>
+        </body>
+    </table>
+</div>
 
-    <@paginationAdmin paginator=paginator />
+    <@paginationAdmin paginator=paginator combo=1 />
 
   </@boxBody>
 </@rowBox>

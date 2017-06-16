@@ -38,6 +38,11 @@ package fr.paris.lutece.plugins.sqlpage.web;
  */
 public class SQLPageConstants
 {
+    // Constants
+    public static final String DECLARE_PARAM_SYMBOL = ":";
+    public static final String INTERROGATION = "?";
+    public static final String SPACE = " ";
+    public static final String AROBASE = "@";
 
     // Parameters
     public static final String PARAMETER_ID_SQLPAGE = "id";
@@ -52,5 +57,8 @@ public class SQLPageConstants
     public static final String MARK_WORKGROUP_LIST = "workgroup_list";
     public static final String MARK_PAGES_LIST = "pages_list";
     public static final String MARK_PARAMETERS_LIST = "parameters_list";
+    
+    // Errors
+    public static final String ERROR_SQLPAGE_REQUEST_CREATION = "sqlpage.error.sqlpage.requestCreationFailed";
 
 }

@@ -33,16 +33,19 @@
  */
 package fr.paris.lutece.plugins.sqlpage.service;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.plugins.sqlpage.business.query.QueryDAO;
 import fr.paris.lutece.plugins.sqlpage.business.query.ResultSetRow;
 import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * SQL Service
@@ -69,25 +72,24 @@ public final class SQLService
      *            The connection pool
      * @param mapParameters
      *            Parameters of the request that can be variables of the query
+     * @param listString
+     *            The list of all key of SQLPageParameters associated to the SQLPage
      * @return The results
+     * @throws SQLException 
+     * @throws SQLQueryException 
      */
-    public static List<ResultSetRow> getQueryResults( String strSQL, String strPool, Map<String, String [ ]> mapParameters )
-    {
-        List<ResultSetRow> listResults = null;
-
-        try
-        {
-            String strQuery = buildQuery( strSQL, mapParameters );
-            listResults = _dao.getQueryResults( strQuery, getConnectionService( strPool ) );
+    public static List<ResultSetRow> getQueryResults( String strSQL, String strPool, Map<String, String> mapKeyValueParameters ) throws SQLQueryException
+    {   
+        PluginConnectionService connectionService = getConnectionService( strPool );
+       
+        if ( mapKeyValueParameters != null )
+        {   
+            return _dao.getParameterizedQueryResults( strSQL, connectionService, mapKeyValueParameters );
         }
-        catch( SQLQueryException ex )
-        {
-            ; // Error already logged.
-        }
-
-        return listResults;
+        
+        return _dao.getQueryResults( strSQL, connectionService );
     }
-
+    
     /**
      * Checks if the SQL query is valid
      * 
@@ -160,32 +162,6 @@ public final class SQLService
     }
 
     /**
-     * Build the final query with the parameters
-     * 
-     * @param strSQL
-     *            The SQL query
-     * @param mapParameters
-     *            The parameters
-     * @return The final query
-     */
-    private static String buildQuery( String strSQL, Map<String, String [ ]> mapParameters )
-    {
-        String strQuery = strSQL;
-
-        int nIndex = 1;
-
-        String strParameterName = PARAMETER_PREFIX + nIndex;
-
-        if ( mapParameters.containsKey( strParameterName ) )
-        {
-            String strBookmark = buildBookmark( nIndex );
-            strQuery = strQuery.replaceAll( strBookmark, mapParameters.get( strParameterName ) [0] );
-        }
-
-        return strQuery;
-    }
-
-    /**
      * Build a query with fake parameters values
      * 
      * @param strSQL
@@ -195,32 +171,29 @@ public final class SQLService
     private static String buildQueryToCheck( String strSQL )
     {
         // remove bookmarks from the SQL request
-        return strSQL.replaceAll( buildBookmark( "(.*)" ), "1" );
+        return strSQL.replaceAll( buildBookmark( PARAMETER_PREFIX, "(.*)" ), "1" );
     }
-
+    
     /**
      * Build a parameter bookmark
      * 
-     * @param nIndex
-     *            The Index
+     * @param strPrefix
+     *            The prefix
+     * @param strParamName
+     *            The name of the parameter
      * @return The bookmark
      */
-    private static String buildBookmark( int nIndex )
-    {
-        return buildBookmark( "" + nIndex );
-    }
-
-    /**
-     * Build a parameter bookmark
-     * 
-     * @param strIndex
-     *            The Index
-     * @return The bookmark
-     */
-    private static String buildBookmark( String strIndex )
+    private static String buildBookmark( String strPrefix, String strParamName )
     {
         StringBuilder sbBookmark = new StringBuilder( );
-        sbBookmark.append( '@' ).append( PARAMETER_PREFIX ).append( strIndex ).append( '@' );
+        
+        sbBookmark.append( '@' );        
+        if ( StringUtils.isNotBlank( strPrefix ) )
+        {
+            sbBookmark.append( strPrefix );
+        }
+        sbBookmark.append( strParamName );
+        sbBookmark.append( '@' );
 
         return sbBookmark.toString( );
     }

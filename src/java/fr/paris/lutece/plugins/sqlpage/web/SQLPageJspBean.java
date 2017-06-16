@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
+import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
 import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -245,32 +246,28 @@ public class SQLPageJspBean extends ManageSQLPageJspBean
     @View( VIEW_SHOW_SQLPAGE )
     public String getShowSQLPage( HttpServletRequest request )
     {
-        StringBuilder sbHtml;
-        String pageHtml = null;
-
         String strName = request.getParameter( SQLPageConstants.PARAMETER_SQLPAGE );
 
         if ( strName == null )
         {
-            pageHtml = getSQLPagesList( request );
+            return getSQLPagesList( request );
         }
         else
         {
-            int nPageId = SQLPageHome.findByName( strName );
-            // SQLPage page = SQLPageHome.findByPrimaryKey( nPageId );
-            sbHtml = SQLPageService.getStringSQLFragment( nPageId, request );
-
-            if ( sbHtml == null )
+            try
             {
-                pageHtml = getSQLPagesList( request );
+                StringBuilder sbHtml = SQLPageService.getStringSQLFragment( SQLPageHome.findByName( strName ), request );
+                
+                return ( sbHtml == null ) ? getSQLPagesList( request ) : sbHtml.toString( );
             }
-            else
+            catch ( SQLQueryException ex )
             {
-                pageHtml = sbHtml.toString( );
+                // An error occured during the creation of the request
+                addError( SQLPageConstants.ERROR_SQLPAGE_REQUEST_CREATION, getLocale( ) );
+                
+                return redirectView( request, VIEW_MANAGE_SQLPAGES );
             }
         }
-
-        return pageHtml;
     }
 
     /**

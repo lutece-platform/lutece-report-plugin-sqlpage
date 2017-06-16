@@ -33,16 +33,17 @@
  */
 package fr.paris.lutece.plugins.sqlpage.web;
 
-import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
-import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
-import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
-import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
-import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
-
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
+import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
+import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
+import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 
 /**
  * This class provides the user interface to manage SQLPage features ( manage, create, modify, remove )
@@ -127,8 +128,19 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
 
-        StringBuilder sbHtml = SQLPageService.getStringSQLFragment( nId, request );
+        try
+        {
+            StringBuilder sbHtml = SQLPageService.getStringSQLFragment( nId, request );
 
-        return sbHtml.toString( );
+            return sbHtml.toString( );
+        }
+        catch ( SQLQueryException ex )
+        {
+            // An error occured during the creation of the request
+            addError( SQLPageConstants.ERROR_SQLPAGE_REQUEST_CREATION, getLocale( ) );
+            
+            return redirectView( request, VIEW_MANAGE_SQLPAGES );
+        }
+
     }
 }

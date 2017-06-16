@@ -33,24 +33,37 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business.query;
 
+import fr.paris.lutece.plugins.sqlpage.web.SQLPageConstants;
 import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Query DAO
  */
 public class QueryDAO
 {
+    // Constants
+    private static final String PARAM_BEGIN_PATTERN = "'@";
+    private static final String PARAM_END_PATTERN = "@'";
+    
     /**
      * Returns query results
      * 
@@ -75,8 +88,98 @@ public class QueryDAO
             statement = connection.createStatement( ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY );
 
             ResultSet resultSet = statement.executeQuery( strSQL );
-            ResultSetMetaData rsmd = resultSet.getMetaData( );
+            
+            listRow = convertResultSetToResultSetRowList( resultSet );
 
+            statement.close( );
+            statement = null;
+        }
+        catch( SQLException ex )
+        {
+            AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage( ), ex );
+            throw new SQLQueryException( ex.getMessage( ), ex );
+        }
+        finally
+        {
+            closeStatement( statement );
+
+            connectionService.freeConnection( connection );
+        }
+
+        return listRow;
+    }
+    
+    /**
+     * Returns query results
+     * 
+     * @param strSQL
+     *          The parameterized query to execute
+     * @param connectionService
+     *          The connection service
+     * @param mapKeyValueParameters
+     *          The map which associated to each parameter key its value
+     * @return query results
+     * @throws SQLQueryException
+     *          If an error occured
+     */
+    public List<ResultSetRow> getParameterizedQueryResults( String strSQL, PluginConnectionService connectionService, Map<String, String> mapKeyValueParameters ) throws SQLQueryException
+    {
+        // Create the map which positioned each parameter as they appear in the query
+        Map<Integer, String> mapPositionOrderedParam = buildMapRequestParamPosition( strSQL );
+        
+        // Format the query for replace all parameter
+        for ( String strKeyParam : mapPositionOrderedParam.values( ) )
+        {
+            strSQL= strSQL.replaceAll( PARAM_BEGIN_PATTERN + strKeyParam + PARAM_END_PATTERN, SQLPageConstants.INTERROGATION );
+        }
+        
+        Connection connection = connectionService.getConnection( );
+        PreparedStatement preparedStatement = null;
+        try
+        {
+            preparedStatement = connection.prepareStatement( strSQL );
+        
+            for ( Entry<Integer, String> entryPositionParamValue : mapPositionOrderedParam.entrySet( ) )
+            {
+                String strParamKey = entryPositionParamValue.getValue( );
+                String strValueParam = StringUtils.EMPTY;
+                if ( mapKeyValueParameters.containsKey( strParamKey ) )
+                {
+                    strValueParam = mapKeyValueParameters.get( strParamKey );
+                }
+                preparedStatement.setString( entryPositionParamValue.getKey( ), strValueParam );
+            }
+        
+            return convertResultSetToResultSetRowList( preparedStatement.executeQuery( ) );
+        }
+        catch ( SQLException ex )
+        {
+            AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage( ), ex );
+            throw new SQLQueryException( ex.getMessage( ), ex );
+        }
+        finally
+        {
+            QueryDAO.closeStatement( preparedStatement );
+            connectionService.freeConnection( connection );
+        }
+    }
+    
+    /**
+     * Convert a ResultSet to a List<ResultSetRow>
+     * 
+     * @param resultSet
+     *          The resultSet to convert
+     * @return the resultSet converted to a List<ResultSetRow>
+     * @throws SQLException
+     */
+    public static List<ResultSetRow> convertResultSetToResultSetRowList( ResultSet resultSet ) throws SQLException
+    {
+        List<ResultSetRow> listResultSetRow = new ArrayList<>( );
+        
+        if ( resultSet != null )
+        {
+            ResultSetMetaData rsmd = resultSet.getMetaData( );
+        
             while ( resultSet.next( ) )
             {
                 String strValue;
@@ -96,34 +199,69 @@ public class QueryDAO
                     row.addCol( strValue );
                 }
 
-                listRow.add( row );
+                listResultSetRow.add( row );
             }
-
-            statement.close( );
-            statement = null;
         }
-        catch( SQLException ex )
+        return listResultSetRow;
+    }
+    
+    /**
+     * Manage the close of a Statement object
+     * 
+     * @param statement
+     *          The statement to close
+     * @throws AppException
+     *          If an error occured
+     */
+    public static void closeStatement( Statement statement ) throws AppException
+    {
+        try
         {
-            AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage( ), ex );
-            throw new SQLQueryException( ex.getMessage( ), ex );
-        }
-        finally
-        {
-            try
+            if ( statement != null )
             {
-                if ( statement != null )
+                statement.close( );
+            }
+        }
+        catch( SQLException e )
+        {
+            throw new AppException( "SQL Error executing command : " + e.toString( ) );
+        }
+    }
+    
+    /**
+     * Build the map which order all parameter as they appear in the query
+     * 
+     * @param strSQL
+     *          The request to analyze
+     * @return the map with all parameter and their position in the query
+     */
+    private static Map<Integer, String> buildMapRequestParamPosition( String strSQL )
+    {
+        Map<Integer, String> mapPositionOrderedParam = new HashMap<>( );
+        
+        Pattern patternGlobal = Pattern.compile( PARAM_BEGIN_PATTERN );
+        Matcher matcherGlobal = patternGlobal.matcher( strSQL );
+        int positionCurrentParam = 1;
+        
+        while ( matcherGlobal.find( ) )
+        {
+            int indexEnd = matcherGlobal.end( );
+            char [ ] charArray = strSQL.toCharArray( );
+            StringBuilder currentParamName = new StringBuilder( );
+            for ( int indice = indexEnd ; indice < strSQL.length( ) ; indice++ )
+            {
+                char currentChar = charArray[ indice ];
+                if ( SQLPageConstants.AROBASE.equals( String.valueOf( currentChar ) ) )
                 {
-                    statement.close( );
+                    break;
                 }
+                currentParamName.append( currentChar );
             }
-            catch( SQLException e )
-            {
-                throw new AppException( "SQL Error executing command : " + e.toString( ) );
-            }
-
-            connectionService.freeConnection( connection );
+            String currentParamKey = currentParamName.toString( );
+            mapPositionOrderedParam.put( positionCurrentParam, currentParamKey);
+            positionCurrentParam++;
         }
-
-        return listRow;
+        
+        return mapPositionOrderedParam;
     }
 }
