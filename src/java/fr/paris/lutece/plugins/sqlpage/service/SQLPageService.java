@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.sqlpage.service;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
