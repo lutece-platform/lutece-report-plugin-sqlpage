@@ -123,7 +123,7 @@ public class QueryDAO
      */
     public List<ResultSetRow> getParameterizedQueryResults( String strSQL, PluginConnectionService connectionService, Map<String, String> mapKeyValueParameters )
             throws SQLQueryException
-    {        
+    {
         // Create the map which positioned each parameter as they appear in the query
         Map<Integer, String> mapPositionOrderedParam = buildMapRequestParamPosition( strSQL );
 
@@ -244,7 +244,7 @@ public class QueryDAO
         int positionCurrentParam = 1;
 
         Pattern patternEnding = Pattern.compile( PARAM_END_PATTERN );
-        
+
         while ( matcherGlobal.find( ) )
         {
             int indexEnd = matcherGlobal.end( );
