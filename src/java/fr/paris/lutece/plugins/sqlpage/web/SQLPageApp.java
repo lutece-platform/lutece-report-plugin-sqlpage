@@ -42,6 +42,7 @@ import fr.paris.lutece.plugins.sqlpage.business.SQLPage;
 import fr.paris.lutece.plugins.sqlpage.business.SQLPageHome;
 import fr.paris.lutece.plugins.sqlpage.business.query.SQLQueryException;
 import fr.paris.lutece.plugins.sqlpage.service.SQLPageService;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
@@ -58,6 +59,7 @@ public class SQLPageApp extends MVCApplication
     private static final String MARK_PAGES_LIST = "pages_list";
     private static final String VIEW_HOME = "home";
     private static final long serialVersionUID = 1L;
+	private static final String ACTION_DISPLAY_SQLPAGE = "displaysqlpage";
 
     /**
      * Returns the content of the page sqlpage.
@@ -115,4 +117,19 @@ public class SQLPageApp extends MVCApplication
 
         return getXPage( TEMPLATE_XPAGE, request.getLocale( ), model );
     }
+    
+    /**
+     * Process the data capture form of a new ticket
+     *
+     * @param request
+     *            The Http Request
+     * @return The Jsp URL of the process result
+     */
+    @Action( ACTION_DISPLAY_SQLPAGE )
+    public XPage doDisplaySQLPage( HttpServletRequest request )
+    {
+        return viewHome(  request );
+    }
+    
+    
 }
