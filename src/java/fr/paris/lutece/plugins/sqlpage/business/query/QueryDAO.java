@@ -33,18 +33,12 @@
  */
 package fr.paris.lutece.plugins.sqlpage.business.query;
 
-import fr.paris.lutece.plugins.sqlpage.web.SQLPageConstants;
-import fr.paris.lutece.portal.service.database.PluginConnectionService;
-import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +48,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.plugins.sqlpage.web.SQLPageConstants;
+import fr.paris.lutece.portal.service.database.PluginConnectionService;
+import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * Query DAO
@@ -124,7 +123,7 @@ public class QueryDAO
      */
     public List<ResultSetRow> getParameterizedQueryResults( String strSQL, PluginConnectionService connectionService, Map<String, String> mapKeyValueParameters )
             throws SQLQueryException
-    {
+    {        
         // Create the map which positioned each parameter as they appear in the query
         Map<Integer, String> mapPositionOrderedParam = buildMapRequestParamPosition( strSQL );
 
@@ -244,6 +243,8 @@ public class QueryDAO
         Matcher matcherGlobal = patternGlobal.matcher( strSQL );
         int positionCurrentParam = 1;
 
+        Pattern patternEnding = Pattern.compile( PARAM_END_PATTERN );
+        
         while ( matcherGlobal.find( ) )
         {
             int indexEnd = matcherGlobal.end( );
@@ -252,7 +253,9 @@ public class QueryDAO
             for ( int indice = indexEnd; indice < strSQL.length( ); indice++ )
             {
                 char currentChar = charArray [indice];
-                if ( SQLPageConstants.AROBASE.equals( String.valueOf( currentChar ) ) )
+                int nLastPosition = indice + PARAM_END_PATTERN.length( );
+                int nUsedPosition = ( nLastPosition > strSQL.length( ) ) ? strSQL.length( ) : nLastPosition;
+                if ( patternEnding.matcher( strSQL.substring( indice, nUsedPosition ) ).find( ) )
                 {
                     break;
                 }
