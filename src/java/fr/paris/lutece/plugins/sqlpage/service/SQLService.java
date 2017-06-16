@@ -75,21 +75,21 @@ public final class SQLService
      * @param listString
      *            The list of all key of SQLPageParameters associated to the SQLPage
      * @return The results
-     * @throws SQLException 
-     * @throws SQLQueryException 
+     * @throws SQLException
+     * @throws SQLQueryException
      */
     public static List<ResultSetRow> getQueryResults( String strSQL, String strPool, Map<String, String> mapKeyValueParameters ) throws SQLQueryException
-    {   
+    {
         PluginConnectionService connectionService = getConnectionService( strPool );
-       
+
         if ( mapKeyValueParameters != null )
-        {   
+        {
             return _dao.getParameterizedQueryResults( strSQL, connectionService, mapKeyValueParameters );
         }
-        
+
         return _dao.getQueryResults( strSQL, connectionService );
     }
-    
+
     /**
      * Checks if the SQL query is valid
      * 
@@ -173,7 +173,7 @@ public final class SQLService
         // remove bookmarks from the SQL request
         return strSQL.replaceAll( buildBookmark( PARAMETER_PREFIX, "(.*)" ), "1" );
     }
-    
+
     /**
      * Build a parameter bookmark
      * 
@@ -186,8 +186,8 @@ public final class SQLService
     private static String buildBookmark( String strPrefix, String strParamName )
     {
         StringBuilder sbBookmark = new StringBuilder( );
-        
-        sbBookmark.append( '@' );        
+
+        sbBookmark.append( '@' );
         if ( StringUtils.isNotBlank( strPrefix ) )
         {
             sbBookmark.append( strPrefix );

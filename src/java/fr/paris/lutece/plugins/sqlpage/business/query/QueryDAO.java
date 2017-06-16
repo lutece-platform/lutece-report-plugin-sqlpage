@@ -63,7 +63,7 @@ public class QueryDAO
     // Constants
     private static final String PARAM_BEGIN_PATTERN = "'@";
     private static final String PARAM_END_PATTERN = "@'";
-    
+
     /**
      * Returns query results
      * 
@@ -88,7 +88,7 @@ public class QueryDAO
             statement = connection.createStatement( ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY );
 
             ResultSet resultSet = statement.executeQuery( strSQL );
-            
+
             listRow = convertResultSetToResultSetRowList( resultSet );
 
             statement.close( );
@@ -108,37 +108,38 @@ public class QueryDAO
 
         return listRow;
     }
-    
+
     /**
      * Returns query results
      * 
      * @param strSQL
-     *          The parameterized query to execute
+     *            The parameterized query to execute
      * @param connectionService
-     *          The connection service
+     *            The connection service
      * @param mapKeyValueParameters
-     *          The map which associated to each parameter key its value
+     *            The map which associated to each parameter key its value
      * @return query results
      * @throws SQLQueryException
-     *          If an error occured
+     *             If an error occured
      */
-    public List<ResultSetRow> getParameterizedQueryResults( String strSQL, PluginConnectionService connectionService, Map<String, String> mapKeyValueParameters ) throws SQLQueryException
+    public List<ResultSetRow> getParameterizedQueryResults( String strSQL, PluginConnectionService connectionService, Map<String, String> mapKeyValueParameters )
+            throws SQLQueryException
     {
         // Create the map which positioned each parameter as they appear in the query
         Map<Integer, String> mapPositionOrderedParam = buildMapRequestParamPosition( strSQL );
-        
+
         // Format the query for replace all parameter
         for ( String strKeyParam : mapPositionOrderedParam.values( ) )
         {
-            strSQL= strSQL.replaceAll( PARAM_BEGIN_PATTERN + strKeyParam + PARAM_END_PATTERN, SQLPageConstants.INTERROGATION );
+            strSQL = strSQL.replaceAll( PARAM_BEGIN_PATTERN + strKeyParam + PARAM_END_PATTERN, SQLPageConstants.INTERROGATION );
         }
-        
+
         Connection connection = connectionService.getConnection( );
         PreparedStatement preparedStatement = null;
         try
         {
             preparedStatement = connection.prepareStatement( strSQL );
-        
+
             for ( Entry<Integer, String> entryPositionParamValue : mapPositionOrderedParam.entrySet( ) )
             {
                 String strParamKey = entryPositionParamValue.getValue( );
@@ -149,10 +150,10 @@ public class QueryDAO
                 }
                 preparedStatement.setString( entryPositionParamValue.getKey( ), strValueParam );
             }
-        
+
             return convertResultSetToResultSetRowList( preparedStatement.executeQuery( ) );
         }
-        catch ( SQLException ex )
+        catch( SQLException ex )
         {
             AppLogService.error( "SQLPage - SQLService Error " + ex.getMessage( ), ex );
             throw new SQLQueryException( ex.getMessage( ), ex );
@@ -163,23 +164,23 @@ public class QueryDAO
             connectionService.freeConnection( connection );
         }
     }
-    
+
     /**
      * Convert a ResultSet to a List<ResultSetRow>
      * 
      * @param resultSet
-     *          The resultSet to convert
+     *            The resultSet to convert
      * @return the resultSet converted to a List<ResultSetRow>
      * @throws SQLException
      */
     public static List<ResultSetRow> convertResultSetToResultSetRowList( ResultSet resultSet ) throws SQLException
     {
         List<ResultSetRow> listResultSetRow = new ArrayList<>( );
-        
+
         if ( resultSet != null )
         {
             ResultSetMetaData rsmd = resultSet.getMetaData( );
-        
+
             while ( resultSet.next( ) )
             {
                 String strValue;
@@ -204,14 +205,14 @@ public class QueryDAO
         }
         return listResultSetRow;
     }
-    
+
     /**
      * Manage the close of a Statement object
      * 
      * @param statement
-     *          The statement to close
+     *            The statement to close
      * @throws AppException
-     *          If an error occured
+     *             If an error occured
      */
     public static void closeStatement( Statement statement ) throws AppException
     {
@@ -227,30 +228,30 @@ public class QueryDAO
             throw new AppException( "SQL Error executing command : " + e.toString( ) );
         }
     }
-    
+
     /**
      * Build the map which order all parameter as they appear in the query
      * 
      * @param strSQL
-     *          The request to analyze
+     *            The request to analyze
      * @return the map with all parameter and their position in the query
      */
     private static Map<Integer, String> buildMapRequestParamPosition( String strSQL )
     {
         Map<Integer, String> mapPositionOrderedParam = new HashMap<>( );
-        
+
         Pattern patternGlobal = Pattern.compile( PARAM_BEGIN_PATTERN );
         Matcher matcherGlobal = patternGlobal.matcher( strSQL );
         int positionCurrentParam = 1;
-        
+
         while ( matcherGlobal.find( ) )
         {
             int indexEnd = matcherGlobal.end( );
             char [ ] charArray = strSQL.toCharArray( );
             StringBuilder currentParamName = new StringBuilder( );
-            for ( int indice = indexEnd ; indice < strSQL.length( ) ; indice++ )
+            for ( int indice = indexEnd; indice < strSQL.length( ); indice++ )
             {
-                char currentChar = charArray[ indice ];
+                char currentChar = charArray [indice];
                 if ( SQLPageConstants.AROBASE.equals( String.valueOf( currentChar ) ) )
                 {
                     break;
@@ -258,10 +259,10 @@ public class QueryDAO
                 currentParamName.append( currentChar );
             }
             String currentParamKey = currentParamName.toString( );
-            mapPositionOrderedParam.put( positionCurrentParam, currentParamKey);
+            mapPositionOrderedParam.put( positionCurrentParam, currentParamKey );
             positionCurrentParam++;
         }
-        
+
         return mapPositionOrderedParam;
     }
 }

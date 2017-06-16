@@ -134,11 +134,11 @@ public class SQLPageSecondJspBean extends ManageSQLPageJspBean
 
             return sbHtml.toString( );
         }
-        catch ( SQLQueryException ex )
+        catch( SQLQueryException ex )
         {
             // An error occured during the creation of the request
             addError( SQLPageConstants.ERROR_SQLPAGE_REQUEST_CREATION, getLocale( ) );
-            
+
             return redirectView( request, VIEW_MANAGE_SQLPAGES );
         }
 

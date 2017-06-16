@@ -81,7 +81,7 @@ public final class SQLPageService
      * @param request
      *            The Request
      * @return The StringBuilder
-     * @throws SQLQueryException 
+     * @throws SQLQueryException
      */
     public static StringBuilder getStringSQLFragment( int nPageId, HttpServletRequest request ) throws SQLQueryException
     {
@@ -95,7 +95,8 @@ public final class SQLPageService
                 if ( isVisible( request, fragment.getRole( ) ) )
                 {
                     Map<String, Object> model = new HashMap<String, Object>( );
-                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery( ), fragment.getPool( ), getMapParameterKeyValueFromRequest( request, nPageId ) );
+                    List<ResultSetRow> listResults = SQLService.getQueryResults( fragment.getSqlQuery( ), fragment.getPool( ),
+                            getMapParameterKeyValueFromRequest( request, nPageId ) );
                     model.put( MARK_ROWS, listResults );
 
                     String strTemplate = fragment.getTemplate( );
@@ -123,7 +124,7 @@ public final class SQLPageService
      * @param request
      *            The HTTP request
      * @return The XPAGE
-     * @throws SQLQueryException 
+     * @throws SQLQueryException
      */
     public static XPage getSQLPage( String strName, HttpServletRequest request ) throws SQLQueryException
     {
@@ -225,42 +226,42 @@ public final class SQLPageService
 
         return listPages;
     }
-    
+
     /**
      * Return the list of all parameters key associated a SQLPage
      * 
      * @param nPageId
-     *          The id of the SQLPage
+     *            The id of the SQLPage
      * @return the list of all parameters key associated a SQLPage
      */
     private static List<String> getKeySQLPageParameterKeyList( int nPageId )
     {
         List<String> listParametersKey = new ArrayList<>( );
-        
+
         List<SQLPageParameter> listSQLPageParameters = SQLPageParameterHome.getSQLPageParametersList( nPageId );
         if ( listSQLPageParameters != null && !listSQLPageParameters.isEmpty( ) )
         {
             listSQLPageParameters.stream( ).forEach( parameter -> listParametersKey.add( parameter.getKey( ) ) );
         }
-        
+
         return listParametersKey;
     }
-    
+
     /**
      * Return the map which match every SQLPage parameter key its value from the request
      * 
      * @param request
-     *          The HttpServletRequest to retrieve the data
+     *            The HttpServletRequest to retrieve the data
      * @param nIpPage
-     *          The identifier of the SQL page
+     *            The identifier of the SQL page
      * @return the map which match every SQLPage parameter key its value from the request
      */
     private static Map<String, String> getMapParameterKeyValueFromRequest( HttpServletRequest request, int nIpPage )
     {
         Map<String, String> mapKeyValueParameters = new LinkedHashMap<>( );
-        
+
         List<String> listParametersKey = getKeySQLPageParameterKeyList( nIpPage );
-        
+
         if ( listParametersKey != null && !listParametersKey.isEmpty( ) )
         {
             for ( String strParameterKey : listParametersKey )
@@ -268,7 +269,7 @@ public final class SQLPageService
                 mapKeyValueParameters.put( strParameterKey, request.getParameter( strParameterKey ) );
             }
         }
-        
+
         return mapKeyValueParameters;
     }
 }

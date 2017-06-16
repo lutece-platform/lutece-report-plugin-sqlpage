@@ -59,7 +59,7 @@ public class SQLPageApp extends MVCApplication
     private static final String MARK_PAGES_LIST = "pages_list";
     private static final String VIEW_HOME = "home";
     private static final long serialVersionUID = 1L;
-	private static final String ACTION_DISPLAY_SQLPAGE = "displaysqlpage";
+    private static final String ACTION_DISPLAY_SQLPAGE = "displaysqlpage";
 
     /**
      * Returns the content of the page sqlpage.
@@ -89,11 +89,11 @@ public class SQLPageApp extends MVCApplication
                     xpage = getSQLPagesList( request );
                 }
             }
-            catch ( SQLQueryException ex )
+            catch( SQLQueryException ex )
             {
                 // An error occured during the creation of the request
                 addError( SQLPageConstants.ERROR_SQLPAGE_REQUEST_CREATION, request.getLocale( ) );
-                
+
                 return getSQLPagesList( request );
             }
         }
@@ -117,7 +117,7 @@ public class SQLPageApp extends MVCApplication
 
         return getXPage( TEMPLATE_XPAGE, request.getLocale( ), model );
     }
-    
+
     /**
      * Process the data capture form of a new ticket
      *
@@ -128,8 +128,7 @@ public class SQLPageApp extends MVCApplication
     @Action( ACTION_DISPLAY_SQLPAGE )
     public XPage doDisplaySQLPage( HttpServletRequest request )
     {
-        return viewHome(  request );
+        return viewHome( request );
     }
-    
-    
+
 }
