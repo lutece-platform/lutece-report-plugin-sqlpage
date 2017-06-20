@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>plugin-sqlpage</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>Lutece sqlpage plugin</name>
 
     <repositories>
@@ -57,7 +57,7 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-report-plugin-sqlpage.git</url>
-        <tag>plugin-sqlpage-1.0.3</tag>
+        <tag>lutece-report-plugin-sqlpage-1.0.1</tag>
   </scm>
 
     
