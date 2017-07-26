@@ -7,12 +7,13 @@
                 <@actionButtons button1Name="view_createSQLPageParameter" icon1="icon-plus icon-white" i18nValue1Key="sqlpage.manage_sqlpages_parameters.buttonAdd" />
             </form>
         </@headerButtons>
-    	<h4>
-        	#i18n{sqlpage.manage_sqlpages_parameters.tableLabel} 
-        	<span class="label label-default">${sqlpage.paramName}</span> - ${sqlpage.title}
-    	</h4>    
     </@boxHeader>
     
+    <h4 class="box-header">
+       	#i18n{sqlpage.manage_sqlpages_parameters.tableLabel} 
+       	<span class="label label-default">${sqlpage.paramName}</span> - ${sqlpage.title}
+    </h4>
+    	
     <@boxBody>
     	<@messages errors=errors />
     	<@messages infos=infos />

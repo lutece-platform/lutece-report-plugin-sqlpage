@@ -6,15 +6,17 @@
             <!-- Add pull-right to class1 -->
             <@actionButtons button1Name="view_createSQLFragment" icon1="icon-plus icon-white" i18nValue1Key="sqlpage.manage_sqlfragments.buttonAdd" />
         </form>
-        </@headerButtons>
-        
-    <h4>
-        #i18n{sqlpage.manage_sqlfragments.tableLabel} 
-        <span class="label label-default">${page.paramName}</span> - ${page.title}</h4>    
+        </@headerButtons> 
     </@boxHeader>
+    <h4 class="box-header">
+        #i18n{sqlpage.manage_sqlfragments.tableLabel} 
+        <span class="label label-default">${page.paramName}</span> - ${page.title}
+    </h4>   
     <@boxBody>
     <@messages infos=infos />
-    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="row" style="padding:10px">
+    	<@paginationAdmin paginator=paginator combo=1 />
+    </div>
     
     <@table>
         <tr>
