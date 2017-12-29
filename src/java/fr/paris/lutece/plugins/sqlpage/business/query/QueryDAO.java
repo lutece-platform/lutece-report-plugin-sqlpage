@@ -187,9 +187,9 @@ public class QueryDAO
 
                 for ( int i = 1; i <= rsmd.getColumnCount( ); i++ )
                 {
-                    if ( resultSet.getObject( rsmd.getColumnName( i ) ) != null )
+                    if ( resultSet.getObject( rsmd.getColumnLabel( i ) ) != null )
                     {
-                        strValue = resultSet.getObject( rsmd.getColumnName( i ) ).toString( );
+                        strValue = resultSet.getObject( rsmd.getColumnLabel( i ) ).toString( );
                     }
                     else
                     {
